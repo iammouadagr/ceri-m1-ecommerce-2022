@@ -6,10 +6,6 @@ Les instructions sont disponibles [ici](https://github.com/Faylixe/ceri-m1-ecomm
 
 ## Dream team
 
-> :warning: Veuillez remplir le nom de votre équipe avant la fin de
-> la première séance. L'identifiant vous sera renseigné via une
-> Pull Request plus tard.
-
 |             |        |
 | ----------- | ------ |
 | Nom         | 2MI    |
@@ -19,11 +15,8 @@ Les instructions sont disponibles [ici](https://github.com/Faylixe/ceri-m1-ecomm
 
 ### Staff
 
-> :warning: Veuillez remplir la section suivante avec les membres de
-> votre équipe.
-
 | Role                      | Membre            |
 | ------------------------- | ----------------- |
 | Frontend engineer         | IMANE HACEN       |
-| Back end engineer         | MOHAMED KHARCHOUF |
+| Backend engineer          | MOHAMED KHARCHOUF |
 | Site reliability engineer | MOUAD AGUIRAR     |
