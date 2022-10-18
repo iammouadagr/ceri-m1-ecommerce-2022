@@ -24,6 +24,6 @@ Les instructions sont disponibles [ici](https://github.com/Faylixe/ceri-m1-ecomm
 
 | Role                      | Membre            |
 | ------------------------- | ----------------- |
-| Backend engineer          | IMANE HACEN       |
-| Frontend engineer         | MOHAMED KHARCHOUF |
+| Frontend engineer         | IMANE HACEN       |
+| Back end engineer         | MOHAMED KHARCHOUF |
 | Site reliability engineer | MOUAD AGUIRAR     |
