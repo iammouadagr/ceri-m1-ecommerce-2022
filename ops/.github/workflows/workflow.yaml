@@ -1,0 +1,12 @@
+name: CI-workflow
+run-name: first workflow
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
