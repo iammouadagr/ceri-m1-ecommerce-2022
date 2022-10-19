@@ -1,3 +1,4 @@
+use e_com;
 CREATE TABLE artiste (
     id_artiste int not null AUTO_INCREMENT,
     PRIMARY KEY (id_artiste),
