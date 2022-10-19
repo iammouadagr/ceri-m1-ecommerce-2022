@@ -1,0 +1,7 @@
+{
+  "name": "JCL",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

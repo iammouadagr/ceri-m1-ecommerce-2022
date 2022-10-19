@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-buttons slot="primary" >
+      <ion-button >
+        <ion-icon slot="end" name="home" ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="primary" >
+      <ion-button>
+        <ion-icon slot="end" name="heart" style="color:#FF2E2E"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="primary" >
+      <ion-button [routerLink]="['/formulaire-connexion']">
+        <ion-icon slot="end" name="person-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="primary" >
+      <ion-button >
+        <ion-icon slot="end" name="help-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+   
+    <ion-title class="TitreSite">MusicStore</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+  <div style="padding: 2%; ">
+    <ion-searchbar animated="true" placeholder="Recherche"  class="Recherche"></ion-searchbar>
+  </div>
+  
+  <ion-grid style="padding-right: 10%;" >
+    <ion-row> 
+     <ion-col *ngFor="songs of album; let songs; let i= index;  " offset-lg="1" offset-md="3" offset-sm="2" [fixed]="true" size="3"   >
+      <ion-card  size="auto" (mouseover)='showPrice(i)' (mouseout)="hidePrice()">
+        <img  [src]="songs.image" />
+        <ion-card-header>
+          <ion-grid>
+            <ion-row>
+            <ion-col size="10" >
+              <ion-card-title >{{songs.titre}}</ion-card-title>
+            </ion-col>
+            <ion-col size="2">
+              
+              <ion-icon  name="heart"  size="large" fill="outline"></ion-icon>
+              
+            </ion-col>
+          </ion-row>
+          </ion-grid>
+          <!-- <ion-card-title>{{songs.titre}}</ion-card-title> -->
+          <ion-grid>
+            <ion-row>
+            <ion-col size="10"  >
+              <ion-card-subtitle>{{songs.artiste}}</ion-card-subtitle>
+            </ion-col>
+            <ion-col size="2" *ngIf="mouseOn==true && i==indexItemMouseOnOff" class="price">
+              {{songs.prix}} &euro;     
+            </ion-col>
+          </ion-row>
+          </ion-grid>
+         
+        </ion-card-header>
+      </ion-card>
+     </ion-col>
+    
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>
