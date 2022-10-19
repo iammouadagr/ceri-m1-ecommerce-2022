@@ -1,5 +1,5 @@
 name: CI-workflow
-run-name: first workflow
+run-name: integration workflow
 on:
   push:
     branches:
