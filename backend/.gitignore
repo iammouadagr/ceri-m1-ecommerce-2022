@@ -1,5 +1,5 @@
 # dotenv environment variable files
-.env
+#.env
 
 # dependencies
 node_modules
