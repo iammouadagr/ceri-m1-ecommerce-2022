@@ -5,6 +5,12 @@ Node.js Express.js
 
 ### Setup
 
+# Build mysql docker image
+
+mysql
+create user 'admin'@'%' identified by'user_password';
+grant all privileges on _._ to admin with grant option;
+
 npm install
 
 ### Dependencies
