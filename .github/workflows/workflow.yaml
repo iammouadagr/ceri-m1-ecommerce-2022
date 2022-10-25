@@ -4,9 +4,17 @@ on:
   push:
     branches:
       - dev
+      - sre
   pull_request:
 jobs:
-  Explore-GitHub-Actions:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - 
+        name: Checkout
+        uses: actions/checkout@v3
+      - 
+        name: Build docker images
+        run: docker-compose -f ./backend/docker-compose.yml up -d
+        
+
