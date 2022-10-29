@@ -31,4 +31,7 @@ jobs:
         name: Test docker images
         run: docker-compose -f ./backend/docker-compose.yml up -d
  
-
+      - 
+        name: Check Container
+        run: docker ps 
+      
