@@ -33,6 +33,6 @@ jobs:
     steps:
       - 
         name: Test docker images
-        run: docker docker-compose -f ./backend/docker-compose.yml up -d
+        run: docker-compose -f ./backend/docker-compose.yml up -d
 
 
