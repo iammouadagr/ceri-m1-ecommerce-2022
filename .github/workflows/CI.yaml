@@ -32,6 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - 
-        name: test
-        run: echo 'test v2 '
+        name: Test docker images
+        run: docker docker-compose -f ./backend/docker-compose.yml up -d
+
 
