@@ -27,12 +27,8 @@ jobs:
       - 
         name: Build docker images
         run: docker-compose -f ./backend/docker-compose.yml build
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
       - 
         name: Test docker images
         run: docker-compose -f ./backend/docker-compose.yml up -d
-
+ 
 
