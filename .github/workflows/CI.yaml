@@ -1,4 +1,4 @@
-name: CI-workflow
+name: CI
 run-name: integration workflow
 on:
   push:
@@ -31,6 +31,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: test
-      - run: echo 'test v2 '
+      - 
+        name: test
+        run: echo 'test v2 '
 
