@@ -46,5 +46,13 @@ VALUES
 	(1, 3);
 
 
+INSERT INTO 
+	panier(id_utilisateur, id_album)
+VALUES
+	(1, 1),
+	(1, 2),
+	(1, 3);
+
+
 
 

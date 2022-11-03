@@ -201,6 +201,58 @@ exports.addFavorite = async  (req,res) => {
     });
 }
 
+exports.addCart = async  (req,res) => {
+
+    var nom_utilisateur = req.params.nom_utilisateur;
+    var album = req.params.album;
+
+    var queryGetIdAlbum = `select id_album from vinyle.album where titre_album like '`+album+`';`
+    var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
+
+
+    connection.query(queryGetIdAlbum, function (err, result_1, fields) {
+        if (err){
+            throw err;
+        }
+        else{ 
+            connection.query(queryGetUserId, function (err, result_2, fields) {
+                if (err){
+                    throw err;
+                }
+                else{ 
+                    var queryVerifFavorite = `select * from vinyle.favoris where id_utilisateur = `+result_2[0].id_utilisateur+` and id_album = `+result_1[0].id_album+`;`;
+
+                    connection.query(queryVerifFavorite, function (err, result_3, fields) {
+                        if (err){
+                            throw err;
+                        }
+                        else{ 
+                            console.log(result_3);
+                            if(result_3[0]==null)
+                            {
+                                var queryInsterFavorite = `INSERT INTO panier(id_utilisateur, id_album) VALUES (`+result_2[0].id_utilisateur+`, `+result_1[0].id_album+`)`;
+                                connection.query(queryInsterFavorite, function (err, result_4, fields) {
+                                    if (err){
+                                        throw err;
+                                        res.json(false);
+                                    }
+                                    else{ 
+                                        res.status(200).json(true);
+                                    }
+                                });
+                            }
+                            else{
+                                res.json(false);
+                            }
+                        }
+                    });
+
+                }
+            });
+        }
+    });
+}
+
 exports.getArtistes = async  (req,res) => {
     connection.query("SELECT * FROM vinyle.artiste", function (err, result, fields) {
         if (err){
@@ -238,6 +290,31 @@ exports.getFavoritesByUser = async  (req,res) => {
     });
 }
 
+exports.getCartByUser = async  (req,res) => {
+
+    var nom_utilisateur = req.params.nom_utilisateur;
+    var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
+
+    
+    connection.query(queryGetUserId, function (err, result, fields) {
+        if (err){
+            throw err;
+        }
+        else{  
+            var queryGetFavoritesByUserId = `select * from vinyle.panier as A inner join vinyle.album as B on A.id_album = B.id_album where id_utilisateur = `+result[0].id_utilisateur+`;`;
+            connection.query(queryGetFavoritesByUserId, function (err, result_1, fields) {
+                if (err){
+                    throw err;
+                }
+                else{  
+                    res.status(200).json(result_1);
+                }
+            });
+
+        }
+    });
+}
+
 exports.deleteFavorite = async  (req,res) => {
 
     var nom_utilisateur = req.params.nom_utilisateur;
@@ -257,6 +334,70 @@ exports.deleteFavorite = async  (req,res) => {
                 }
                 else{ 
                     var queryDeleteFavorite = `DELETE FROM vinyle.favoris WHERE id_utilisateur = `+result_2[0].id_utilisateur+` and id_album = `+result_1[0].id_album+`;`;
+
+                    connection.query(queryDeleteFavorite, function (err, result_3, fields) {
+                        if (err){
+                            throw err;
+                            res.json(false);
+                        }
+                        else{ 
+                            res.status(200).json(true);
+                        }
+                    });
+
+                }
+            });
+        }
+    });
+}
+
+exports.getCartPrice = async  (req,res) => {
+
+    var nom_utilisateur = req.params.nom_utilisateur;
+    var queryGetIdByUser = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`' ; `;
+
+    connection.query(queryGetIdByUser, function (err, result, fields) {
+        if (err){
+            throw err;
+        }
+        else{  
+            var queryGetCartPrice = `select sum(prix) as total from vinyle.panier as A inner join vinyle.album as B on A.id_album = B.id_album where id_utilisateur = `+result[0].id_utilisateur+`;`;
+            connection.query(queryGetCartPrice, function (err, result_1, fields) {
+                if (err){
+                    throw err;
+                }
+                else{  
+                    var panier = {
+                        total: 0,
+                    }
+                    panier.total = result_1[0].total;
+                    res.json(panier);
+                }
+            });
+        }
+    });
+}
+
+
+exports.deleteAlbumFromCart = async  (req,res) => {
+
+    var nom_utilisateur = req.params.nom_utilisateur;
+    var album = req.params.album;
+
+    var queryGetIdAlbum = `select id_album from vinyle.album where titre_album like '`+album+`';`
+    var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
+
+    connection.query(queryGetIdAlbum, function (err, result_1, fields) {
+        if (err){
+            throw err;
+        }
+        else{ 
+            connection.query(queryGetUserId, function (err, result_2, fields) {
+                if (err){
+                    throw err;
+                }
+                else{ 
+                    var queryDeleteFavorite = `DELETE FROM vinyle.panier WHERE id_utilisateur = `+result_2[0].id_utilisateur+` and id_album = `+result_1[0].id_album+`;`;
 
                     connection.query(queryDeleteFavorite, function (err, result_3, fields) {
                         if (err){

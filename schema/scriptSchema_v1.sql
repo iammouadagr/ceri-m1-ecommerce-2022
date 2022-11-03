@@ -52,3 +52,12 @@ CREATE TABLE favoris (
     FOREIGN KEY (id_album) REFERENCES album(id_album) 
 );
 
+CREATE TABLE panier ( 
+    id_panier int not null AUTO_INCREMENT,
+    PRIMARY KEY(id_panier),
+    id_utilisateur int not null,
+    id_album int not null,
+    FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur), 
+    FOREIGN KEY (id_album) REFERENCES album(id_album) 
+);
+
