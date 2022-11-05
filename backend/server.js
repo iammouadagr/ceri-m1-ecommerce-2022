@@ -13,13 +13,12 @@ const hostname = os.hostname();
 const PORT= process.env.PORT;
 
 
-
-
-
-
 // routes 
 app.use('/api/v1/',router)
 
 
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(PORT, () => {  console.log("Running on port :",PORT)});
+}
 
-app.listen(PORT, () => {  console.log("Running on port :",PORT)});
+module.exports = app;
