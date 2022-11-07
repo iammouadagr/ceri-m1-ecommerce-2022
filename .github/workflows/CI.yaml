@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x, 17.x, 18.x, 19.x]
+        node-version: [18.x]
     steps:
       - 
         name: Checkout
@@ -24,10 +24,10 @@ jobs:
         name: Install dependencies
         run: npm install
         working-directory: ./backend
-      - 
-        name: Execute tests
-        run: npm test
-        working-directory: ./backend
+      #- 
+        #name: Execute tests
+        #run: npm test
+        #working-directory: ./backend
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
