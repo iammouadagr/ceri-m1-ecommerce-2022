@@ -23,9 +23,11 @@ jobs:
       - 
         name: Install dependencies
         run: npm install
+        working-directory: ./backend
       - 
         name: Execute tests
         run: npm test
+        working-directory: ./backend
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
