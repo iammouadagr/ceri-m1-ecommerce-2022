@@ -17,5 +17,7 @@ router.get('/supprimerPanier', controllers.deleteAlbumFromCart);
 router.get('/panierUtilisateur', controllers.getCartByUser);
 router.get('/informationUtilisateur', controllers.getUserInformation);
 router.get('/totalPanier', controllers.getCartPrice)
+router.get('/chansonsAlbum', controllers.getMusicByAlbum)
+
 
 module.exports = router;

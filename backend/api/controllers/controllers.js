@@ -26,6 +26,26 @@ exports.getUserInformation = async  (req,res) => {
     });
 }
 
+exports.getMusicByAlbum = async  (req,res) => {
+
+    var id_album = req.params.album;
+    var queryMusicByIdAlbum = `select * from vinyle.chanson where id_album = `+id_album+`;`;
+    connection.query(queryMusicByIdAlbum, function (err, result_1, fields) {
+        if (err){
+            throw err;
+        }
+        else{  
+            res.status(200).json(result_1);
+        }
+    });
+
+}
+
+
+
+
+
+
 exports.registerUser = async  (req,res) => {
 
     prenom = req.params.prenom;
