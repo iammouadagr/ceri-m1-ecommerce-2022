@@ -1,6 +1,6 @@
 ALTER USER 'admin'@'%' IDENTIFIED BY 'root';
-ALTER USER 'admin'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
-GRANT ALL PRIVILEGES ON *.* to 'admin' WITH GRANT OPTION;
+ALTER USER 'admin'@'%' IDENTIFIED WITH mysql_native_password BY 'root';
+GRANT ALL PRIVILEGES ON *.* to 'admin'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 CREATE DATABASE IF NOT EXISTS vinyle;
 USE vinyle;
