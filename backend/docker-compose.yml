@@ -2,19 +2,19 @@ version: '3.8'
 
 services:
   mysqldb:
-    image: mysql:5.7 
-    restart: unless-stopped
+    image: mysql:8.0
+    container_name: mysqldb
     env_file: ./.env
     environment:
-      - MYSQL_USER=admin
-      - MYSQL_PASSWORD=root
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=e_com
+      - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
+      - MYSQL_DATABASE=$DB_NAME
+      - MYSQL_USER=$DB_USER
+      - MYSQL_PASSWORD=$DB_PASSWORD
     ports:
-      - 3307:3006
+      - $MYSQLDB_LOCAL_PORT:$DB_PORT
     volumes:
-      - db:/var/lib/mysql
       - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db:/var/lib/mysql
 
 
       
@@ -22,16 +22,16 @@ services:
     depends_on:
       - mysqldb
     build: ./
-    restart: unless-stopped
+    container_name: backend_app
     env_file: ./.env
     ports:
-      - 8081:8080
+      - $NODE_LOCAL_PORT:$PORT
     environment:
       - DB_HOST=mysqldb
-      - DB_USER=admin
-      - DB_PASSWORD=root
-      - DB_NAME=e_com
-      - DB_PORT=3306
+      - DB_USER=$DB_USER
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_NAME=$DB_NAME
+      - DB_PORT=$DB_PORT
     stdin_open: true
     tty: true
 
