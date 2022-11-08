@@ -75,7 +75,7 @@ exports.registerUser = async  (req,res) => {
 
     prenom = req.query.prenom;
     nom = req.query.nom;
-    adresse_mail = req.queru.adresse_mail;
+    adresse_mail = req.query.adresse_mail;
     nom_utilisateur = req.query.nom_utilisateur;
     lieu_naissance = req.query.lieu_naissance;
     date_naissance = req.query.date_naissance;
