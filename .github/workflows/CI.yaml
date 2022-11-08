@@ -56,7 +56,7 @@ jobs:
         name: Publish to Docker Hub
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./backend
           push: true
-          tags: moaguirar/e-com:latest
+          tags: e-com:latest
       
