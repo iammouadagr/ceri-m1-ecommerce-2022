@@ -47,29 +47,6 @@ exports.getMusicByAlbum = async  (req,res) => {
 
 
 
-exports.registerUser = async  (req,res) => {
-
-    prenom = req.query.prenom;
-    nom = req.query.nom;
-    lieu_naissance = req.query.lieu_naissance;
-    date_naissance = req.query.date_naissance;
-    mot_de_passe = sha1(req.query.mot_de_passe);
-    sexe = req.query.sexe;
-    statut = req.query.statut;
-
-    var queryRegister = `INSERT INTO utilisateur(prenom, nom, lieu_naissance, date_naissance, mot_de_passe, sexe, statut) VALUES`+
-	`(`+prenom+`, `+nom+`, `+lieu_naissance+`, `+date_naissance+`, "`+mot_de_passe+`", `+sexe+`, `+sexe+`);`;
-
-    connection.query(queryRegister, function (err, result, fields) {
-        if (err){
-            throw err;
-        }
-        else{  
-            res.json(true);
-        }
-    });
-}
-
 
 exports.registerUser = async  (req,res) => {
 
