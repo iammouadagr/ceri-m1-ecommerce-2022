@@ -58,5 +58,5 @@ jobs:
         with:
           context: ./backend
           push: true
-          tags: backend_app:latest
+          tags: e-com:tagname
       
