@@ -29,7 +29,6 @@ exports.getUserInformation = async  (req,res) => {
 exports.getMusicByAlbum = async  (req,res) => {
 
     var id_album = req.query.album;
-    console.log(" req ", req);
     var queryMusicByIdAlbum = `select * from vinyle.chanson where id_album = `+id_album+`;`;
     connection.query(queryMusicByIdAlbum, function (err, result_1, fields) {
         if (err){
@@ -62,7 +61,7 @@ exports.registerUser = async  (req,res) => {
 
 
     var queryRegister = `INSERT INTO utilisateur(nom_utilisateur, adresse_mail, prenom, nom, lieu_naissance, date_naissance, mot_de_passe, sexe, statut) VALUES`+
-	`('`+nom_utilisateur+`','`+adresse_mail+`','`+prenom+`', '`+nom+`', '`+lieu_naissance+`', '`+date_naissance+`', "`+mot_de_passe+`", '`+sexe+`', '`+sexe+`');`;
+	`('`+nom_utilisateur+`','`+adresse_mail+`','`+prenom+`', '`+nom+`', '`+lieu_naissance+`', '`+date_naissance+`', "`+mot_de_passe+`", '`+sexe+`', '`+statut+`');`;
 
     var queryVerification = `select * from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`;
 
@@ -106,7 +105,7 @@ exports.userAuthentication = async  (req,res) => {
                 res.status(201).send(true);
             }
             else{
-                res.status(400).send(false);
+                res.status(200).send(false);
             }
         }
     });
