@@ -1,0 +1,68 @@
+.image{
+  width: 450px;
+  height: 450px;
+  border-radius: 5%;
+}
+
+.desc{
+  padding: 5%;
+}
+
+.buy{
+  color: red;
+  --border-color: red;
+}
+.buy:hover{
+  color: white;
+  background-color: red;
+  
+}
+.fav:hover{
+  color:red;
+}
+.fav{
+ 
+  position: absolute;  
+  top: 30px;
+    
+}
+.price{
+}
+
+@media (prefers-color-scheme: dark) {
+
+  .TitreSite{
+      color:yellow;
+  }
+  .Recherche{
+      color:yellow;
+  }
+  .price{
+      text-color:yellow;
+  }
+  .centeredTop1{
+      color: black;
+     
+  }
+  .centeredTop2{
+      color: black;
+     
+  }
+
+ 
+  
+}
+
+.panier {
+  ion-badge {
+    position: absolute;
+    top: 0rem;
+    left: 1.2rem;
+    opacity: 0.9;
+    background-color: red;
+    & ~ ion-icon {
+      margin-right: 1.2rem;
+      border-radius: 50%;
+    }
+  }
+}
