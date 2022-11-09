@@ -115,7 +115,7 @@ exports.userAuthentication = async  (req,res) => {
 
 exports.getMusicalGenre = async  (req,res) => {
 
-    var queryCategories = `select distinct(genre) from vinyle.chanson;`;
+    var queryCategories = `select distinct(genre_musical) from vinyle.chanson;`;
     var listCategories = new Array();
     connection.query(queryCategories, function (err, result, fields) {
         if (err){
