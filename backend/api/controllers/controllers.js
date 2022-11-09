@@ -124,7 +124,7 @@ exports.getMusicalGenre = async  (req,res) => {
         else{ 
             for(let i=0; i<result.length; i++)
             {
-                listCategories.push(result[i].genre);
+                listCategories.push(result[i].genre_musical);
             }
             res.status(200).send(listCategories);
         }
