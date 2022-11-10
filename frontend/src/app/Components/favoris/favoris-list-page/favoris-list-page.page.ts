@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { FavorisService } from 'src/app/Service/favoris/favoris.service';
-import { AddAllFavorisAction } from 'src/app/store/actions/favoris.actions';
+import { AddAllFavorisAction, DeleteFavorisAction } from 'src/app/store/actions/favoris.actions';
 import { Favoris } from 'src/app/store/models/favoris.models';
 import { User } from 'src/app/store/models/utilisateur.model';
 
@@ -40,6 +40,19 @@ export class FavorisListPagePage implements OnInit {
         })
       }
     
+  }
+
+  supprimer(nom_album : string, fav : Favoris){
+    this.favorisService.supprimerFavoris(this.username, nom_album)
+      .subscribe(
+        (data:any) => {
+          this.storeFav.dispatch(new DeleteFavorisAction(fav)); // on ajoute les données 
+          console.log("data -- ", data)
+        },
+        (error:any)=>{
+          console.log(" erreur get list album : ", error)
+        })
+      
   }
 
 }

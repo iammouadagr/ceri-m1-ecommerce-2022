@@ -30,4 +30,27 @@ export class FavorisService {
       );
     })
   }
+
+  supprimerFavoris(id : string, nomAl : string){
+   
+    var fav = false; 
+    let parametres = new HttpParams();
+    parametres = parametres.append('nom_utilisateur', id);
+    parametres = parametres.append('album', nomAl);
+    return Observable.create((observer: Subscriber<Boolean>) => { 
+      this._http.get<any>('http://127.0.0.1:8080/api/v1/supprimerFavoris',{ params: parametres})
+      .subscribe(
+        data => {
+            console.log(" data -- ", data)
+            fav=data;
+        },
+        error=>{
+          console.log(" erreur recuperation favoris ", error)
+        },
+        ()=>{
+          observer.next(fav);
+        }
+      );
+    })
+  }
 }
