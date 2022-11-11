@@ -1,0 +1,23 @@
+
+.poster{
+    height:300px;
+    width:300px;
+}
+
+ion-grid {
+//    padding-left:7%;
+}
+
+.poster:hover {
+    border-radius: 5%;
+    transform: scale(1.1);
+   
+    box-shadow: 0 24px 36px rgba(0,0,0,0.11),
+      0 24px 46px grey;
+}
+
+
+.content{
+    padding:3%;
+    align-items: center;
+}

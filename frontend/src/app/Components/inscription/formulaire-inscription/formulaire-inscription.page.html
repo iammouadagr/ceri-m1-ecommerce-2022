@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-buttons slot="primary" >
+      <ion-button   [routerLink]="['/home']">
+        <ion-icon slot="end" name="home" ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="primary" >
+      <ion-button>
+        <ion-icon slot="end" name="heart" style="color:#FF2E2E"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+   
+    <ion-buttons slot="primary" >
+      <ion-button >
+        <ion-icon slot="end" name="help-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+   
+    <ion-title class="TitreSite">2MIStore</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h2 style="padding-bottom: 5%;"> Inscrivez-vous  </h2>
+  <div class="elementForm" >
+   <table >
+
+    
+     <tr>
+       <td> <ion-item><ion-label position="floating" style="color:grey;">Identifiant </ion-label><ion-input type="text"  [(ngModel)]="form.id"  name="identifiant" placeholder="Identifiant ou email " (keyup.enter)="inscription()"></ion-input> </ion-item></td>
+     </tr>
+     <tr>
+      <td> <ion-item><ion-label position="floating" style="color:grey;">Nom </ion-label><ion-input type="text" name="nom" [(ngModel)]="form.nom" placeholder="Nom" (keyup.enter)="inscription()"></ion-input> </ion-item></td>
+    </tr>
+    <tr>
+      <td> <ion-item><ion-label position="floating" style="color:grey;">Prénom </ion-label><ion-input type="text"  name="prenom" [(ngModel)]="form.prenom" placeholder="Prénom" (keyup.enter)="inscription()"></ion-input> </ion-item></td>
+    </tr>
+    <tr>
+      <td> <ion-item><ion-label position="floating" style="color:grey;">E-mail </ion-label><ion-input type="email"  name="email" [(ngModel)]="form.email" placeholder="E-mail" (keyup.enter)="inscription()"></ion-input> </ion-item></td>
+    </tr>
+    <tr>
+      <td> <ion-item><ion-label position="floating" style="color:grey;">Lieu de naissance </ion-label><ion-input type="text" name="lieunaissance" [(ngModel)]="form.lieunaissance" placeholder="Lieu de naissance " (keyup.enter)="inscription()"></ion-input> </ion-item></td>
+    </tr>
+    <tr>
+      <td> <ion-item><ion-label position="floating" style="color:grey;">Date de naiassance </ion-label><ion-datetime name="datenaissance"  displayFormat="YYYY-MMMM-D" [(ngModel)]="form.datenaissance" pickerFormat="DD MM YYYY" (keyup.enter)="inscription()"></ion-datetime> </ion-item></td>
+    </tr>
+    <tr>  
+      <td> <ion-item><ion-label position="floating" style="color:grey;" >Mot de passe </ion-label><ion-input type="password"   name="mdp" [(ngModel)]="form.mdp"  placeholder="Mot de passe " (keyup.enter)="inscription()"></ion-input> </ion-item></td>
+    </tr>
+    <tr>  
+      <td> <ion-item><ion-label position="floating" style="color:grey;" > Reinscrire le mot de passe </ion-label><ion-input type="password"   name="mdp2" [(ngModel)]="form.mdp2" placeholder="Mot de passe " (keyup.enter)="inscription()"></ion-input> </ion-item></td>
+    </tr>
+    <br/>
+    <tr *ngIf="!mdpSame"><td style="color:red"> Les mots de passe ne sont pas identiques.</td></tr>
+    <tr>  
+      <td>
+        <ion-radio-group value="form.sexe" [(ngModel)]="form.sexe">
+          <ion-item>
+            <ion-label>Femme</ion-label>
+            <ion-radio slot="end" value="F"></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>Homme</ion-label>
+            <ion-radio slot="end" value="H"></ion-radio>
+          </ion-item>
+          
+        </ion-radio-group>
+      </td>
+    </tr>
+    <br/>
+    <tr *ngIf="!auth"><td style="color:red"> Cette identifiant existe déjà.</td></tr>
+    <br/>
+    <tr *ngIf="valManquante"><td style="color:red"> Certaines valeures sont manquantes, veuillez remplir tout les champs.</td></tr>
+    <br/>
+    <tr>
+      
+      <td >
+       
+        <ion-button type="submit" color="success" (click)="inscription()"  > 
+          S'inscrire
+        </ion-button>
+       
+      </td>
+    </tr>
+
+   </table>
+  
+  </div>
+
+</ion-content>
