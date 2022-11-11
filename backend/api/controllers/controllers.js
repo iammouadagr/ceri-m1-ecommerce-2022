@@ -14,7 +14,7 @@ exports.getAlbums = async  (req,res) => {
 
 exports.getUserInformation = async  (req,res) => {
 
-    var nom_utilisateur = req.params.nom_utilisateur;
+    var nom_utilisateur = req.query.nom_utilisateur;
     var query = `select * from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
     connection.query(query, function (err, result, fields) {
         if (err){
@@ -26,45 +26,42 @@ exports.getUserInformation = async  (req,res) => {
     });
 }
 
-exports.registerUser = async  (req,res) => {
+exports.getMusicByAlbum = async  (req,res) => {
 
-    prenom = req.params.prenom;
-    nom = req.params.nom;
-    lieu_naissance = req.params.lieu_naissance;
-    date_naissance = req.params.date_naissance;
-    mot_de_passe = sha1(req.params.mot_de_passe);
-    sexe = req.params.sexe;
-    statut = req.params.statut;
-
-    var queryRegister = `INSERT INTO utilisateur(prenom, nom, lieu_naissance, date_naissance, mot_de_passe, sexe, statut) VALUES`+
-	`(`+prenom+`, `+nom+`, `+lieu_naissance+`, `+date_naissance+`, "`+mot_de_passe+`", `+sexe+`, `+sexe+`);`;
-
-    connection.query(queryRegister, function (err, result, fields) {
+    var id_album = req.query.album;
+    var queryMusicByIdAlbum = `select * from vinyle.chanson where id_album = `+id_album+`;`;
+    connection.query(queryMusicByIdAlbum, function (err, result_1, fields) {
         if (err){
             throw err;
         }
         else{  
-            res.json(true);
+            res.status(200).json(result_1);
         }
     });
+
 }
+
+
+
+
+
 
 
 exports.registerUser = async  (req,res) => {
 
-    prenom = req.params.prenom;
-    nom = req.params.nom;
-    adresse_mail = req.params.adresse_mail;
-    nom_utilisateur = req.params.nom_utilisateur;
-    lieu_naissance = req.params.lieu_naissance;
-    date_naissance = req.params.date_naissance;
-    mot_de_passe = sha1(req.params.mot_de_passe);
-    sexe = req.params.sexe;
-    statut = req.params.statut;
+    prenom = req.query.prenom;
+    nom = req.query.nom;
+    adresse_mail = req.query.adresse_mail;
+    nom_utilisateur = req.query.nom_utilisateur;
+    lieu_naissance = req.query.lieu_naissance;
+    date_naissance = req.query.date_naissance;
+    mot_de_passe = sha1(req.query.mot_de_passe);
+    sexe = req.query.sexe;
+    statut = req.query.statut;
 
 
     var queryRegister = `INSERT INTO utilisateur(nom_utilisateur, adresse_mail, prenom, nom, lieu_naissance, date_naissance, mot_de_passe, sexe, statut) VALUES`+
-	`('`+nom_utilisateur+`','`+adresse_mail+`','`+prenom+`', '`+nom+`', '`+lieu_naissance+`', '`+date_naissance+`', "`+mot_de_passe+`", '`+sexe+`', '`+sexe+`');`;
+	`('`+nom_utilisateur+`','`+adresse_mail+`','`+prenom+`', '`+nom+`', '`+lieu_naissance+`', '`+date_naissance+`', "`+mot_de_passe+`", '`+sexe+`', '`+statut+`');`;
 
     var queryVerification = `select * from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`;
 
@@ -93,8 +90,8 @@ exports.registerUser = async  (req,res) => {
 
 exports.userAuthentication = async  (req,res) => {
 
-    var nom_utilisateur = req.params.nom_utilisateur;
-    var mot_de_passe = sha1(req.params.mot_de_passe);
+    var nom_utilisateur = req.query.nom_utilisateur;
+    var mot_de_passe = sha1(req.query.mot_de_passe);
 
     var queryAuthentication = `select * from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`' and mot_de_passe like "`+mot_de_passe+`";`;
 
@@ -108,7 +105,7 @@ exports.userAuthentication = async  (req,res) => {
                 res.status(201).send(true);
             }
             else{
-                res.status(400).send(false);
+                res.status(200).send(false);
             }
         }
     });
@@ -118,7 +115,7 @@ exports.userAuthentication = async  (req,res) => {
 
 exports.getMusicalGenre = async  (req,res) => {
 
-    var queryCategories = `select distinct(genre) from vinyle.chanson;`;
+    var queryCategories = `select distinct(genre_musical) from vinyle.chanson;`;
     var listCategories = new Array();
     connection.query(queryCategories, function (err, result, fields) {
         if (err){
@@ -127,7 +124,7 @@ exports.getMusicalGenre = async  (req,res) => {
         else{ 
             for(let i=0; i<result.length; i++)
             {
-                listCategories.push(result[i].genre);
+                listCategories.push(result[i].genre_musical);
             }
             res.status(200).send(listCategories);
         }
@@ -136,7 +133,7 @@ exports.getMusicalGenre = async  (req,res) => {
 
 exports.getAlbumsByGenre = async  (req,res) => {
 
-    var genre = req.params.genre;
+    var genre = req.query.genre;
     var queryAlbumByGenre = `select * from vinyle.album where genre_musical like '`+genre+`';`;
 
     connection.query(queryAlbumByGenre, function (err, result, fields) {
@@ -151,8 +148,8 @@ exports.getAlbumsByGenre = async  (req,res) => {
 
 exports.addFavorite = async  (req,res) => {
 
-    var nom_utilisateur = req.params.nom_utilisateur;
-    var album = req.params.album;
+    var nom_utilisateur = req.query.nom_utilisateur;
+    var album = req.query.album;
 
     var queryGetIdAlbum = `select id_album from vinyle.album where titre_album like '`+album+`';`
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
@@ -203,8 +200,8 @@ exports.addFavorite = async  (req,res) => {
 
 exports.addCart = async  (req,res) => {
 
-    var nom_utilisateur = req.params.nom_utilisateur;
-    var album = req.params.album;
+    var nom_utilisateur = req.query.nom_utilisateur;
+    var album = req.query.album;
 
     var queryGetIdAlbum = `select id_album from vinyle.album where titre_album like '`+album+`';`
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
@@ -267,7 +264,7 @@ exports.getArtistes = async  (req,res) => {
 
 exports.getFavoritesByUser = async  (req,res) => {
 
-    var nom_utilisateur = req.params.nom_utilisateur;
+    var nom_utilisateur = req.query.nom_utilisateur;
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
 
     
@@ -292,7 +289,7 @@ exports.getFavoritesByUser = async  (req,res) => {
 
 exports.getCartByUser = async  (req,res) => {
 
-    var nom_utilisateur = req.params.nom_utilisateur;
+    var nom_utilisateur = req.query.nom_utilisateur;
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
 
     
@@ -317,8 +314,8 @@ exports.getCartByUser = async  (req,res) => {
 
 exports.deleteFavorite = async  (req,res) => {
 
-    var nom_utilisateur = req.params.nom_utilisateur;
-    var album = req.params.album;
+    var nom_utilisateur = req.query.nom_utilisateur;
+    var album = req.query.album;
 
     var queryGetIdAlbum = `select id_album from vinyle.album where titre_album like '`+album+`';`
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
@@ -353,7 +350,7 @@ exports.deleteFavorite = async  (req,res) => {
 
 exports.getCartPrice = async  (req,res) => {
 
-    var nom_utilisateur = req.params.nom_utilisateur;
+    var nom_utilisateur = req.query.nom_utilisateur;
     var queryGetIdByUser = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`' ; `;
 
     connection.query(queryGetIdByUser, function (err, result, fields) {
@@ -381,8 +378,8 @@ exports.getCartPrice = async  (req,res) => {
 
 exports.deleteAlbumFromCart = async  (req,res) => {
 
-    var nom_utilisateur = req.params.nom_utilisateur;
-    var album = req.params.album;
+    var nom_utilisateur = req.query.nom_utilisateur;
+    var album = req.query.album;
 
     var queryGetIdAlbum = `select id_album from vinyle.album where titre_album like '`+album+`';`
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`

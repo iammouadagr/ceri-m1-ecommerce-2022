@@ -20,31 +20,35 @@
       </ion-button>
     </ion-buttons>
    
-    <ion-title class="TitreSite">MusicStore</ion-title>
+    <ion-title class="TitreSite">2MIStore</ion-title>
 
   </ion-toolbar>
 </ion-header>
 <ion-content >
+
   <div class="formulaire">
     <h2 style="padding-bottom: 5%;"> Connecte-toi </h2>
     <div class="elementForm" >
      <table >
        <tr>
-         <td> <ion-item><ion-label position="floating" style="color:grey;">Identifiant </ion-label><ion-input type="text" [(ngModel)]="todo.title" name="identifiant" placeholder="Identifiant ou email "></ion-input> </ion-item></td>
+         <td> <ion-item><ion-label position="floating" style="color:grey;">Identifiant </ion-label><ion-input type="text" [(ngModel)]="form.id" name="identifiant" placeholder="Identifiant ou email " (keyup.enter)="connexion()"></ion-input> </ion-item></td>
        </tr>
        <br/>
        
       <tr>  
-        <td> <ion-item><ion-label position="floating" style="color:grey;" >Mot de passe </ion-label><ion-input type="password" [(ngModel)]="todo.mdp" name="mdp" placeholder="Mot de passe "></ion-input> </ion-item></td>
+        <td> <ion-item><ion-label position="floating" style="color:grey;" >Mot de passe </ion-label><ion-input type="password" [(ngModel)]="form.mdp" name="mdp" placeholder="Mot de passe " (keyup.enter)="connexion()"></ion-input> </ion-item></td>
       </tr>
+      <br/>
+      <tr *ngIf="!auth"><td style="color:red"> Identifiant ou mot de passe incorrect</td></tr>
       <br/>
       <tr>
         
         <td >
-
-          <ion-button > 
+          <ion-button color="medium" fill="clear" (click)="goInscription()">Pas de compte? S'inscrire</ion-button> <br/>
+          <ion-button type="submit" color="success" (click)="connexion()"  > 
             Connexion
           </ion-button>
+         
         </td>
       </tr>
 
@@ -54,26 +58,4 @@
     
    
   </div>
-   
-
-      <!-- <ion-card-header>
-        <ion-card-title style="text-align: center;">Identifiez-vous</ion-card-title>
-       <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-      </ion-card-header>
-    
-      <ion-card-content >
-        <form (ngSubmit)="logForm()">
-          <ion-item>
-            <ion-label>Identifiant </ion-label>
-            <ion-input type="text" [(ngModel)]="todo.title" name="identifiant" placeholder="identifiant ou email "></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label>Mot de passe</ion-label>
-            <ion-input type="password" [(ngModel)]="todo.mdp" name="identifiant" placeholder="Mot de passe "></ion-input>
-          </ion-item>
-        </form>     
-      </ion-card-content> -->
-
-
-  
 </ion-content>
