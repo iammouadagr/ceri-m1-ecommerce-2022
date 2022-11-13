@@ -66,5 +66,5 @@ jobs:
         with:
           context: ./frontend
           push: true
-          tags: moaguirar/e-com:dev-frontend
+          tags: moaguirar/e-com:webapp-latest, moaguirar/e-com:dev-webapp
     
