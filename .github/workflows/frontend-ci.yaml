@@ -60,5 +60,11 @@ jobs:
       - 
         name: Check Container
         run: docker ps 
-      
+      -
+        name: Publish to Docker Hub
+        uses: docker/build-push-action@v3
+        with:
+          context: ./frontend
+          push: true
+          tags: moaguirar/e-com:dev-frontend
     
