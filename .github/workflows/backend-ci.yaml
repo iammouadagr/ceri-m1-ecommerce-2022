@@ -1,5 +1,5 @@
-name: CI
-run-name: integration workflow
+name: backend-ci
+run-name: backend integration workflow
 on:
   push:
     branches:
@@ -58,5 +58,5 @@ jobs:
         with:
           context: ./backend
           push: true
-          tags: moaguirar/e-com:latest
+          tags: moaguirar/e-com:api-latest,moaguirar/e-com:dev-api
       
