@@ -92,6 +92,9 @@ jobs:
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
         with:
           fallback: 0.1.0
+      -
+        name: Get latest tag
+        run: git tag
       #-
         #name: Create release branche
         #run: git checkout -b release/v0.1.0
