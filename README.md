@@ -10,6 +10,7 @@ Les instructions sont disponibles [ici](https://github.com/Faylixe/ceri-m1-ecomm
 
 ## Dream team
 
+| ----------- | ---------|
 | Nom         | 2MI      |
 | Identifiant | blackcat |
 
