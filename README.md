@@ -4,7 +4,9 @@
 
 
 ![API Build](https://github.com/iammouadagr/ceri-m1-ecommerce-2022/actions/workflows/backend-ci.yaml/badge.svg)
-![API Build](https://github.com/iammouadagr/ceri-m1-ecommerce-2022/actions/workflows/frontend-ci.yaml/badge.svg)
+![Client Build](https://github.com/iammouadagr/ceri-m1-ecommerce-2022/actions/workflows/frontend-ci.yaml/badge.svg)
+
+
 Les instructions sont disponibles [ici](https://github.com/Faylixe/ceri-m1-ecommerce-2022/tree/main/docs).
 
 ## Dream team
