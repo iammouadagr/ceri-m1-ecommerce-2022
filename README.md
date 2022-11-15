@@ -9,8 +9,8 @@
 Les instructions sont disponibles [ici](https://github.com/Faylixe/ceri-m1-ecommerce-2022/tree/main/docs).
 
 ## Dream team
-
-| ----------- | ---------|
+|             |          |
+| ----------- | -------- |
 | Nom         | 2MI      |
 | Identifiant | blackcat |
 
