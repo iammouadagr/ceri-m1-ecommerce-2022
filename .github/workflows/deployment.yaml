@@ -14,6 +14,9 @@ jobs:
         name: Checkout
         uses: actions/checkout@v3
       -
+        name: Checkout develop branch
+        run: git checkout dev
+      -
         name: Create release branche
         run: git checkout -b release/v0.1.0 dev 
       - 
