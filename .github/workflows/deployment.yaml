@@ -5,6 +5,10 @@ on:
     branches:
       - main
   pull_request:
+    types:
+      - opened
+    branches:
+      - main
 jobs:
   delivery:
     name: Countinuous delivery
@@ -13,6 +17,8 @@ jobs:
       - 
         name: Checkout
         uses: actions/checkout@v3
+        with:
+          ref: dev
       -
         name: Create release branche
         run: git checkout -b release/v0.1.0
