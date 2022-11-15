@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-searchbar slot="primary" animated="true"   class="Recherche" style="width:40%"></ion-searchbar>
+
+    <ion-buttons slot="primary" >
+      <ion-button >
+      Produits
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="primary" >
+      <ion-button >
+      Catégories
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="primary" >
+      <ion-button>
+        <ion-icon slot="end" name="heart" style="color:#FF2E2E"></ion-icon> Favoris
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="primary" >
+      <ion-button class="panier">
+        <ion-badge *ngIf="numberPanier>0" color="accent">{{numberPanier}}</ion-badge>
+        <ion-icon slot="end" name="basket"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="primary" >
+      <ion-button [routerLink]="['/formulaire-connexion']">
+        <ion-icon slot="end" name="person-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="primary" >
+      <ion-button >
+        <ion-icon slot="end" name="help-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+
+    <ion-title class="TitreSite" (click)="goAccueil()">2MIStore</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<ion-grid class="desc">
+  <ion-row>
+    <ion-col align="center">
+        <img class="image" [src]="album.lien_image" />
+    </ion-col>
+    <ion-col >
+     
+
+      <ion-item-divider><h2> Morceaux </h2></ion-item-divider>
+      <div>
+        <ion-list [inset]="true" >
+          <ion-item *ngFor="songs of chansonsItems$ | async ; let songs; let i= index;">
+            <ion-label>
+            
+              {{songs.titre_chanson}}
+
+            </ion-label>
+          </ion-item>
+
+        </ion-list>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-grid style="padding-left:8%">
+      <ion-row>
+        <ion-col align="left" size="4">
+          <h1 > {{album.titre}}</h1>
+          <h4>{{album.titre_album}}</h4>
+        </ion-col>
+        <ion-col size="2" >
+          <ion-icon  name="heart"  size="large" fill="outline" class="fav"></ion-icon>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="2" align="left">
+          {{album.prix}} &euro; 
+        </ion-col>
+        <ion-col size="3">
+          <div align="left">
+            
+            <ion-button size="medium" fill="outline" class="buy" (click)="ajouterAuPanier()">
+              <ion-icon name="cart-outline" style="padding-right: 10px;"></ion-icon>  Ajouter au panier
+            </ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <br>
+   
+  </ion-row>
+</ion-grid>
+</ion-content>

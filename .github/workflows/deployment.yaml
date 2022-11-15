@@ -1,0 +1,22 @@
+name: Deployment 
+run-name: Continuous Integration Continuous Deployment workflow 
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  delivery:
+    name: Countinuous delivery
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Create release branche
+        run: git checkout -b release/v0.1.0
+      
+
+
+  

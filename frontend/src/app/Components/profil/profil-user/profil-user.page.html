@@ -1,0 +1,156 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-searchbar slot="primary" animated="true"   class="Recherche" style="width:40%"></ion-searchbar>
+
+    <ion-buttons slot="primary" >
+      <ion-button   [routerLink]="['/home']">
+        <ion-icon slot="end" name="home" ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="primary" >
+      <ion-button >
+      Produits
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="primary" >
+      <ion-button >
+      Catégories
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="primary" >
+      <ion-button [routerLink]="['/favoris-list-page']">
+        <ion-icon slot="end" name="heart" style="color:#FF2E2E"></ion-icon> Favoris
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="primary" >
+      <ion-button class="panier">
+        <ion-badge *ngIf="numberPanier>0" color="accent">{{numberPanier}}</ion-badge>
+        <ion-icon slot="end" name="basket"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+
+
+    <ion-buttons slot="primary" >
+      <ion-button >
+        <ion-icon slot="end" name="help-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+
+    <ion-title class="TitreSite" (click)="goAccueil()">2MIStore</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <div style="padding-left:10%; padding-top: 5%;">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4">
+          <ion-card  style="border-radius:  25px;">
+            <div *ngIf='sexe=="M"'>
+              <img alt="avatar homme" src="https://static.vecteezy.com/ti/vecteur-libre/p1/2002332-ablack-man-avatar-character-isolated-icon-gratuit-vectoriel.jpg" />
+            </div>
+            <div *ngIf='sexe=="F"'>
+              <img alt="avatar femme" src="https://static.vecteezy.com/ti/vecteur-libre/p1/2002257-belle-femme-avatar-personnage-icone-gratuit-vectoriel.jpg" />
+            </div>
+            <ion-card-header>
+              <ion-card-title> {{prenom}} {{ nom }}</ion-card-title>
+            </ion-card-header>
+          
+            <ion-card-content>
+              <ion-grid>
+                <ion-row>
+                  <ion-col><ion-label >Date de naissance : </ion-label></ion-col>
+                  <ion-col style="vertical-align: top"><ion-input color="primary" readonly placeholder="{{date_naissance | date:'dd/MM/yyyy'}}" class="input-profil"></ion-input></ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col><ion-label>Lieu de naissance : </ion-label> </ion-col>
+                  <ion-col><ion-input color="primary" readonly placeholder="{{lieu_naissance}}" class="input-profil"></ion-input> </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col> <ion-label>E-mail : </ion-label></ion-col>
+                  <ion-col><ion-input color="primary" readonly placeholder="{{adresse_email}}" class="input-profil"></ion-input></ion-col>
+                </ion-row>
+              </ion-grid>
+              <!-- <ion-label>Date de naissance : </ion-label><ion-input color="primary" readonly placeholder="{{date_naissance | date:'dd/MM/yyyy'}}" class="input-profil"></ion-input> 
+              <ion-label>Lieu de naissance : </ion-label><ion-input color="primary" readonly placeholder="{{lieu_naissance}}" class="input-profil"></ion-input> 
+              <ion-label>E-mail : </ion-label><ion-input color="primary" readonly placeholder="{{adresse_email}}" class="input-profil"></ion-input> -->
+              <ion-chip [outline]="true">{{status}}</ion-chip>
+            </ion-card-content>
+          </ion-card>
+        
+        </ion-col>
+        
+        <ion-col size="7">
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-card  style="border-radius:  25px;">
+                  <ion-card-header>
+                    <ion-card-title>Mon panier</ion-card-title>
+                  </ion-card-header>
+                
+                  <ion-card-content>
+                 
+                  Vide
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+              
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-card  style="border-radius: 25px;">
+                  <ion-card-header>
+                    <ion-card-title>Mes favoris</ion-card-title>
+                  </ion-card-header>
+                
+                  <ion-card-content>
+                  Vide
+                 
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+             
+            </ion-row>
+          </ion-grid>
+         
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="11">
+          <div align="right">
+            <ion-button color="danger"> Deconnexion</ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+ 
+  <!-- <ion-grid>
+    <ion-row>
+      <ion-col>
+          <img src="https://static.vecteezy.com/ti/vecteur-libre/p1/2002257-belle-femme-avatar-personnage-icone-gratuit-vectoriel.jpg" \>
+      </ion-col>
+      <ion-col>
+         <ion-grid>
+          <ion-row>
+            <ion-col>
+                <h3>Panier</h3>
+            </ion-col>
+            <ion-col>
+              <h3>Vos favoris</h3>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+       
+      </ion-col>
+    </ion-row>
+  </ion-grid> -->
+
+</ion-content>

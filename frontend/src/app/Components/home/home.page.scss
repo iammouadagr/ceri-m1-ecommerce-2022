@@ -9,5 +9,120 @@
     .price{
         text-color:yellow;
     }
+    .centeredTop1{
+        color: black;
+       
+    }
+    .centeredTop2{
+        color: black;
+       
+    }
+
+   
     
 }
+
+.content{
+    padding:3%;
+    align-items: center;
+}
+
+.poster{
+    height:300px;
+    width:300px;
+}
+
+ion-grid {
+//    padding-left:7%;
+}
+
+.poster:hover {
+    border-radius: 5%;
+    transform: scale(1.1);
+   
+    box-shadow: 0 24px 36px rgba(0,0,0,0.11),
+      0 24px 46px grey;
+}
+
+
+
+.top{
+    height: 300px;
+    width: 100%;
+    .imgTop{
+        // padding-left: 5%;
+    }
+    .imgTop2{
+        // padding-right: 5%;
+    }
+    .TopPoster{
+        opacity: 90%;
+        height:70%;
+        width:70%;
+        box-shadow: 0 24px 36px rgba(0,0,0,0.11),
+          0 24px 46px grey;
+    }
+    .centeredTop1 {
+
+        border-radius: 5%;
+        position: absolute;
+        top: 30%;
+        left: 42%;
+        transform: translate(-50%, -50%);
+        background-color: #CECECE;
+        box-shadow: 0 24px 36px rgba(0,0,0,0.11),
+        0 24px 46px grey;
+    }
+    .centeredTop2 {
+        border-radius: 5%;
+        position: absolute;
+        top: 48%;
+        right: 25%;
+        transform: translate(-50%, -50%);
+        background-color: #CECECE;
+        box-shadow: 0 24px 36px rgba(0,0,0,0.11),
+        0 24px 46px grey;
+    }
+}
+
+.buy{
+    color: red;
+    --border-color: red;
+}
+.buy:hover{
+    color: white;
+    background-color: red;
+    
+}
+
+.seemore{
+    color: grey;
+    --border-color: grey;
+}
+.seemore:hover{
+    color: white;
+    background-color: grey;
+    
+}
+
+.fav:hover{
+    color:red;
+}
+.panier {
+    ion-badge {
+      position: absolute;
+      top: 0rem;
+      left: 1.2rem;
+      opacity: 0.9;
+      background-color: red;
+      & ~ ion-icon {
+        margin-right: 1.2rem;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  .bestSeller{
+    margin: 0 auto;
+    width: 100%;
+  }
