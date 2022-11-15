@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
 jobs:
   delivery:
     name: Countinuous delivery
@@ -13,9 +12,14 @@ jobs:
       - 
         name: Checkout
         uses: actions/checkout@v3
+        with:
+          ref: dev
       -
         name: Create release branche
         run: git checkout -b release/v0.1.0
+      - 
+        name: Push release branch
+        run: git push origin release/v0.1.0
       
 
 
