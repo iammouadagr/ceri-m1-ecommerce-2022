@@ -10,7 +10,78 @@ on:
     branches:
       - main
 jobs:
+  api-build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - 
+        name: Install dependencies
+        run: npm install
+        working-directory: ./backend
+      - 
+        name: Build
+        run: npm run build
+        working-directory: ./backend
+      #- 
+        #name: Run tests
+        #run: npm test
+        #working-directory: ./backend
+      -
+        name: Build docker image
+        working-directory: ./backend
+        run: docker build -t backend-app .
+
+      # Push step to be added 
+
+  webapp-build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - 
+        name: Install dependencies
+        run: npm install
+        working-directory: ./frontend
+      - 
+        name: Install angular/cli
+        run: npm install -g @angular/cli
+        working-directory: ./frontend
+      - 
+        name: Build
+        run: npm run build
+        working-directory: ./frontend
+      #- 
+        #name: Run tests
+        #run: npm test
+        #working-directory: ./frontend
+      - 
+        name: Build docker image
+        working-directory: ./frontend
+        run: docker build -t frontend-app .
+
+      # Push step to be added     
+      
   delivery:
+    needs: [api-build,webapp-build]
     name: Countinuous delivery
     runs-on: ubuntu-latest
     steps:
@@ -31,7 +102,7 @@ jobs:
       #- 
         #name: Push release branch
         #run: git push origin release/v0.1.0
-      
 
+          
 
   
