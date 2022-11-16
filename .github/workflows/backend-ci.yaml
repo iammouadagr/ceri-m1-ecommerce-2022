@@ -1,10 +1,9 @@
 name: backend-ci
-run-name: backend integration workflow
+run-name: backend continuous integration workflow
 on:
   push:
     branches:
       - dev
-  pull_request:
 jobs:
   build:
     runs-on: ubuntu-latest
