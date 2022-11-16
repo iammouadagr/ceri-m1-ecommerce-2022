@@ -21,9 +21,9 @@ services:
   app:
     depends_on:
       - mysqldb
-    build: .
+    build: ./app
     container_name: backend_app
-    env_file: .env
+    env_file: ./.env
     ports:
       - $NODE_LOCAL_PORT:$PORT
     environment:
