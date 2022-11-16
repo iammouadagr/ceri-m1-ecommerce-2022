@@ -182,7 +182,7 @@ exports.addFavorite = async  (req,res) => {
                                         res.json(false);
                                     }
                                     else{ 
-                                        res.status(200).json(result_5[0].id_favoris);
+                                        res.status(200).json(result_5[0].id_favoris,result_2[0].id_utilisateur );
                                     }
                                 });
                             }
