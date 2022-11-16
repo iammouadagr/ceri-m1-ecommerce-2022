@@ -1,66 +1,3 @@
-ALTER USER 'admin'@'%' IDENTIFIED BY 'root';
-ALTER USER 'admin'@'%' IDENTIFIED WITH mysql_native_password BY 'root';
-GRANT ALL PRIVILEGES ON *.* to 'admin'@'%' WITH GRANT OPTION;
-FLUSH PRIVILEGES;
-CREATE DATABASE IF NOT EXISTS vinyle;
-USE vinyle;
-CREATE TABLE IF NOT EXISTS artiste (
-    id_artiste int not null AUTO_INCREMENT,
-    PRIMARY KEY (id_artiste),
-    nom varchar(100) not null
-);
-CREATE TABLE IF NOT EXISTS album (
-    id_album int not null AUTO_INCREMENT,
-    titre_album varchar(100) not null,
-    id_artiste int not null,
-    lien_image varchar(1000),
-    genre_musical varchar(100),
-    annee int not null,
-    prix DOUBLE not null,
-    description_album varchar(900),
-    PRIMARY KEY (id_album),
-    FOREIGN KEY (id_artiste) REFERENCES artiste(id_artiste)
-);
-CREATE TABLE IF NOT EXISTS chanson (
-    id_chanson int not null AUTO_INCREMENT,
-    titre_chanson varchar(100) not null,
-    id_album int not null,
-    id_artiste int not null,
-    genre_musical varchar(100) not null,
-    PRIMARY KEY (id_chanson),
-    FOREIGN KEY (id_artiste) REFERENCES artiste(id_artiste),
-    FOREIGN KEY (id_album) REFERENCES album(id_album)
-);
-CREATE TABLE IF NOT EXISTS utilisateur (
-    id_utilisateur int not null AUTO_INCREMENT,
-    nom_utilisateur varchar(100),
-    adresse_mail varchar(100),
-    prenom varchar(100) not null,
-    nom varchar(100) not null,
-    lieu_naissance varchar(100) not null,
-    date_naissance DATE not null,
-    mot_de_passe varchar(200) not null,
-    sexe varchar(1),
-    PRIMARY KEY(id_utilisateur),
-    statut varchar(10)
-);
-CREATE TABLE IF NOT EXISTS favoris ( 
-    id_favoris int not null AUTO_INCREMENT,
-    PRIMARY KEY(id_favoris),
-    id_utilisateur int not null,
-    id_album int not null,
-    FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur), 
-    FOREIGN KEY (id_album) REFERENCES album(id_album) 
-);
-CREATE TABLE IF NOT EXISTS panier ( 
-    id_panier int not null AUTO_INCREMENT,
-    PRIMARY KEY(id_panier),
-    id_utilisateur int not null,
-    id_album int not null,
-    FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur), 
-    FOREIGN KEY (id_album) REFERENCES album(id_album) 
-);
-
 INSERT INTO 
 	artiste(nom)
 VALUES
@@ -73,6 +10,7 @@ VALUES
 	('Angèle'),
     ('PNL'),
     ('MMZ');
+
 
 
 INSERT INTO 
@@ -244,9 +182,3 @@ VALUES
 
 
 
-
-
-
-
-
- 

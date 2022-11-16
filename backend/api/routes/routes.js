@@ -16,8 +16,14 @@ router.get('/ajouterPanier', controllers.addCart);
 router.get('/supprimerPanier', controllers.deleteAlbumFromCart);
 router.get('/panierUtilisateur', controllers.getCartByUser);
 router.get('/informationUtilisateur', controllers.getUserInformation);
-router.get('/totalPanier', controllers.getCartPrice)
-router.get('/chansonsAlbum', controllers.getMusicByAlbum)
+router.get('/totalPanier', controllers.getCartPrice);
+router.get('/chansonsAlbum', controllers.getMusicByAlbum);
+router.get('/addPurchase', controllers.addPurchase);
+router.get('/albumsParHistorique', controllers.getAlbumsByPurchase);
+router.get('/rechercheAlbum', controllers.getAlbumBySearch);
+router.get('/rechercheParPrix', controllers.getAlbumByPrice);
+
+
 
 
 module.exports = router;
