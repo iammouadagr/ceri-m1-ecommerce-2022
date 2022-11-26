@@ -42,7 +42,7 @@ jobs:
           DB_PORT: ${{ secrets.DB_PORT }}
           MYSQLDB_LOCAL_PORT: ${{ secrets.MYSQLDB_LOCAL_PORT }}
           NODE_LOCAL_PORT: ${{ secrets.NODE_LOCAL_PORT }}
-          fail_on_empty: false
+          fail_on_empty: true
       #- 
         #name: Execute tests
         #run: npm test
