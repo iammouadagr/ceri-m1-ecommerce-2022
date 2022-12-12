@@ -6,6 +6,8 @@ import { FavorisService } from 'src/app/Service/favoris/favoris.service';
 import { AddAllFavorisAction, DeleteFavorisAction } from 'src/app/store/actions/favoris.actions';
 import { Favoris } from 'src/app/store/models/favoris.models';
 import { User } from 'src/app/store/models/utilisateur.model';
+import { AlertController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-favoris-list-page',
@@ -20,7 +22,7 @@ export class FavorisListPagePage implements OnInit {
   userItem$ : Observable<User>;
   username;
   
-  constructor(private router: Router,private storeFav: Store<{ favoris: Array<Favoris> }>, private storeUser: Store<{ user: User }>, _serviceFavoris :FavorisService ) { 
+  constructor(private router: Router,private storeFav: Store<{ favoris: Array<Favoris> }>, private storeUser: Store<{ user: User }>, _serviceFavoris :FavorisService, private alertController: AlertController ) { 
     this.favorisService = _serviceFavoris;
     this.favorisItems$ = storeFav.pipe(select('favoris')); // on recupere le service store 
     this.userItem$ = storeUser.pipe(select('user')); // on recupere le service store 
@@ -43,10 +45,12 @@ export class FavorisListPagePage implements OnInit {
   }
 
   supprimer(nom_album : string, fav : Favoris){
+    console.log(" nom : ", nom_album)
     this.favorisService.supprimerFavoris(this.username, nom_album)
       .subscribe(
         (data:any) => {
-          this.storeFav.dispatch(new DeleteFavorisAction(fav)); // on ajoute les données 
+          this.storeFav.dispatch(new DeleteFavorisAction(fav)); // on ajoute les données
+          this.presentAlert();
           console.log("data -- ", data)
         },
         (error:any)=>{
@@ -55,4 +59,14 @@ export class FavorisListPagePage implements OnInit {
       
   }
 
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Suppression',
+      subHeader: 'Important message',
+      message: 'Ce vinyle vient d\'être supprimé de vos favoris',
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
 }

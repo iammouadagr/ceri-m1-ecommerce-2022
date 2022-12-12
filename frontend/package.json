@@ -1,13 +1,12 @@
 {
-  "name": "frontend",
-  "version": "1.0.0",
+  "name": "JCL",
+  "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -26,8 +25,11 @@
     "@capacitor/haptics": "4.0.1",
     "@capacitor/keyboard": "4.0.1",
     "@capacitor/status-bar": "4.0.1",
+    "@geoapify/geocoder-autocomplete": "^1.5.1",
+    "@ionic-native/geolocation": "^5.36.0",
     "@ionic/angular": "^6.1.9",
     "@ngrx/store": "^14.3.2",
+    "@types/googlemaps": "^3.43.3",
     "cordova-plugin-badge": "^0.8.8",
     "ionicons": "^6.0.3",
     "rxjs": "~6.6.0",

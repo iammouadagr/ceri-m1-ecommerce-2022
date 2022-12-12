@@ -3,14 +3,10 @@
 
     <ion-searchbar slot="primary" animated="true"   class="Recherche" style="width:40%"></ion-searchbar>
 
-    <ion-buttons slot="primary" >
-      <ion-button >
-      Produits
-      </ion-button>
-    </ion-buttons>
+
     <ion-buttons slot="primary" >
       <ion-button [routerLink]="['/categorie']" >
-      Catégories
+      Produits
       </ion-button>
     </ion-buttons>
 
@@ -20,7 +16,7 @@
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="primary" >
-      <ion-button class="panier">
+      <ion-button class="panier"  (click)="goPanier()">
         <ion-badge *ngIf="numberPanier>0" color="accent">{{numberPanier}}</ion-badge>
         <ion-icon slot="end" name="basket"></ion-icon>
       </ion-button>
@@ -157,7 +153,7 @@
                   <p class="ion-align-items-end"> {{songs.titre_album}}<p>
                   </ion-col>
                   <ion-col  size="2">
-                    <ion-icon  name="heart"  size="large" fill="outline" class="fav" ></ion-icon>
+                    <ion-icon  name="heart"  size="large" fill="outline" class="fav" (click)="addOrDeletefavoris(songs)"></ion-icon>
                   </ion-col>
 
                 </ion-row>
@@ -172,7 +168,7 @@
                   </ion-col>
                   <ion-col >
                     <div align="right">
-                      <ion-button size="small" fill="outline" class="buy" (click)="ajouterAuPanier()">
+                      <ion-button size="small" fill="outline" class="buy" (click)="ajouterAuPanier(songs)">
                         Acheter
                       </ion-button>
                     </div>

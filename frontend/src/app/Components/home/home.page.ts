@@ -9,6 +9,10 @@ import {AlbumsService} from '../../Service/albums/albums.service'
 import { Favoris } from 'src/app/store/models/favoris.models';
 import { User } from 'src/app/store/models/utilisateur.model';
 import { AddFavorisAction } from 'src/app/store/actions/favoris.actions';
+import { FavorisService } from 'src/app/Service/favoris/favoris.service';
+import { PanierService } from 'src/app/Service/Panier/panier.service';
+import { Panier } from 'src/app/store/models/paniers.model';
+import { AddPanierAction, AddPanierAllAction } from 'src/app/store/actions/paniers.actions';
 
 @Component({
   selector: 'app-home',
@@ -19,10 +23,13 @@ export class HomePage implements OnInit {
 
 
   serviceAlbum:AlbumsService;  // pour appeler le service 
+  serviceFavoris : FavorisService; 
+  servicePanier : PanierService; 
 
   albumItems$: Observable<Array<Albums>>; // pour recuperer la liste des albums 
   favorisItems$: Observable<Array<Favoris>>; // pour recuperer la liste des favoris 
   userItem$ : Observable<User>;
+  paniersItem$ :  Observable<Array<Panier>>; 
 
   username;  // stock l'username pour savoir si on est co ou non 
   favSelected; 
@@ -185,19 +192,26 @@ export class HomePage implements OnInit {
   //   },
   // ];
 
-  constructor(private router: Router, private store: Store<{ album: Array<Albums> }>, private storeFav: Store<{ favoris: Array<Favoris> }>,  private storeUser: Store<{ user: User }>, _serviceAlbum:AlbumsService, ){
+  constructor( _panierService : PanierService,  _favService : FavorisService, private router: Router,  private storePanier: Store<{ panier: Array<Panier> }> ,  private store: Store<{ album: Array<Albums> }>, private storeFav: Store<{ favoris: Array<Favoris> }>,  private storeUser: Store<{ user: User }>, _serviceAlbum:AlbumsService ){
 
     this.serviceAlbum = _serviceAlbum;  // initialisation du service 
+    this.serviceFavoris = _favService; // initialisation du service 
+    this.servicePanier = _panierService;   // initialisation du service 
 
     this.albumItems$ = store.pipe(select('album')); // on recupere le service store 
     this.favorisItems$ = storeFav.pipe(select('favoris')); // on recupere le service store 
     this.userItem$ = storeUser.pipe(select('user')); // on recupere le service store 
+    this.paniersItem$ = storePanier.pipe(select('panier')); // on recupere le service store 
     
   }
 
 
   ngOnInit() {
     //this.store.dispatch(new AddAlbumsAction(this.al));
+    this.loadData();
+  }
+
+  loadData(){
     this.serviceAlbum.getListAlbum().subscribe(
       (data:any) => {
         this.store.dispatch(new AddAlbumsAction(data)); // on ajoute les données 
@@ -206,7 +220,10 @@ export class HomePage implements OnInit {
       (error:any)=>{
         console.log(" erreur get list album : ", error)
       })
-      this.storeUser.select('user').subscribe((data: User) =>  this.username = data.nom_utilisateur)
+      this.storeUser.select('user').subscribe((data: User) =>{
+        // console.log(" data - ", data)
+        this.username = data.nom_utilisateur
+      })
   }
 
 
@@ -244,7 +261,30 @@ export class HomePage implements OnInit {
   }
 
   // pour ajouter au panier 
-  ajouterAuPanier(){
+  ajouterAuPanier(album : Albums){
+
+    console.log(" ----  album ------ ", album)
+    if( this.username == "") this.router.navigate(['/formulaire-connexion']);
+    else{
+      this.servicePanier.ajouterAuPanier(this.username, album.id_album).subscribe(
+        (data:any) => {
+          let donnee=   {
+            annee : album.annee, 
+            id_album : album.id_album, 
+            id_panier : data.id_panier,
+            id_utilisateur : data.id_utilisateur,
+            lien_image : album.lien_image, 
+            prix : album.prix,
+            titre_album : album.titre_album
+          }
+         this.storePanier.dispatch(new AddPanierAction(donnee)); // on ajoute l'album en favoris 
+         console.log("data -- ", data)
+        },
+        (error:any)=>{
+          console.log(" erreur add panier : ", error)
+        })
+      
+    }
     this.numberPanier++;
   }
 
@@ -254,23 +294,36 @@ export class HomePage implements OnInit {
     else this.router.navigate(['/favoris-list-page']);
   }
 
+  goPanier(){
+    if (this.username=="") this.router.navigate(['/formulaire-connexion']);
+    else this.router.navigate(['/panier']);
+  }
+
   // pour ajouter ou enlever un album des favoris
-  // addOrDeletefavoris(albu : Albums){
-  //   if(this.username=="")  this.router.navigate(['/formulaire-connexion']);
-  //   else{
-  //     let albumSelected;
-  //     this.store.select('album').subscribe((data: Array<Albums>) =>  albumSelected = data.indexOf(albu));
-  //     this.storeFav.select('favoris').subscribe((data: Array<Favoris>) =>  {
-  //       for (let i=0; i<data.length; i++){
-  //         if( data[i].id_album == albumSelected.id_album){
-  //           this.favSelected =  data[i]; 
-  //         }
-  //         else this.favSelected = -1;
-  //       }
-  //     });
-  //     if ( this.favSelected==-1){
-  //       this.storeFav.dispatch(new AddFavorisAction(data)); // on ajoute l'album en favoris 
-  //     }
-  //   }
-  // }
+  addOrDeletefavoris(albu : Albums){
+    if(this.username=="")  this.router.navigate(['/formulaire-connexion']);
+    else{
+      let albumSelected;
+      this.store.select('album').subscribe((data: Array<Albums>) =>  albumSelected = data.indexOf(albu));
+      this.storeFav.select('favoris').subscribe((data: Array<Favoris>) =>  {
+        for (let i=0; i<data.length; i++){
+          if( data[i].id_album == albumSelected.id_album){
+            this.favSelected =  data[i]; 
+          }
+          else this.favSelected = -1;
+        }
+      });
+      if ( this.favSelected==-1){
+        this.serviceFavoris.ajouterFavoris(this.username, albu.id_album).subscribe(
+          (data:any) => {
+           this.storeFav.dispatch(new AddFavorisAction(data)); // on ajoute l'album en favoris 
+           console.log("data -- ", data)
+          },
+          (error:any)=>{
+            console.log(" erreur get list album : ", error)
+          })
+        
+      }
+    }
+  }
 }

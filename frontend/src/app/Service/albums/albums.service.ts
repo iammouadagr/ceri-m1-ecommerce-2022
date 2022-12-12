@@ -8,9 +8,10 @@ import { select, Store } from '@ngrx/store';
   providedIn: 'root'
 })
 export class AlbumsService {
-  albumItems$: Observable<Array<Albums>>;
-  constructor(private _http : HttpClient, private store: Store<{ album: Array<Albums> }>) {
-    this.albumItems$ = store.pipe(select('album'));
+  // albumItems$: Observable<Array<Albums>>;
+  
+  constructor(private _http : HttpClient) {
+    // this.albumItems$ = store.pipe(select('album'));
   }
 
   getListAlbum(){

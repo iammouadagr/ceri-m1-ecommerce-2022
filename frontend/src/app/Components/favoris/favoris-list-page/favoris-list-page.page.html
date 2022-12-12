@@ -26,7 +26,8 @@
 </ion-header>
 
 <ion-content>
-  <div style="padding-top:5px;">
+  <div style="padding-top:1%; margin:1%">
+      <h1 align="center" > Vos favoris</h1>
 
     <ion-grid >
       <ion-row >
@@ -43,7 +44,6 @@
                 <p class="ion-align-items-end"> {{songs.titre_album}}<p>
                 </ion-col>
                 <ion-col  size="2">
-                  <ion-icon  name="heart"  size="large" fill="outline" class="fav" ></ion-icon>
                 </ion-col>
 
               </ion-row>
@@ -58,8 +58,8 @@
                 </ion-col>
                 <ion-col >
                   <div align="right">
-                    <ion-button size="small" fill="outline" class="buy" (click)="ajouterAuPanier()">
-                      <ion-icon name="trash-outline" (click)="supprimer(songs.titre_album, songs)"></ion-icon>
+                    <ion-button size="small" fill="outline" class="del" (click)="supprimer( songs.titre_album , songs)">
+                      <ion-icon name="trash-outline"   (click)="supprimer(songs.titre_album, songs)"></ion-icon>
                     </ion-button>
                   </div>
                 </ion-col>

@@ -4,6 +4,7 @@ import { User } from '../models/utilisateur.model';
 export enum UserActionType {
     ADD_USER = '[USER] Add user ',
     DELETE_USER = '[USER] Delete user ',
+    GET_USER= '[USER] Get user ',
 }
 
 export class AddUserAction implements Action {
@@ -16,5 +17,13 @@ export class DeleteUserAction implements Action {
     //add an optional payload
     constructor(public payload: User) {}
 }
-export type UserAction = AddUserAction | DeleteUserAction;
+
+export class GetUserAction implements Action {
+    readonly type = UserActionType.GET_USER;
+    //add an optional payload
+    constructor() {}
+}
+
+
+export type UserAction = AddUserAction | DeleteUserAction | GetUserAction;
   

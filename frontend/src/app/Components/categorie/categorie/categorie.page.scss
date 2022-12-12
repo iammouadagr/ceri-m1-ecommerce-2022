@@ -1,0 +1,70 @@
+@media (prefers-color-scheme: dark) {
+
+    .TitreSite{
+        color:yellow;
+    }
+    .Recherche{
+        color:yellow;
+    }
+    .price{
+        text-color:yellow;
+    }
+    .centeredTop1{
+        color: black;
+       
+    }
+    .centeredTop2{
+        color: black;
+       
+    }
+
+   
+    
+}
+
+.fav:hover{
+    color:red;
+}
+
+.buy{
+    color: red;
+    --border-color: red;
+}
+.buy:hover{
+    color: white;
+    background-color: red;
+    
+}
+
+
+.content{
+    padding:3%;
+    align-items: center;
+}
+
+.poster{
+    height:250px;
+    width:250px;
+}
+
+
+
+.poster:hover {
+    border-radius: 5%;
+    transform: scale(1.1);
+   
+    box-shadow: 0 24px 36px rgba(0,0,0,0.11),
+      0 24px 46px grey;
+}
+
+ion-checkbox {
+    --background-checked:  red;
+  }
+  
+  ion-checkbox::part(container) {
+    border-radius: 6px;
+    border: 2px solid  red;
+  }
+
+
+
