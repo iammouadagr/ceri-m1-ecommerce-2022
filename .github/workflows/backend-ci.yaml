@@ -49,12 +49,7 @@ jobs:
         #name: Execute tests
         #run: npm test
         #working-directory: ./backend
-      - 
-        name: Check credentials
-        run: echo  ${{ secrets.DOCKER_REGISTRY_USERNAME }} | sed 's/./& /g'
-      - 
-        name: Check secrets
-        run: echo  ${{ secrets.DOCKER_REGISTRY }} | sed 's/./& /g'
+     
       -
         name: Login to registry
         run: docker login -u ${{ secrets.DOCKER_REGISTRY_USERNAME }} -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} ${{ secrets.DOCKER_REGISTRY}}
