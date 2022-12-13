@@ -56,7 +56,7 @@ jobs:
         run: docker ps 
       -
         name: Tag docker image
-        run: docker tag frontend-app europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/frontend-app:1.0.0
+        run: docker tag frontend-app europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/frontend-app:latest
       -
         name: Push docker image
-        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/frontend-app:1.0.0
+        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/frontend-app:latest
