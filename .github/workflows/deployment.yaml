@@ -125,7 +125,6 @@ jobs:
       -
         name: Get latest tag
         run: git tag
-     
   deployment:
     needs : delivery
     name: Countinuous deployment
