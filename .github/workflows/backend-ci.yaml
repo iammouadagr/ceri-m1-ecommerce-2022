@@ -54,7 +54,17 @@ jobs:
         name: Login to registry
         run: docker login -u ${{ secrets.DOCKER_REGISTRY_USERNAME }} -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} ${{ secrets.DOCKER_REGISTRY}}
         
-     
+      - 
+        name: Build docker image
+        working-directory: ./backend
+        run: docker build -t backend-app .
+      -
+        name: Tag docker image
+        run: docker tag backend-app europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:latest
+      -
+        name: Push docker image
+        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:latest
+
 
       
 
