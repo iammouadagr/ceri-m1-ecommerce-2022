@@ -94,22 +94,19 @@ jobs:
         #name: Run tests
         #run: npm test
         #working-directory: ./frontend
+      -
+        name: Login to registry
+        run: docker login -u ${{ secrets.DOCKER_REGISTRY_USERNAME }} -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} ${{ secrets.DOCKER_REGISTRY}}
       - 
         name: Build docker image
         working-directory: ./frontend
         run: docker build -t frontend-app .
       - 
-        name: Test docker image
-        run: docker run --name frontend -d -p 8080:80 frontend-app
-      - 
-        name: Check Container
-        run: docker ps 
-      -
         name: Tag docker image
-        run: docker tag frontend-app europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/frontend-app:1.0.0
+        run: docker tag frontend-app europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/frontend-app:latest
       -
         name: Push docker image
-        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/frontend-app:1.0.0
+        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/frontend-app:latest
 
       
   delivery:
@@ -125,12 +122,6 @@ jobs:
       -
         name: Get latest tag
         run: git tag
-      #-
-        #name: Create release branche
-        #run: git checkout -b release/v0.1.0
-      #- 
-        #name: Push release branch
-        #run: git push origin release/v0.1.0
   deployment:
     needs : delivery
     name: Countinuous deployment
@@ -144,10 +135,10 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           cli_config_credentials_token: ${{ secrets.API_TF_TOKEN }}
-      -
-        name: Terraform Format
-        id: fmt
-        run: terraform fmt -check
+      # -
+      #   name: Terraform Format
+      #   id: fmt
+      #   run: terraform fmt -check
       - 
         name: Terraform Init
         id: init
@@ -171,16 +162,23 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-
+            <details><summary>Show Plan</summary>
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
+            </details>
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: output
             })
+
       - 
         name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
