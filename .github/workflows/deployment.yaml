@@ -94,17 +94,14 @@ jobs:
         #name: Run tests
         #run: npm test
         #working-directory: ./frontend
+      -
+        name: Login to registry
+        run: docker login -u ${{ secrets.DOCKER_REGISTRY_USERNAME }} -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} ${{ secrets.DOCKER_REGISTRY}}
       - 
         name: Build docker image
         working-directory: ./frontend
         run: docker build -t frontend-app .
       - 
-        name: Test docker image
-        run: docker run --name frontend -d -p 8080:80 frontend-app
-      - 
-        name: Check Container
-        run: docker ps 
-      -
         name: Tag docker image
         run: docker tag frontend-app europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/frontend-app:latest
       -
