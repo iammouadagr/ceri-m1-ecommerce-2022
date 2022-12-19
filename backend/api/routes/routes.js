@@ -18,12 +18,18 @@ router.get('/panierUtilisateur', controllers.getCartByUser);
 router.get('/informationUtilisateur', controllers.getUserInformation);
 router.get('/totalPanier', controllers.getCartPrice);
 router.get('/chansonsAlbum', controllers.getMusicByAlbum);
-router.get('/addPurchase', controllers.addPurchase);
-router.get('/albumsParHistorique', controllers.getAlbumsByPurchase);
+router.get('/ajouterCommandes', controllers.addPurchase);
+router.get('/albumsCommandes', controllers.getAlbumsByPurchase);
 router.get('/rechercheAlbum', controllers.getAlbumBySearch);
 router.get('/rechercheParPrix', controllers.getAlbumByPrice);
-
-
-
+router.get('/modifierQuantiteAlbum', controllers.modifyQuantityAlbum);
+router.get('/ajouterAlbum', controllers.addAlbum);
+router.get('/supprimerAlbum', controllers.removeAlbum);
+router.get('/commandesEnAttente', controllers.getOrderPending);
+router.get('/commandesValidee', controllers.getOrderValidated);
+router.get('/commandesExpediee', controllers.getOrderShipped);
+router.get('/commandesLivree', controllers.getOrderDelivered);
+router.get('/modifierStatut', controllers.modifyStatus);
+router.get('/commandesUtilisateur', controllers.getOrderByUser);
 
 module.exports = router;
