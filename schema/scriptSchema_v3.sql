@@ -50,7 +50,6 @@ CREATE TABLE favoris (
     PRIMARY KEY(id_favoris),
     id_utilisateur int not null,
     id_album int not null,
-    quantite int not null,
     FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur), 
     FOREIGN KEY (id_album) REFERENCES album(id_album) 
 );
@@ -71,7 +70,6 @@ CREATE TABLE suivi_commandes (
     date_achat DATE NOT NULL,
     id_utilisateur int not null,
     prix DOUBLE not null,
-    quantite int not null,
     statut varchar(200) not null,
     FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur)
 );
@@ -81,6 +79,7 @@ CREATE TABLE suivi_commandes_album (
     PRIMARY KEY(id_sca),
     id_suivi int not null,
     id_album int not null,
+    quantite int not null,
     FOREIGN KEY (id_suivi) REFERENCES suivi_commandes(id_suivi),
     FOREIGN KEY (id_album) REFERENCES album(id_album)
 );
