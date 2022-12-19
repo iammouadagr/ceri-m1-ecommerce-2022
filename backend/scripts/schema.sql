@@ -15,7 +15,7 @@ CREATE TABLE album (
     annee int not null,
     prix DOUBLE not null,
     description_album varchar(900),
-    quantite int not null,
+    quantiteMax int not null,
     PRIMARY KEY (id_album),
     FOREIGN KEY (id_artiste) REFERENCES artiste(id_artiste)
 );

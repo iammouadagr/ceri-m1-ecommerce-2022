@@ -33,7 +33,7 @@ exports.addAlbum = async  (req,res) => {
         else{
             if(result[0]!=null)
             {
-                var queryAddAlbum = `INSERT INTO vinyle.album(titre_album, id_artiste, lien_image, genre_musical, annee, prix, description_album, quantite) VALUES`+
+                var queryAddAlbum = `INSERT INTO vinyle.album(titre_album, id_artiste, lien_image, genre_musical, annee, prix, description_album, quantiteMax) VALUES`+
                 `('`+titre_album+`','`+result[0].id_artiste+`','`+lien_image+`', '`+genre_musical+`', '`+annee+`', '`+prix+`', "`+description+`", '`+quantite+`');`;   
                 connection.query(queryAddAlbum, function (err, result5, fields) {
                     if (err){
@@ -65,7 +65,7 @@ exports.addAlbum = async  (req,res) => {
                                 throw err;
                             }
                             else{
-                                var queryAddAlbum = `INSERT INTO vinyle.album(titre_album, id_artiste, lien_image, genre_musical, annee, prix, description_album, quantite) VALUES`+
+                                var queryAddAlbum = `INSERT INTO vinyle.album(titre_album, id_artiste, lien_image, genre_musical, annee, prix, description_album, quantiteMax) VALUES`+
                                 `('`+titre_album+`','`+result2[0].id_artiste+`','`+lien_image+`', '`+genre_musical+`', '`+annee+`', '`+prix+`', "`+description+`", '`+quantite+`');`;            
                                 connection.query(queryAddAlbum, function (err, result3, fields) {
                                     if (err){
@@ -498,7 +498,7 @@ exports.addPurchase = async  (req,res) => {
             throw err;
         }
         else{  
-            var queryAddPurchase = `insert into suivi_commandes (date_achat, id_utilisateur, prix, statut) values (str_to_date('`+date_achat+`', '%d-%m-%Y') , '`+result[0].id_utilisateur+`', '`+prix+`', 'attente de traitement');`;
+            var queryAddPurchase = `insert into suivi_commandes (date_achat, id_utilisateur, prix, statut) values (str_to_date('`+date_achat+`', '%d/%m/%Y') , '`+result[0].id_utilisateur+`', '`+prix+`', 'attente de traitement');`;
             connection.query(queryAddPurchase, function (err, result1, fields) {
                 if (err){
                     throw err;
@@ -516,7 +516,7 @@ exports.addPurchase = async  (req,res) => {
                                         throw err;
                                     }
                                     else{
-                                        var queryRemoveQuantity= `update album set quantite = quantite - `+listeAlbumQuantity[i]+` where id_album = `+albums[i]+`;`;
+                                        var queryRemoveQuantity= `update album set quantiteMax = quantiteMax - `+listeAlbumQuantity[i]+` where id_album = `+albums[i]+`;`;
                                         connection.query(queryRemoveQuantity, function (err, result4, fields) {
                                             if (err){
                                                 throw err;
@@ -738,7 +738,7 @@ exports.modifyQuantityAlbum = async  (req,res) => {
 
     var album = req.query.id_album;
     var new_quantity = req.query.quantite;
-    var queryModifyQuantity = `update album set quantite = `+new_quantity+` where id_album = `+album+`;`;
+    var queryModifyQuantity = `update album set quantiteMax = `+new_quantity+` where id_album = `+album+`;`;
 
     connection.query(queryModifyQuantity, function (err, result, fields) {
         if (err){
