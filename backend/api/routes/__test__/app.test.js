@@ -1,6 +1,7 @@
 const app = require('../../../server');
 const request = require('supertest');
 const connection = require('../../../config/db')
+const nock = ('nock');
 
 
 describe('/albums', function() {
