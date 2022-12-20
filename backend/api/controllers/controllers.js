@@ -365,14 +365,14 @@ exports.addFavorite = async  (req,res) => {
                                 res.json(false);
                             }
                             else{ 
-                                var queryGetFavoriteId = `Select id_favoris from vinyle.favoris where id_utilisateur = `+result_2[0].id_utilisateur+` and id_album = `+id_album+`;`;
+                                var queryGetFavoriteId = `Select * from vinyle.favoris where id_utilisateur = `+result_2[0].id_utilisateur+` and id_album = `+id_album+`;`;
                                 connection.query(queryGetFavoriteId, function (err, result_5, fields) {
                                     if (err){
                                         throw err;
                                         res.json(false);
                                     }
                                     else{ 
-                                        res.status(200).json({id_fav : result_5[0].id_favoris, id_user : result_2[0].id_utilisateur });
+                                        res.status(200).json(result_5[0]);
                                     }
                                 });
                             }
@@ -395,7 +395,10 @@ exports.addCart = async  (req,res) => {
     var id_album = req.query.album;
     var quantite = req.query.quantite;
     var quantiteBool = req.query.boolVar;
-
+    // console.log(" nom_utilisateur ", nom_utilisateur)
+    // console.log(" id_album ", id_album)
+    // console.log(" quantite ", quantite)
+    // console.log(" quantiteBool ", quantiteBool)
 
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
 
@@ -437,7 +440,7 @@ exports.addCart = async  (req,res) => {
                         });
                     }
                     else{
-                        if(quantiteBool == true)
+                        if(quantiteBool == "true")
                         {
                             var queryAddOneQuantity = `update panier set quantite = quantite + 1 where id_utilisateur = `+result_2[0].id_utilisateur+` and id_album = `+id_album+`;`;
                             connection.query(queryAddOneQuantity, function (err, result_6, fields) {
@@ -446,6 +449,7 @@ exports.addCart = async  (req,res) => {
                                     res.json(false);
                                 }
                                 else{ 
+                                    // console.log(" entrer dans true to add ")
                                     res.status(200).json(true);
                                 }
                             });  
@@ -488,6 +492,16 @@ exports.addPurchase = async  (req,res) => {
     var prix = req.query.prix;
     var albums = req.query.listAlbums;
     var listeAlbumQuantity = req.query.listeAlbumQuantity;
+    albums = albums.split(',')
+    listeAlbumQuantity = listeAlbumQuantity.split(',')
+    // albums = new Array(albums)
+    // listeAlbumQuantity = new Array(listeAlbumQuantity)
+
+    // console.log("nom_utilisateur ", nom_utilisateur)
+    // console.log("date_achat ", date_achat)
+    // console.log("prix ", prix)
+    // console.log("albums ", new Array(albums))
+    // console.log("listeAlbumQuantity ", new Array(listeAlbumQuantity))
 
 
     var queryGetIdByUsername = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`;
@@ -510,6 +524,8 @@ exports.addPurchase = async  (req,res) => {
                             throw err;
                         }else{
                             for(let i = 0; i<albums.length; i++){
+                                console.log(" albums ", albums[i])
+
                                 var queryAddPurchaseAlbum = `insert into suivi_commandes_album (id_suivi, id_album, quantite) values (`+result2[0].id_suivi+`, `+albums[i]+`, `+listeAlbumQuantity[i]+`);`;
                                 connection.query(queryAddPurchaseAlbum, function (err, result3, fields) {
                                     if (err){
