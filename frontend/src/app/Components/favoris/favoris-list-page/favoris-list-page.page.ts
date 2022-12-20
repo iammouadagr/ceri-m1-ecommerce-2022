@@ -30,17 +30,17 @@ export class FavorisListPagePage implements OnInit {
 
   ngOnInit() {
     this.storeUser.select('user').subscribe((data: User) =>  this.username = data.nom_utilisateur)
-    if(this.username!=""){
-      this.favorisService.getListFavoris(this.username)
-      .subscribe(
-        (data:any) => {
-          this.storeFav.dispatch(new AddAllFavorisAction(data)); // on ajoute les données 
-          console.log("data -- ", data)
-        },
-        (error:any)=>{
-          console.log(" erreur get list album : ", error)
-        })
-      }
+    // if(this.username!=""){
+    //   this.favorisService.getListFavoris(this.username)
+    //   .subscribe(
+    //     (data:any) => {
+    //       this.storeFav.dispatch(new AddAllFavorisAction(data)); // on ajoute les données 
+    //       console.log("data -- ", data)
+    //     },
+    //     (error:any)=>{
+    //       console.log(" erreur get list album : ", error)
+    //     })
+    //   }
     
   }
 

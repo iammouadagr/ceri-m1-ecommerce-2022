@@ -43,6 +43,26 @@ const routes: Routes = [
     path: 'achat',
     loadChildren: () => import('./Components/achat/achat.module').then( m => m.AchatPageModule)
   },
+  {
+    path: 'accueil',
+    loadChildren: () => import('./Components/backoffice/accueil/accueil.module').then( m => m.AccueilPageModule)
+  },
+  {
+    path: 'stock',
+    loadChildren: () => import('./Components/backoffice/stock/stock.module').then( m => m.StockPageModule)
+  },
+  {
+    path: 'albums',
+    loadChildren: () => import('./Components/backoffice/albums/albums.module').then( m => m.AlbumsPageModule)
+  },
+  {
+    path: 'commandes',
+    loadChildren: () => import('./Components/backoffice/commandes/commandes.module').then( m => m.CommandesPageModule)
+  },
+  {
+    path: 'album-detail-stock',
+    loadChildren: () => import('./Components/backoffice/album-detail-stock/album-detail-stock.module').then( m => m.AlbumDetailStockPageModule)
+  },
   
 ];
 

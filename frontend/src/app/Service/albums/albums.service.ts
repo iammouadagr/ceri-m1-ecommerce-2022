@@ -18,7 +18,7 @@ export class AlbumsService {
    
     var listAlbum={}
     return Observable.create((observer: Subscriber<object>) => { 
-      this._http.get<any>('http://127.0.0.1:8080/api/v1/albums',{})
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/albums',{})
       .subscribe(
         data => {
             //console.log(" data -- ", data)

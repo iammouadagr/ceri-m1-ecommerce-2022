@@ -6,7 +6,16 @@ const initialState: Array<Favoris> =[
   {
     id_favoris : -1,
     id_utilisateur:-1,
-    id_album : -1
+    id_album : -1, 
+    titre_album : "",
+    artiste :-1,
+    lien_image : "" ,
+    annee :-1,
+    prix : -1,
+    genre_musical : "",
+    quantite_max: -1, 
+    nom : "",
+
   }]
 ;
 export function FavorisReducer(
@@ -19,10 +28,12 @@ export function FavorisReducer(
     case  FavorisActionType.ADD_FAVORIS:
       return  [...state, action.payload];
     case  FavorisActionType.DELETE_FAVORIS:
-        let newState = [...state]; 
-        newState = newState.splice(newState.indexOf(action.payload), 1);
-        console.log(" delete fav = ", newState);
-        return newState;
+      let newState = [...state]; 
+      console.log(" position :: ",state.indexOf(action.payload) )
+       newState.splice(newState.indexOf(action.payload), 1);
+      console.log(" delete paneir article = ", newState);
+      return newState;
+        
     default:
       return state;
   }

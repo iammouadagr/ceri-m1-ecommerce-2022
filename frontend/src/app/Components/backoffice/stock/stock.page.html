@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Stock</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div>
+    <ion-list lines="full">
+      <ion-item>
+        <ion-grid style="padding-left:15%">
+          <ion-row>
+            <ion-col size="4">
+                Album
+            </ion-col>
+            <ion-col size="4">
+                Prix
+            </ion-col>
+            <ion-col size="3">
+                Quantité
+            </ion-col>
+            <ion-col size="1">
+
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item *ngFor="let songs of albumItems$ | async ;  let i= index;    " [fixed]="true" size="auto"  >
+        <ion-grid style="padding-left:15%">
+          <ion-row>
+            <ion-col size="4">
+                {{songs.titre_album}}
+            </ion-col>
+            <ion-col size="4">
+              {{songs.prix}}
+            </ion-col>
+            <ion-col size="3" style="padding-left: 2%;">
+              {{songs.quantite}}
+            </ion-col>
+            <ion-col size="1">
+              <ion-button class="modify" fill="clear" (click)="seeDetails(songs, i)">
+                <ion-icon name="pencil-outline" style="color:gray"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+  </div>
+  <!-- <div *ngIf="albumID!=-1">
+    {{ albumID }}
+    <br/
+    <app-album-detail-stock [idAlbum]="albumID" ></app-album-detail-stock>
+ </div> -->
+
+          
+
+
+</ion-content>
