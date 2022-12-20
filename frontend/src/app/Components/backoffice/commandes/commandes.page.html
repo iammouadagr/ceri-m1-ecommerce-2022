@@ -1,9 +1,249 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Commandes</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content>
+
+  <ion-grid>
+    <ion-row style="padding-left: 15%; padding-top: 2%;">
+      <ion-col size="4"> 
+        <ion-button color="warning" fill="clear" (click)="changeFiltre('t') " *ngIf="filtre!='t'" >
+          En attente de traitement 
+        </ion-button>
+        <ion-button color="outline" fill="clear" (click)="changeFiltre('t')" *ngIf="filtre=='t'">
+          En attente de traitement 
+        </ion-button>
+      </ion-col>
+      <ion-col size="2"> 
+        <ion-button color="warning" fill="clear" (click)="changeFiltre('v')" *ngIf="filtre!='v'">
+          Validée
+        </ion-button>
+        <ion-button color="outline" fill="clear" (click)="changeFiltre('v')" *ngIf="filtre=='v'">
+          Validée
+        </ion-button>
+      </ion-col>
+      <ion-col size="3"> 
+        <ion-button color="warning" fill="clear" (click)="changeFiltre('e')" *ngIf="filtre!='e'">
+          Expédiée
+        </ion-button>
+        <ion-button color="outline" fill="clear" (click)="changeFiltre('e')" *ngIf="filtre=='e'">
+          Expédiée
+        </ion-button>
+      </ion-col>
+      <ion-col size="3"> 
+        <ion-button color="warning" fill="clear" (click)="changeFiltre('l')" *ngIf="filtre!='l'">
+          Livrée
+        </ion-button>
+        <ion-button color="outline" fill="clear" (click)="changeFiltre('l')" *ngIf="filtre=='l'">
+          Livrée
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-item-divider> <br/> </ion-item-divider>
+    </ion-row>
+  </ion-grid>
+ 
+  <br/>
+  <div>
+    <ion-list lines="full">
+      <ion-item  >
+        <ion-grid style="padding-left:15%">
+          <ion-row>
+            <ion-col size="2">
+             ID SUIVI
+            </ion-col>
+            <ion-col size="2">
+             ID UTILISATEUR 
+            </ion-col>
+            <ion-col size="2">
+             TOTAL
+            </ion-col>
+            <ion-col size="2">
+              DATE ACHAT
+          </ion-col>
+            <ion-col size="4">
+              STATUS
+            </ion-col>  
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    
+  </ion-list>
+  </div>
+
+  <!--  traitement -->
+  <div *ngIf="filtre=='t'">
+      <ion-list lines="full">
+          <ion-item *ngFor="let att of commandeEnAttente;  let i= index;    " [fixed]="true" size="auto"  >
+            <ion-grid style="padding-left:15%">
+              <ion-row>
+                <ion-col size="2">
+                  {{ att.id_suivi}}
+                </ion-col>
+                <ion-col size="2">
+                    {{ att.id_utilisateur }}
+                </ion-col>
+                <ion-col size="2">
+                    {{ att.prix }} &euro;
+                </ion-col>
+                <ion-col size="2">
+                  {{ att.date_achat | date: 'shortDate'  }} 
+              </ion-col>
+                <ion-col size="4">
+                  <ion-list>
+                    <ion-item>
+                      <ion-select  color="warning" interface="popover" placeholder="attente de traitement" (ionChange)="changeStatut($event, att, i, 't')">
+                        <!-- <ion-select-option *ngFor="let choix of choices" [value]="choix"></ion-option> -->
+
+                        <!-- <ion-select-option value="attente de traitement" >attente de traitement</ion-select-option> -->
+                        <!-- <ion-select-option value="attente de traitement" *ngIf="att.status == 'attente de traitement' " [selected]="true">attente de traitement</ion-select-option> -->
+                        <ion-select-option value="validée">validée</ion-select-option>
+                        <!-- <ion-select-option value="validée" *ngIf="att.status == 'validée' " [selected]="true">validée</ion-select-option> -->
+                        <ion-select-option value="expédiée">expédiée</ion-select-option>
+                        <!-- <ion-select-option value="expédiée" *ngIf="att.status == 'expédiée' " [selected]="true">expédiée</ion-select-option> -->
+                        <ion-select-option value="livrée">livrée</ion-select-option>
+                        <!-- <ion-select-option value="livrée" *ngIf="att.status == 'livrée' " [selected]="true">livrée</ion-select-option> -->
+                      </ion-select>
+                    </ion-item>
+                  </ion-list>
+                </ion-col>  
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+        
+      </ion-list>
+  </div>
+
+  <!--  validation  -->
+  <div *ngIf="filtre=='v'">
+    <ion-list lines="full">
+      <ion-item *ngFor="let att of commandeValider;  let i= index;    " [fixed]="true" size="auto"  >
+        <ion-grid style="padding-left:15%">
+          <ion-row>
+            <ion-col size="2">
+              {{ att.id_suivi}}
+            </ion-col>
+            <ion-col size="2">
+                {{ att.id_utilisateur }}
+            </ion-col>
+            <ion-col size="2">
+                {{ att.prix }} &euro;
+            </ion-col>
+            <ion-col size="2">
+              {{ att.date_achat | date: 'shortDate'  }} 
+          </ion-col>
+            <ion-col size="4">
+              <ion-list>
+                <ion-item>
+                  <ion-select  color="warning" interface="popover" placeholder="validée" (ionChange)="changeStatut($event, att, i, 'v')">
+                    <!-- <ion-select-option *ngFor="let choix of choices" [value]="choix"></ion-option> -->
+                      <ion-select-option value="attente de traitement" >attente de traitement</ion-select-option>
+
+                    <!-- <ion-select-option value="attente de traitement" >attente de traitement</ion-select-option> -->
+                    <!-- <ion-select-option value="attente de traitement" *ngIf="att.status == 'attente de traitement' " [selected]="true">attente de traitement</ion-select-option> -->
+                    <!-- <ion-select-option value="validée">validée</ion-select-option> -->
+                    <!-- <ion-select-option value="validée" *ngIf="att.status == 'validée' " [selected]="true">validée</ion-select-option> -->
+                    <ion-select-option value="expédiée">expédiée</ion-select-option>
+                    <!-- <ion-select-option value="expédiée" *ngIf="att.status == 'expédiée' " [selected]="true">expédiée</ion-select-option> -->
+                    <ion-select-option value="livrée">livrée</ion-select-option>
+                    <!-- <ion-select-option value="livrée" *ngIf="att.status == 'livrée' " [selected]="true">livrée</ion-select-option> -->
+                  </ion-select>
+                </ion-item>
+              </ion-list>
+            </ion-col>  
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    
+  </ion-list>
+  </div>
+
+  <!-- expedition  -->
+  <div *ngIf="filtre=='e'">
+    <ion-list lines="full">
+      <ion-item *ngFor="let att of commandeExpedier;  let i= index;    " [fixed]="true" size="auto"  >
+        <ion-grid style="padding-left:15%">
+          <ion-row>
+            <ion-col size="2">
+              {{ att.id_suivi}}
+            </ion-col>
+            <ion-col size="2">
+                {{ att.id_utilisateur }}
+            </ion-col>
+            <ion-col size="2">
+                {{ att.prix }} &euro;
+            </ion-col>
+            <ion-col size="2">
+              {{ att.date_achat | date: 'shortDate'  }} 
+          </ion-col>
+            <ion-col size="4">
+              <ion-list>
+                <ion-item>
+                  <ion-select  color="warning" interface="popover" placeholder="expédiée" (ionChange)="changeStatut($event, att, i, 'e')">
+                    <!-- <ion-select-option *ngFor="let choix of choices" [value]="choix"></ion-option> -->
+
+                    <ion-select-option value="attente de traitement" >attente de traitement</ion-select-option>
+                    <!-- <ion-select-option value="attente de traitement" *ngIf="att.status == 'attente de traitement' " [selected]="true">attente de traitement</ion-select-option> -->
+                    <ion-select-option value="validée">validée</ion-select-option>
+                    <!-- <ion-select-option value="validée" *ngIf="att.status == 'validée' " [selected]="true">validée</ion-select-option> -->
+                    <!-- <ion-select-option value="expédiée">expédiée</ion-select-option> -->
+                    <!-- <ion-select-option value="expédiée" *ngIf="att.status == 'expédiée' " [selected]="true">expédiée</ion-select-option> -->
+                    <ion-select-option value="livrée">livrée</ion-select-option>
+                    <!-- <ion-select-option value="livrée" *ngIf="att.status == 'livrée' " [selected]="true">livrée</ion-select-option> -->
+                  </ion-select>
+                </ion-item>
+              </ion-list>
+            </ion-col>  
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    
+  </ion-list>
+   
+  </div>
+
+  <!--  livrée  -->
+  <div *ngIf="filtre=='l'">
+    <ion-list lines="full">
+      <ion-item *ngFor="let att of commandeLivrer;  let i= index;    " [fixed]="true" size="auto"  >
+        <ion-grid style="padding-left:15%">
+          <ion-row>
+            <ion-col size="2">
+              {{ att.id_suivi}}
+            </ion-col>
+            <ion-col size="2">
+                {{ att.id_utilisateur }}
+            </ion-col>
+            <ion-col size="2">
+                {{ att.prix }} &euro;
+            </ion-col>
+            <ion-col size="2">
+              {{ att.date_achat | date: 'shortDate'  }} 
+          </ion-col>
+            <ion-col size="4">
+              <ion-list>
+                <ion-item>
+                  <ion-select  color="warning" interface="popover" placeholder="livrée" (ionChange)="changeStatut($event, att, i, 'l')">
+                    <!-- <ion-select-option *ngFor="let choix of choices" [value]="choix"></ion-option> -->
+
+                    <ion-select-option value="attente de traitement" >attente de traitement</ion-select-option>
+                    <!-- <ion-select-option value="attente de traitement" *ngIf="att.status == 'attente de traitement' " [selected]="true">attente de traitement</ion-select-option> -->
+                    <ion-select-option value="validée">validée</ion-select-option>
+                    <!-- <ion-select-option value="validée" *ngIf="att.status == 'validée' " [selected]="true">validée</ion-select-option> -->
+                    <ion-select-option value="expédiée">expédiée</ion-select-option>
+                    <!-- <ion-select-option value="expédiée" *ngIf="att.status == 'expédiée' " [selected]="true">expédiée</ion-select-option> -->
+                    <!-- <ion-select-option value="livrée">livrée</ion-select-option> -->
+                    <!-- <ion-select-option value="livrée" *ngIf="att.status == 'livrée' " [selected]="true">livrée</ion-select-option> -->
+                  </ion-select>
+                </ion-item>
+              </ion-list>
+            </ion-col>  
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    
+  </ion-list>
+   
+  </div>
+
+
 
 </ion-content>

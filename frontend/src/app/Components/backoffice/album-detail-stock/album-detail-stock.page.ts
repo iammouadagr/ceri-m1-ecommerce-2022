@@ -79,7 +79,7 @@ export class AlbumDetailStockPage implements OnInit {
 
   ngOnInit() {
     // console.log(" --  here --- ", this.id_album)
-    alert(this.id_album);
+    // alert(this.id_album);
     this.store.select('album').subscribe((data: Array<Albums>) =>{
       for (let i=0; i<data.length; i++){
         if(data[i].id_album == this.id_album){
