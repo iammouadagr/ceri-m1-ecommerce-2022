@@ -1,5 +1,6 @@
 const connection = require('../../config/db')
 const sha1 = require('sha1');
+const bodyParser= require('body-parser'); 
 
 exports.getAlbums = async  (req,res) => {
     connection.query(" SELECT * FROM vinyle.album as A inner join vinyle.artiste as B on A.id_artiste = B.id_artiste;", function (err, result, fields) {
