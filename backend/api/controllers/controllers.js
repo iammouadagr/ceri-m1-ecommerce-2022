@@ -110,7 +110,7 @@ exports.getUserInformation = async  (req,res) => {
 exports.removeAlbum = async  (req,res) => {
 
     var album = req.body.id_album;
-    var queryRemoveAlbumById = `delete from vinyle.album where id_album = `+album+`;`;
+    var queryRemoveAlbumById = `SET FOREIGN_KEY_CHECKS=0; delete from vinyle.album where id_album = `+album+`;  SET FOREIGN_KEY_CHECKS=1;`;
 
     connection.query(queryRemoveAlbumById, function (err, result, fields) {
         if (err){
