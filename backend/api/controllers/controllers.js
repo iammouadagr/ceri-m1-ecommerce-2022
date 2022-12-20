@@ -372,7 +372,7 @@ exports.addFavorite = async  (req,res) => {
                                         res.json(false);
                                     }
                                     else{ 
-                                        res.status(200).json(result_5[0].id_favoris,result_2[0].id_utilisateur );
+                                        res.status(200).json({id_fav : result_5[0].id_favoris, id_user : result_2[0].id_utilisateur });
                                     }
                                 });
                             }
@@ -451,7 +451,7 @@ exports.addCart = async  (req,res) => {
                             });  
                         }
                         else{
-                            var queryAddOneQuantity = `update panier set quantite = `+quantite+` where nom_utilisateur = `+result_2[0].id_utilisateur+` and id_album = `+id_album+`;`;
+                            var queryAddOneQuantity = `update panier set quantite = `+quantite+` where id_utilisateur = `+result_2[0].id_utilisateur+` and id_album = `+id_album+`;`;
                             connection.query(queryAddOneQuantity, function (err, result_6, fields) {
                                 if (err){
                                     throw err;
