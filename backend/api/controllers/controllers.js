@@ -437,7 +437,7 @@ exports.addCart = async  (req,res) => {
                         });
                     }
                     else{
-                        if(quantiteBool == "true")
+                        if(quantiteBool == true)
                         {
                             var queryAddOneQuantity = `update panier set quantite = quantite + 1 where id_utilisateur = `+result_2[0].id_utilisateur+` and id_album = `+id_album+`;`;
                             connection.query(queryAddOneQuantity, function (err, result_6, fields) {
@@ -446,7 +446,6 @@ exports.addCart = async  (req,res) => {
                                     res.json(false);
                                 }
                                 else{ 
-                                    // console.log(" entrer dans true to add ")
                                     res.status(200).json(true);
                                 }
                             });  
