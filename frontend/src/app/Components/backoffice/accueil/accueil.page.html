@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Back Office</ion-title>
+    <ion-buttons slot="primary" >
+      <ion-button [routerLink]="['/home']">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+ 
+
+  <ion-tabs>
+
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button tab="stock">
+          <ion-icon name="options-outline"></ion-icon>
+          <ion-label>GESTION DES STOCKS</ion-label>
+           <!-- <ion-badge>6</ion-badge>  -->
+        </ion-tab-button>
+  
+        <ion-tab-button tab="albums">
+          <ion-icon name="barcode-outline"></ion-icon>
+          <ion-label>ALBUMS</ion-label>
+        </ion-tab-button>
+    
+        <ion-tab-button tab="commandes">
+          <ion-icon name="options-outline"></ion-icon>
+          <ion-label>GESTION DES COMMANDES</ion-label>
+        </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs> 
+  
+  
+</ion-content>

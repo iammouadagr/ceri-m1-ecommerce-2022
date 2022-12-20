@@ -21,10 +21,21 @@ import { ChansonReducer } from './store/reducers/chansons.reducer';
 import { UserReducer } from './store/reducers/utilisateur.reducer';
 import { FavorisReducer } from './store/reducers/favoris.reducer';
 import { PanierReducer } from './store/reducers/paniers.reducer';
-
+import { AlbumDetailStockPage } from './Components/backoffice/album-detail-stock/album-detail-stock.page';
+import { StockPage } from './Components/backoffice/stock/stock.page';
+import { AccueilPage } from './Components/backoffice/accueil/accueil.page';
+import { CommandesPage } from './Components/backoffice/commandes/commandes.page';
+import { AlbumsPage } from './Components/backoffice/albums/albums.page';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent, 
+    AlbumDetailStockPage, 
+    StockPage,
+    AccueilPage,
+    CommandesPage,
+    AlbumsPage
+  ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, 
     FormsModule,
     HttpClientModule,

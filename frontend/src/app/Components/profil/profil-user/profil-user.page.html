@@ -9,13 +9,8 @@
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="primary" >
-      <ion-button >
+      <ion-button [routerLink]="['/categorie']" >
       Produits
-      </ion-button>
-    </ion-buttons>
-    <ion-buttons slot="primary" >
-      <ion-button >
-      Catégories
       </ion-button>
     </ion-buttons>
 
@@ -30,6 +25,14 @@
         <ion-icon slot="end" name="basket"></ion-icon>
       </ion-button>
     </ion-buttons>
+
+
+    <ion-buttons slot="primary" *ngIf="status=='admin'" >
+      <ion-button [routerLink]="['/accueil/stock']">
+        Back-office
+      </ion-button>
+    </ion-buttons>
+
 
 
 
@@ -109,10 +112,40 @@
                   <ion-card-header>
                     <ion-card-title>Mes favoris</ion-card-title>
                   </ion-card-header>
-                
                   <ion-card-content>
-                  Vide
-                 
+              
+                  <ion-grid >
+                    <ion-row >
+                    <ion-col *ngFor="let songs of favorisItems$ | async ;  let i= index;    " size="auto"  >
+                        {{ songs.nom}}
+                        <div *ngIf="i<10">
+                           <div>
+                            <img  [src]="songs.lien_image" class="poster" (click)="seeDetails(songs)"/>
+                          </div>
+              
+                          <ion-grid >
+                            <ion-row >
+                              <ion-col  size="10" style="height:5px; font-weight:bold; font-size:110%" >
+                              <p class="ion-align-items-end"> {{songs.titre_album}}<p>
+                              </ion-col>
+                              
+              
+                            </ion-row>
+                            <ion-row>
+                              <ion-col size="auto">
+                                {{songs.nom}}
+                              </ion-col>
+                            </ion-row>
+                          </ion-grid>
+                        </div>
+                    </ion-col>
+                    </ion-row>
+                  
+                  </ion-grid>
+                   <br/>
+                  <ion-button (click)="goFavoris()">
+                    Voir tout mes favoris 
+                  </ion-button>
                   </ion-card-content>
                 </ion-card>
               </ion-col>

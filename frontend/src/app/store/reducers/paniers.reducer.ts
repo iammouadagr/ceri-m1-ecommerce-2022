@@ -9,7 +9,10 @@ const initialState: Array<Panier> = [
     id_utilisateur : -1,
     lien_image : "init", 
     prix : -1,
-    titre_album : "init"
+    titre_album : "init",
+    quantite : -1,
+    quantite_max : -1
+
   },
 ];
 export function PanierReducer(
@@ -17,13 +20,23 @@ export function PanierReducer(
   action: PanierAction
 ) {
   switch (action.type) {
+    case PanierActionType.ADD_ALL_SPEC_POS:
+      
+      var newObj = [... state]
+      newObj.splice(action.position, 0, action.payload);
+      console.log(" --- ajouter panier posi ", state)
+      return newObj;
     case PanierActionType.ADD_PANIER:
       return [...state, action.payload];
     case  PanierActionType.ADD_ALL_PANIER:
       return  action.payload;
+    case PanierActionType.DELETE_ALL_PANIER:
+        return []
     case  PanierActionType.DELETE_PANIER:
+    
         let newState = [...state]; 
-        newState = newState.splice(newState.indexOf(action.payload), 1);
+        console.log(" position :: ",state.indexOf(action.payload) )
+         newState.splice(newState.indexOf(action.payload), 1);
         console.log(" delete paneir article = ", newState);
         return newState;
     default:
