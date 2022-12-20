@@ -15,15 +15,15 @@ exports.getAlbums = async  (req,res) => {
 
 exports.addAlbum = async  (req,res) => {
 
-    var artiste = req.query.artiste;
+    var artiste = req.body.artiste;
     var queryVerifArtist = `select * from vinyle.artiste where nom like '`+artiste+`';`
-    var lien_image = req.query.lien_image;
-    var titre_album = req.query.titre_album;
-    var annee = req.query.annee;
-    var quantite = req.query.quantite;
-    var genre_musical = req.query.genre_musical;
-    var description = req.query.description;
-    var prix = req.query.prix;
+    var lien_image = req.body.lien_image;
+    var titre_album = req.body.titre_album;
+    var annee = req.body.annee;
+    var quantite = req.body.quantite;
+    var genre_musical = req.body.genre_musical;
+    var description = req.body.description;
+    var prix = req.body.prix;
 
     
     connection.query(queryVerifArtist, function (err, result, fields) {
@@ -94,7 +94,7 @@ exports.addAlbum = async  (req,res) => {
 
 exports.getUserInformation = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
+    var nom_utilisateur = req.body.nom_utilisateur;
     var query = `select * from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
     connection.query(query, function (err, result, fields) {
         if (err){
@@ -108,7 +108,7 @@ exports.getUserInformation = async  (req,res) => {
 
 exports.removeAlbum = async  (req,res) => {
 
-    var album = req.query.id_album;
+    var album = req.body.id_album;
     var queryRemoveAlbumById = `delete from vinyle.album where id_album = `+album+`;`;
 
     connection.query(queryRemoveAlbumById, function (err, result, fields) {
@@ -186,7 +186,7 @@ exports.getOrderDelivered = async  (req,res) => {
 
 exports.getOrderByUser = async  (req,res) => {
 
-    var id_utilisateur = req.query.id_utilisateur;
+    var id_utilisateur = req.body.id_utilisateur;
     var queryGetOrderByUser = `select * from vinyle.suivi_commandes where id_utilisateur = `+id_utilisateur+`;`;
 
     connection.query(queryGetOrderByUser, function (err, result, fields) {
@@ -203,8 +203,8 @@ exports.getOrderByUser = async  (req,res) => {
 exports.modifyStatus = async  (req,res) => {
 
 
-    var id_suivi = req.query.id_suivi;
-    var statut = req.query.statut;
+    var id_suivi = req.body.id_suivi;
+    var statut = req.body.statut;
 
 
     var queryModifyStatus = `update suivi_commandes set statut = '`+statut+`' where id_suivi = `+id_suivi+`;`;
@@ -222,7 +222,7 @@ exports.modifyStatus = async  (req,res) => {
 
 exports.getMusicByAlbum = async  (req,res) => {
 
-    var id_album = req.query.album;
+    var id_album = req.body.album;
     var queryMusicByIdAlbum = `select * from vinyle.chanson where id_album = `+id_album+`;`;
     connection.query(queryMusicByIdAlbum, function (err, result_1, fields) {
         if (err){
@@ -238,15 +238,15 @@ exports.getMusicByAlbum = async  (req,res) => {
 
 exports.registerUser = async  (req,res) => {
 
-    prenom = req.query.prenom;
-    nom = req.query.nom;
-    adresse_mail = req.query.adresse_mail;
-    nom_utilisateur = req.query.nom_utilisateur;
-    lieu_naissance = req.query.lieu_naissance;
-    date_naissance = req.query.date_naissance;
-    mot_de_passe = sha1(req.query.mot_de_passe);
-    sexe = req.query.sexe;
-    statut = req.query.statut;
+    prenom = req.body.prenom;
+    nom = req.body.nom;
+    adresse_mail = req.body.adresse_mail;
+    nom_utilisateur = req.body.nom_utilisateur;
+    lieu_naissance = req.body.lieu_naissance;
+    date_naissance = req.body.date_naissance;
+    mot_de_passe = sha1(req.body.mot_de_passe);
+    sexe = req.body.sexe;
+    statut = req.body.statut;
 
 
     var queryRegister = `INSERT INTO utilisateur(nom_utilisateur, adresse_mail, prenom, nom, lieu_naissance, date_naissance, mot_de_passe, sexe, statut) VALUES`+
@@ -279,8 +279,8 @@ exports.registerUser = async  (req,res) => {
 
 exports.userAuthentication = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
-    var mot_de_passe = sha1(req.query.mot_de_passe);
+    var nom_utilisateur = req.body.nom_utilisateur;
+    var mot_de_passe = sha1(req.body.mot_de_passe);
 
     var queryAuthentication = `select * from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`' and mot_de_passe like "`+mot_de_passe+`";`;
 
@@ -322,7 +322,7 @@ exports.getMusicalGenre = async  (req,res) => {
 
 exports.getAlbumsByGenre = async  (req,res) => {
 
-    var genre = req.query.genre;
+    var genre = req.body.genre;
     var queryAlbumByGenre = `select * from vinyle.album where genre_musical like '`+genre+`';`;
 
     connection.query(queryAlbumByGenre, function (err, result, fields) {
@@ -337,9 +337,8 @@ exports.getAlbumsByGenre = async  (req,res) => {
 
 exports.addFavorite = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
-    var id_album = req.query.album;
-    var quantite = req.query.quantity;
+    var nom_utilisateur = req.body.nom_utilisateur;
+    var id_album = req.body.album;
 
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
 
@@ -391,10 +390,10 @@ exports.addFavorite = async  (req,res) => {
 
 exports.addCart = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
-    var id_album = req.query.album;
-    var quantite = req.query.quantite;
-    var quantiteBool = req.query.boolVar;
+    var nom_utilisateur = req.body.nom_utilisateur;
+    var id_album = req.body.album;
+    var quantite = req.body.quantite;
+    var quantiteBool = req.body.boolVar;
 
 
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
@@ -483,11 +482,13 @@ exports.getArtistes = async  (req,res) => {
 
 exports.addPurchase = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
-    var date_achat = req.query.date;
-    var prix = req.query.prix;
-    var albums = req.query.listAlbums;
-    var listeAlbumQuantity = req.query.listeAlbumQuantity;
+    var nom_utilisateur = req.body.nom_utilisateur;
+    var date_achat = req.body.date;
+    var prix = req.body.prix;
+    var albums = req.body.listAlbums;
+    var listeAlbumQuantity = req.body.listeAlbumQuantity;
+
+    
 
 
     var queryGetIdByUsername = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`;
@@ -521,9 +522,24 @@ exports.addPurchase = async  (req,res) => {
                                             if (err){
                                                 throw err;
                                             }
+                                            else{
+
+                                            }
                                         });
                                     }
                                 });
+                                if(i==(albums.length-1))
+                                {
+                                    var queryRemoveCart= `delete from vinyle.panier where id_utilisateur = `+result[0].id_utilisateur+`;`;
+                                        connection.query(queryRemoveCart, function (err, result7, fields) {
+                                            if (err){
+                                                throw err;
+                                            }
+                                            else{
+
+                                            }
+                                        });
+                                }
                             }
                             res.json(result2[0].id_suivi);
                         }
@@ -536,7 +552,7 @@ exports.addPurchase = async  (req,res) => {
 
 exports.getAlbumsByPurchase = async  (req,res) => {
 
-    var id_suivi = req.query.id_suivi;
+    var id_suivi = req.body.id_suivi;
     var queryGetAlbumsByPurchase = `select id_album from vinyle.suivi_commandes_album where id_suivi = `+id_suivi+`;`;
     var listAlbums = new Array();
     var cpt = 0;
@@ -569,7 +585,7 @@ exports.getAlbumsByPurchase = async  (req,res) => {
 
 exports.getFavoritesByUser = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
+    var nom_utilisateur = "mohakh";
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
 
     
@@ -594,7 +610,7 @@ exports.getFavoritesByUser = async  (req,res) => {
 
 exports.getCartByUser = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
+    var nom_utilisateur = req.body.nom_utilisateur;
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
 
     
@@ -619,8 +635,8 @@ exports.getCartByUser = async  (req,res) => {
 
 exports.deleteFavorite = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
-    var album = req.query.album;
+    var nom_utilisateur = req.body.nom_utilisateur;
+    var album = req.body.album;
 
     var queryGetIdAlbum = `select id_album from vinyle.album where titre_album like '`+album+`';`
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
@@ -655,7 +671,7 @@ exports.deleteFavorite = async  (req,res) => {
 
 exports.getCartPrice = async  (req,res) => {
 
-    // var nom_utilisateur = req.query.nom_utilisateur;
+    // var nom_utilisateur = req.body.nom_utilisateur;
 
     var nom_utilisateur = "mohakh";
     var queryGetIdByUser = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`' ; `;
@@ -685,8 +701,8 @@ exports.getCartPrice = async  (req,res) => {
 
 exports.deleteAlbumFromCart = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
-    var album = req.query.album;
+    var nom_utilisateur = req.body.nom_utilisateur;
+    var album = req.body.album;
 
     var queryGetIdAlbum = `select id_album from vinyle.album where titre_album like '`+album+`';`
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
@@ -721,7 +737,7 @@ exports.deleteAlbumFromCart = async  (req,res) => {
 
 exports.getAlbumBySearch = async  (req,res) => {
 
-    var search = req.query.search;
+    var search = req.body.search;
     var queryAlbumBySearch = `select * from vinyle.album as A inner join vinyle.artiste as B on A.id_artiste = B.id_artiste where titre_album like '%`+search+`%' or nom like '%`+search+`%' or annee like '`+search+`';`;
 
     connection.query(queryAlbumBySearch, function (err, result, fields) {
@@ -736,8 +752,8 @@ exports.getAlbumBySearch = async  (req,res) => {
 
 exports.modifyQuantityAlbum = async  (req,res) => {
 
-    var album = req.query.id_album;
-    var new_quantity = req.query.quantite;
+    var album = req.body.id_album;
+    var new_quantity = req.body.quantite;
     var queryModifyQuantity = `update album set quantiteMax = `+new_quantity+` where id_album = `+album+`;`;
 
     connection.query(queryModifyQuantity, function (err, result, fields) {
@@ -753,8 +769,8 @@ exports.modifyQuantityAlbum = async  (req,res) => {
 
 exports.getAlbumByPrice = async  (req,res) => {
 
-    var prix_min = req.query.min;
-    var prix_max = req.query.max;
+    var prix_min = req.body.min;
+    var prix_max = req.body.max;
 
     var queryAlbumByPrice = `select * from vinyle.album as A inner join vinyle.artiste as B on A.id_artiste = B.id_artiste where prix between `+prix_min+` and `+prix_max+`;`;
 
