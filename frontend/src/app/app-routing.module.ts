@@ -63,6 +63,10 @@ const routes: Routes = [
     path: 'album-detail-stock',
     loadChildren: () => import('./Components/backoffice/album-detail-stock/album-detail-stock.module').then( m => m.AlbumDetailStockPageModule)
   },
+  {
+    path: 'modal-album',
+    loadChildren: () => import('./Components/backoffice/modal-album/modal-album.module').then( m => m.ModalAlbumPageModule)
+  },
   
 ];
 

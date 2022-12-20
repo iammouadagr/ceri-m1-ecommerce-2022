@@ -35,7 +35,7 @@ export class HomePage implements OnInit {
   favSelected; 
   compteur = 4;
   numberPanier=0;  // nb elements dans le panier 
-  valeurBestSeller = 6; // nb de best seller à afficher 
+  valeurBestSeller = 8; // nb de best seller à afficher 
   mouseOn=false; // si mouse on ou pas 
   indexItemMouseOnOff=-1;  // pour eviter que le mouse on agisse sur toutes les cases 
 
@@ -220,7 +220,7 @@ export class HomePage implements OnInit {
             let donnee = {
               id_album : data[i].id_album,
               titre_album : data[i].titre_album,
-              artiste :data[i].artiste,
+              artiste :data[i].nom,
               lien_image : data[i].lien_image ,
               annee :data[i].annee, 
               prix : data[i].prix,
@@ -377,6 +377,7 @@ export class HomePage implements OnInit {
               quantite_max: albu.quantite_max, 
               nom : albu.nom,
 
+              
             }
            this.storeFav.dispatch(new AddFavorisAction(fav)); // on ajoute l'album en favoris 
            console.log("data -- ", fav)

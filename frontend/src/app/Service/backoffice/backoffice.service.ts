@@ -11,8 +11,8 @@ export class BackofficeService {
   constructor(private _http : HttpClient) { }
 
   saveQuantityChanges(id_album : number, quantite : number){
-   console.log(" -- -- -  ", id_album)
-   console.log(" -- -- -  ", quantite)
+  //  console.log(" -- -- -  ", id_album)
+  //  console.log(" -- -- -  ", quantite)
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
       this._http.post<any>('http://127.0.0.1:8080/api/v1/modifierQuantiteAlbum',{
@@ -26,6 +26,164 @@ export class BackofficeService {
         },
         error=>{
           console.log(" erreur recuperation liste genre musical ", error)
+        },
+        ()=>{
+          observer.next(fav);
+        }
+      );
+    })
+  }
+
+  getCommandesEnAttentes(){
+    var fav = {}; 
+    return Observable.create((observer: Subscriber<Object>) => { 
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/commandesEnAttente',{
+        
+      })
+      .subscribe(
+        data => {
+            console.log(" data -- modif ", data)
+            fav=data;
+        },
+        error=>{
+          console.log(" erreur recuperation commandes en attentes", error)
+        },
+        ()=>{
+          observer.next(fav);
+        }
+      );
+    })
+  }
+
+  getCommandesValider(){
+    var fav = {}; 
+    return Observable.create((observer: Subscriber<Object>) => { 
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/commandesValidee',{
+        
+      })
+      .subscribe(
+        data => {
+            console.log(" data -- modif ", data)
+            fav=data;
+        },
+        error=>{
+          console.log(" erreur recuperation commandes valider ", error)
+        },
+        ()=>{
+          observer.next(fav);
+        }
+      );
+    })
+  }
+
+  getCommandesExpédier(){
+    var fav = {}; 
+    return Observable.create((observer: Subscriber<Object>) => { 
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/commandesExpediee',{
+        
+      })
+      .subscribe(
+        data => {
+            console.log(" data -- modif ", data)
+            fav=data;
+        },
+        error=>{
+          console.log(" erreur recuperation commandes expédiée  ", error)
+        },
+        ()=>{
+          observer.next(fav);
+        }
+      );
+    })
+  }
+
+  getCommandesLivrer(){
+    var fav = {}; 
+    return Observable.create((observer: Subscriber<Object>) => { 
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/commandesLivree',{
+        
+      })
+      .subscribe(
+        data => {
+            console.log(" data -- modif ", data)
+            fav=data;
+        },
+        error=>{
+          console.log(" erreur recuperation commandes livrée  ", error)
+        },
+        ()=>{
+          observer.next(fav);
+        }
+      );
+    })
+  }
+
+
+  modifierStatus(id_suivi : number, statut : string){
+    var fav = {}; 
+    return Observable.create((observer: Subscriber<Object>) => { 
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/modifierStatut',{
+        id_suivi : id_suivi, 
+        statut : statut
+      })
+      .subscribe(
+        data => {
+            console.log(" data -- modif status ", data)
+            fav=data;
+        },
+        error=>{
+          console.log(" erreur modif status   ", error)
+        },
+        ()=>{
+          observer.next(fav);
+        }
+      );
+    })
+  }
+
+  
+  removeAlbum(id_album : number){
+    var fav = {}; 
+    return Observable.create((observer: Subscriber<Object>) => { 
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/supprimerAlbum',{
+        id_album : id_album, 
+      })
+      .subscribe(
+        data => {
+            console.log(" data -- suppression album ", data)
+            fav=data;
+        },
+        error=>{
+          console.log(" erreur suppression album   ", error)
+        },
+        ()=>{
+          observer.next(fav);
+        }
+      );
+    })
+  }
+
+ 
+  ajouterAlbum(artiste : string, lien_image:string, titre_album:string , annee:number, quantite:number, genre_musical:string, description:string , prix:number){
+    var fav = {}; 
+    return Observable.create((observer: Subscriber<Object>) => { 
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/ajouterAlbum',{
+        artiste : artiste, 
+        description : description, 
+        lien_image : lien_image, 
+        titre_album : titre_album, 
+        annee : annee, 
+        quantite : quantite, 
+        genre_musical : genre_musical, 
+        prix : prix, 
+      })
+      .subscribe(
+        data => {
+            console.log(" data -- ajout album ", data)
+            fav=data;
+        },
+        error=>{
+          console.log(" erreur ajout album   ", error)
         },
         ()=>{
           observer.next(fav);

@@ -31,7 +31,7 @@ export function FavorisReducer(
       let newState = [...state]; 
       console.log(" position :: ",state.indexOf(action.payload) )
        newState.splice(newState.indexOf(action.payload), 1);
-      console.log(" delete paneir article = ", newState);
+      console.log(" delete fav article = ", newState);
       return newState;
         
     default:

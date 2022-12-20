@@ -23,7 +23,7 @@ export class UtilisateurService {
       })
       .subscribe(
         data => {
-            console.log(" data -- ", data)
+            // console.log(" data -- ", data)
             correct=data;
         },
         error=>{
@@ -43,7 +43,7 @@ export class UtilisateurService {
       this._http.post<any>('http://127.0.0.1:8080/api/v1/informationUtilisateur',{ nom_utilisateur: id})
       .subscribe(
         data => {
-            console.log(" data -- ", data)
+            // console.log(" data -- ", data)
             infos=data;
         },
         error=>{
@@ -85,7 +85,7 @@ export class UtilisateurService {
       })
       .subscribe(
         data => {
-            console.log(" data -- ", data)
+            // console.log(" data -- ", data)
             correct=data;
         },
         error=>{
@@ -93,6 +93,26 @@ export class UtilisateurService {
         },
         ()=>{
           observer.next(correct);
+        }
+      );
+    })
+  }
+
+
+  getCommandeEffectue(id_utilisateur : string){
+    var infos ={}; 
+    return Observable.create((observer: Subscriber<Object>) => { 
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/commandesUtilisateur',{ id_utilisateur: id_utilisateur})
+      .subscribe(
+        data => {
+            // console.log(" data -- ", data)
+            infos=data;
+        },
+        error=>{
+          console.log(" erreur recuperation infos user ", error)
+        },
+        ()=>{
+          observer.next(infos);
         }
       );
     })
