@@ -31,7 +31,8 @@ export class ModalAlbumPage implements OnInit {
     quantite:-1, 
     genre_musical:"",
     description:"",
-    prix:-1
+    prix:-1,
+    chansons: new Array()
   }
 
   ngOnInit() {
@@ -45,6 +46,7 @@ export class ModalAlbumPage implements OnInit {
   }
 
   confirm() {
+    this.newAlbum.chansons = this.musique;
     return this.modalCtrl.dismiss({album : this.album, new :  this.newAlbum}, 'confirm');
   }
 

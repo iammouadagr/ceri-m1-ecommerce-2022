@@ -38,7 +38,7 @@ export class AlbumsPage implements OnInit {
 
     if (role === 'confirm') {
       console.log(" data modal :: ---- ", data)
-      this.serviceBackOff.ajouterAlbum(data.new.artiste, data.new.lien_image,data.new.titre_album, data.new.annee, data.new.quantite, data.new.genre_musical, data.new.description, data.new.prix )
+      this.serviceBackOff.ajouterAlbum(data.new.artiste, data.new.lien_image,data.new.titre_album, data.new.annee, data.new.quantite, data.new.genre_musical, data.new.description, data.new.prix, data.new.chansons )
       .subscribe(
         (dataa:any) => {
           console.log("dataaaaa a aa a    ", dataa)
