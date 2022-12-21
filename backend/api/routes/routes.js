@@ -23,7 +23,7 @@ router.post('/albumsCommandes', controllers.getAlbumsByPurchase);
 router.post('/rechercheAlbum', controllers.getAlbumBySearch);
 router.post('/rechercheParPrix', controllers.getAlbumByPrice);
 router.post('/modifierQuantiteAlbum', controllers.modifyQuantityAlbum);
-router.get('/ajouterAlbum', controllers.addAlbum);
+router.post('/ajouterAlbum', controllers.addAlbum);
 router.post('/supprimerAlbum', controllers.removeAlbum);
 router.post('/commandesEnAttente', controllers.getOrderPending);
 router.post('/commandesValidee', controllers.getOrderValidated);
