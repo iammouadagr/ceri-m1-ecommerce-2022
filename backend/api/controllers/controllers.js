@@ -1,6 +1,6 @@
 const connection = require('../../config/db')
 const sha1 = require('sha1');
-const bodyParser= require('body-parser'); 
+
 
 exports.getAlbums = async  (req,res) => {
     connection.query(" SELECT * FROM vinyle.album as A inner join vinyle.artiste as B on A.id_artiste = B.id_artiste;", function (err, result, fields) {
@@ -25,6 +25,7 @@ exports.addAlbum = async  (req,res) => {
     var genre_musical = req.body.genre_musical;
     var description = req.body.description;
     var prix = req.body.prix;
+    var listeChansons = req.body.listeChansons;
 
     
     connection.query(queryVerifArtist, function (err, result, fields) {
@@ -47,7 +48,21 @@ exports.addAlbum = async  (req,res) => {
                                 throw err;
                             }
                             else{
-                                res.status(200).json(result6);
+
+                                for(let i=0; i<listeChansons.length; i++)
+                                {
+                                    var queryAddSongs = `INSERT INTO vinyle.chanson (titre_chanson, id_album, id_artiste, genre_musical) values ('`+listeChansons[i]+`', `+result6[0].id_album+`, `+result[0].id_artiste+`, '`+genre_musical+`')`;
+                                    connection.query(queryAddSongs, function (err, result8, fields) {
+                                        if (err){
+                                            throw err;
+                                        }
+                                    });
+                                    if(i==(listeChansons.length - 1))
+                                    {
+                                        res.status(200).json(result6);
+                                    }
+                                }
+           
                             }
                         });
                     }
@@ -79,7 +94,19 @@ exports.addAlbum = async  (req,res) => {
                                                 throw err;
                                             }
                                             else{
-                                                res.status(200).json(result4);
+                                                for(let i=0; i<listeChansons.length; i++)
+                                                {
+                                                    var queryAddSongs = `INSERT INTO vinyle.chanson (titre_chanson, id_album, id_artiste, genre_musical) values ('`+listeChansons[i]+`', `+result4[0].id_album+`, `+result2[0].id_artiste+`, '`+genre_musical+`')`;
+                                                    connection.query(queryAddSongs, function (err, result8, fields) {
+                                                        if (err){
+                                                            throw err;
+                                                        }
+                                                    });
+                                                    if(i==(listeChansons.length - 1))
+                                                    {
+                                                        res.status(200).json(result4);
+                                                    }
+                                                }
                                             }
                                         });
                                     }
@@ -111,14 +138,24 @@ exports.removeAlbum = async  (req,res) => {
 
     var album = req.body.id_album;
     var queryRemoveAlbumById = `delete from vinyle.album where id_album = `+album+`;`;
+    var queryRemoveSongByAlbum = `delete from vinyle.chanson where id_album = `+album+`;`;
 
-    connection.query(queryRemoveAlbumById, function (err, result, fields) {
+
+    connection.query(queryRemoveSongByAlbum, function (err, result, fields) {
         if (err){
             throw err;
             res.status(400).json(false);
         }
         else{  
-            res.status(200).json(true);
+            connection.query(queryRemoveAlbumById, function (err, result, fields) {
+                if (err){
+                    throw err;
+                    res.status(400).json(false);
+                }
+                else{  
+                    res.status(200).json(true);
+                }
+            });
         }
     });
 }
