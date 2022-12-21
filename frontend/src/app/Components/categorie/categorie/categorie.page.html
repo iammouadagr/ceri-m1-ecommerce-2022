@@ -3,13 +3,6 @@
 
     <ion-searchbar slot="primary" animated="true"   class="Recherche" style="width:40%"></ion-searchbar>
 
-
-    <ion-buttons slot="primary" >
-      <ion-button [routerLink]="['/categorie']" >
-      Produits
-      </ion-button>
-    </ion-buttons>
-
     <ion-buttons slot="primary" >
       <ion-button (click)="goFavoris()">
         <ion-icon slot="end" name="heart" style="color:#FF2E2E" ></ion-icon> Favoris
@@ -21,7 +14,7 @@
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="primary" >
-      <ion-button class="panier">
+      <ion-button class="panier" (click)="goPanier()">
         <ion-badge *ngIf="numberPanier>0" color="accent">{{numberPanier}}</ion-badge>
         <ion-icon slot="end" name="basket"></ion-icon>
       </ion-button>
@@ -66,19 +59,28 @@
                   </ion-item>
                   <div class="ion-padding" slot="content">
                     <ion-item *ngFor="let cat of categorieList; let i=index; "> 
-                      <ion-checkbox slot="start"></ion-checkbox>
+                      <ion-checkbox slot="start" (click)="checkCat(cat, i)"></ion-checkbox>
                       <ion-label>{{cat}}</ion-label>
                     </ion-item>
                   </div>
                 </ion-accordion>
-                <ion-accordion value="second">
+                <!-- <ion-accordion value="second">
                   <ion-item slot="header" color="light">
                     <ion-label>Prix</ion-label>
                   </ion-item>
                   <div class="ion-padding" slot="content">
-                    Second Content
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col>
+                          <ion-input color="warning" placeholder="Prix minimum" (change)="prixMin($event.target.value)"></ion-input>
+                        </ion-col>
+                        <ion-col>
+                          <ion-input color="warning" placeholder="Prix maximum" (change)="prixMax($event.target.value)"></ion-input>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
                   </div>
-                </ion-accordion>
+                </ion-accordion> -->
               
               </ion-accordion-group>
              
@@ -92,49 +94,97 @@
     <ion-col>
 
       
+       
+      <div *ngIf="albumByGenre.length==false">
         <ion-grid >
           <ion-row >
-          <ion-col *ngFor="let songs of albumItems$ | async ;  let i= index;    " [fixed]="true" size="3"  >
+            <ion-col *ngFor="let songs of albumItems$ | async ;  let i= index;" [fixed]="true" size="3"  >
 
-              
-                <div  style="padding:2%" align="center">
-                  <img  [src]="songs.lien_image" class="poster" (click)="seeDetails(songs)"/>
-                </div>
+              <div  style="padding:2%" align="center">
+                <img  [src]="songs.lien_image" class="poster" (click)="seeDetails(songs)"/>
+              </div>
 
-                <ion-grid >
-                  <ion-row >
-                    <ion-col  size="10" style="height:5px; font-weight:bold; font-size:110%" >
-                    <p class="ion-align-items-end"> {{songs.titre_album}}<p>
-                    </ion-col>
-                    <ion-col  size="2">
-                      <ion-icon  name="heart"  size="large" fill="outline" class="fav" ></ion-icon>
-                    </ion-col>
+              <ion-grid >
+                <ion-row >
+                  <ion-col  size="10" style="height:5px; font-weight:bold; font-size:110%" >
+                  <p class="ion-align-items-end"> {{songs.titre_album}}<p>
+                  </ion-col>
+                  <ion-col  size="2">
+                    <ion-icon  name="heart"  size="large" fill="outline" class="fav" (click)="addOrDeletefavoris(songs)" ></ion-icon>
+                  </ion-col>
 
-                  </ion-row>
-                  <ion-row>
-                    <ion-col size="auto">
-                      {{songs.nom}}
-                    </ion-col>
-                  </ion-row>
-                  <ion-row>
-                    <ion-col size="auto" >
-                      {{songs.prix}} &euro;
-                    </ion-col>
-                    <ion-col >
-                      <div align="right">
-                        <ion-button size="small" fill="outline" class="buy" (click)="ajouterAuPanier()">
-                          Acheter
-                        </ion-button>
-                      </div>
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
-              
-
-          </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="auto">
+                    {{songs.nom}}
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="auto" >
+                    {{songs.prix}} &euro;
+                  </ion-col>
+                  <ion-col >
+                    <div align="right">
+                      <ion-button size="small" fill="outline" class="buy" (click)="ajouterAuPanier()">
+                        Acheter
+                      </ion-button>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            
+            </ion-col>
 
           </ion-row>
         </ion-grid>
+      </div>
+  
+      <div  *ngIf="albumByGenre.length>0">
+        <ion-grid >
+          <ion-row >
+                <ion-col *ngFor="let songs of albumByGenre ;  let i= index;"   [fixed]="true" size="3"  >
+
+                  <div  style="padding:2%" align="center">
+                    <img  [src]="songs.lien_image" class="poster" (click)="seeDetails(songs)"/>
+                  </div>
+
+                  <ion-grid >
+                    <ion-row >
+                      <ion-col  size="10" style="height:5px; font-weight:bold; font-size:110%" >
+                      <p class="ion-align-items-end"> {{songs.titre_album}}<p>
+                      </ion-col>
+                      <ion-col  size="2">
+                        <ion-icon  name="heart"  size="large" fill="outline" class="fav" (click)="addOrDeletefavoris(songs)"></ion-icon>
+                      </ion-col>
+
+                    </ion-row>
+                    <ion-row>
+                      <ion-col size="auto">
+                        {{songs.nom}}
+                      </ion-col>
+                    </ion-row>
+                    <ion-row>
+                      <ion-col size="auto" >
+                        {{songs.prix}} &euro;
+                      </ion-col>
+                      <ion-col >
+                        <div align="right">
+                          <ion-button size="small" fill="outline" class="buy" (click)="ajouterAuPanier()">
+                            Acheter
+                          </ion-button>
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+
+                 </ion-col> 
+                </ion-row>
+              </ion-grid>
+              </div> 
+
+<!-- 
+          </ion-row>
+        </ion-grid> -->
     </ion-col>
     </ion-row>
     </ion-grid>

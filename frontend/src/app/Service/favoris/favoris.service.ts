@@ -11,15 +11,13 @@ export class FavorisService {
   constructor(private _http : HttpClient) { }
 
   getListFavoris(id : string){
-   
+   console.log(" id favoris")
     var fav = {}; 
-    let parametres = new HttpParams();
-    parametres = parametres.append('nom_utilisateur', id);
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.get<any>('http://127.0.0.1:8080/api/v1/favorisUtilisateur',{ params: parametres})
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/favorisUtilisateur',{ nom_utilisateur: id})
       .subscribe(
         data => {
-            console.log(" data -- ", data)
+            console.log(" data -- favoris get  ", data)
             fav=data;
         },
         error=>{
@@ -34,11 +32,12 @@ export class FavorisService {
 
   ajouterFavoris(id: string , id_album : number){
     var fav : number; 
-    let parametres = new HttpParams();
-    parametres = parametres.append('nom_utilisateur', id);
-    parametres = parametres.append('album', id_album);
     return Observable.create((observer: Subscriber<any>) => { 
-      this._http.get<any>('http://127.0.0.1:8080/api/v1/ajouterFavoris',{ params: parametres})
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/ajouterFavoris',{ 
+        nom_utilisateur: id,
+        album: id_album
+      
+      })
       .subscribe(
         data => {
             console.log(" data -- ", data)
@@ -58,11 +57,11 @@ export class FavorisService {
   supprimerFavoris(id : string, nomAl : string){
    
     var fav = false; 
-    let parametres = new HttpParams();
-    parametres = parametres.append('nom_utilisateur', id);
-    parametres = parametres.append('album', nomAl);
     return Observable.create((observer: Subscriber<Boolean>) => { 
-      this._http.get<any>('http://127.0.0.1:8080/api/v1/supprimerFavoris',{ params: parametres})
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/supprimerFavoris',{ 
+        nom_utilisateur: id,
+        album: nomAl
+      })
       .subscribe(
         data => {
             console.log(" data -- ", data)

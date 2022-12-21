@@ -9,13 +9,8 @@
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="primary" >
-      <ion-button >
+      <ion-button [routerLink]="['/categorie']" >
       Produits
-      </ion-button>
-    </ion-buttons>
-    <ion-buttons slot="primary" >
-      <ion-button >
-      Catégories
       </ion-button>
     </ion-buttons>
 
@@ -30,6 +25,14 @@
         <ion-icon slot="end" name="basket"></ion-icon>
       </ion-button>
     </ion-buttons>
+
+
+    <ion-buttons slot="primary" *ngIf="status=='admin'" >
+      <ion-button [routerLink]="['/accueil/stock']">
+        Back-office
+      </ion-button>
+    </ion-buttons>
+
 
 
 
@@ -97,7 +100,48 @@
                 
                   <ion-card-content>
                  
-                  Vide
+                    <ion-grid >
+                      <ion-row > 
+                        <ion-col size="2">
+                            Id suivi
+                        </ion-col>
+                        <ion-col size="3">
+                            Id utilisateur
+                        </ion-col>
+                        <ion-col size="2">
+                          Date 
+                        </ion-col>
+                        <ion-col size="2">
+                          Total
+                        </ion-col>
+                        <ion-col size="3">
+                          Status
+                        </ion-col>
+                      </ion-row>
+                      <ion-row *ngFor="let comm of suivi_commande; let i = index ">
+                        <div *ngIf="i<5">
+
+
+                          <ion-col size="2">
+                              {{ comm.id_suivi}}
+                          </ion-col>
+                          <ion-col size="3">
+                              {{comm.id_utilisateur}}
+                          </ion-col>
+                          <ion-col size="2">
+                            {{ comm.date_achat | date: 'shortDate'}}
+                          </ion-col>
+                          <ion-col size="2">
+                            {{ comm.prix}}
+                          </ion-col>
+                          <ion-col size="3">
+                            {{ comm.statut}}
+                          </ion-col>
+
+                        </div>
+                      </ion-row>
+                    
+                    </ion-grid>
                   </ion-card-content>
                 </ion-card>
               </ion-col>
@@ -109,10 +153,40 @@
                   <ion-card-header>
                     <ion-card-title>Mes favoris</ion-card-title>
                   </ion-card-header>
-                
                   <ion-card-content>
-                  Vide
-                 
+              
+                  <ion-grid >
+                    <ion-row >
+                    <ion-col *ngFor="let songs of favorisItems$ | async ;  let i= index;    " size="auto"  >
+                        {{ songs.nom}}
+                        <div *ngIf="i<5">
+                           <div>
+                            <img  [src]="songs.lien_image" class="poster" (click)="seeDetails(songs)"/>
+                          </div>
+              
+                          <ion-grid >
+                            <ion-row >
+                              <ion-col  size="10" style="height:5px; font-weight:bold; font-size:110%" >
+                              <p class="ion-align-items-end"> {{songs.titre_album}}<p>
+                              </ion-col>
+                              
+              
+                            </ion-row>
+                            <ion-row>
+                              <ion-col size="auto">
+                                {{songs.nom}}
+                              </ion-col>
+                            </ion-row>
+                          </ion-grid>
+                        </div>
+                    </ion-col>
+                    </ion-row>
+                  
+                  </ion-grid>
+                   <br/>
+                  <ion-button fill="outline" (click)="goFavoris()">
+                    Voir tout mes favoris 
+                  </ion-button>
                   </ion-card-content>
                 </ion-card>
               </ion-col>
@@ -125,7 +199,7 @@
       <ion-row>
         <ion-col size="11">
           <div align="right">
-            <ion-button color="danger"> Deconnexion</ion-button>
+            <ion-button color="danger" (click)="deconnecter()"> Deconnexion</ion-button>
           </div>
         </ion-col>
       </ion-row>

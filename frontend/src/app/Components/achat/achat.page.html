@@ -148,7 +148,7 @@
                          
                           <ion-col size="2">
                               <div align="center">
-                                1
+                                {{quantity[i] }}
                               </div>
                         </ion-col>
                        
@@ -172,6 +172,13 @@
       </ion-accordion>
     </ion-accordion-group>
     <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <div style="text-align:end" >
+          Total :  {{ totalPanier }} &euro;
+          </div>
+        </ion-col>
+      </ion-row>  
       <ion-row>
         <ion-col size="12">
           <div style="text-align:end" >

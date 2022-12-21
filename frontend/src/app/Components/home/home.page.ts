@@ -12,7 +12,7 @@ import { AddFavorisAction } from 'src/app/store/actions/favoris.actions';
 import { FavorisService } from 'src/app/Service/favoris/favoris.service';
 import { PanierService } from 'src/app/Service/Panier/panier.service';
 import { Panier } from 'src/app/store/models/paniers.model';
-import { AddPanierAction, AddPanierAllAction } from 'src/app/store/actions/paniers.actions';
+import { AddPanierAction, AddPanierActionSpecPos, AddPanierAllAction, DeletePanierAction } from 'src/app/store/actions/paniers.actions';
 
 @Component({
   selector: 'app-home',
@@ -35,7 +35,7 @@ export class HomePage implements OnInit {
   favSelected; 
   compteur = 4;
   numberPanier=0;  // nb elements dans le panier 
-  valeurBestSeller = 6; // nb de best seller à afficher 
+  valeurBestSeller = 8; // nb de best seller à afficher 
   mouseOn=false; // si mouse on ou pas 
   indexItemMouseOnOff=-1;  // pour eviter que le mouse on agisse sur toutes les cases 
 
@@ -214,7 +214,24 @@ export class HomePage implements OnInit {
   loadData(){
     this.serviceAlbum.getListAlbum().subscribe(
       (data:any) => {
-        this.store.dispatch(new AddAlbumsAction(data)); // on ajoute les données 
+        console.log(" DATA ;;; ", data)
+        let alldata = new Array();
+        for (let i=0; i< data.length; i++){
+            let donnee = {
+              id_album : data[i].id_album,
+              titre_album : data[i].titre_album,
+              artiste :data[i].nom,
+              lien_image : data[i].lien_image ,
+              annee :data[i].annee, 
+              prix : data[i].prix,
+              genre_musical : data[i].genre_musical,
+              quantite_max: data[i].quantiteMax, 
+              nom : data[i].nom,
+            }
+            alldata.push(donnee)
+        }
+       
+        this.store.dispatch(new AddAlbumsAction(alldata)); // on ajoute les données 
        // console.log("data -- ", data)
       },
       (error:any)=>{
@@ -262,30 +279,61 @@ export class HomePage implements OnInit {
 
   // pour ajouter au panier 
   ajouterAuPanier(album : Albums){
-
+   
     console.log(" ----  album ------ ", album)
     if( this.username == "") this.router.navigate(['/formulaire-connexion']);
     else{
-      this.servicePanier.ajouterAuPanier(this.username, album.id_album).subscribe(
-        (data:any) => {
-          let donnee=   {
-            annee : album.annee, 
-            id_album : album.id_album, 
-            id_panier : data.id_panier,
-            id_utilisateur : data.id_utilisateur,
-            lien_image : album.lien_image, 
-            prix : album.prix,
-            titre_album : album.titre_album
-          }
-         this.storePanier.dispatch(new AddPanierAction(donnee)); // on ajoute l'album en favoris 
-         console.log("data -- ", data)
-        },
-        (error:any)=>{
-          console.log(" erreur add panier : ", error)
-        })
-      
+      // je recup la quantité max 
+      let nbQte = 0; 
+      let id = -1; 
+      let article; 
+
+      // recup
+      this.storePanier.select('panier').subscribe((data: Array<Panier>) =>{
+            for (let i=0; i<data.length; i++){
+                if (data[i].id_album == album.id_album){
+                  nbQte = data[i].quantite
+                  id = i; 
+                  article = data[i];
+                }
+
+            }
+              });
+              
+      // je verifie que la quantité max n'est pas dépassé 
+      if (nbQte < album.quantite_max){
+            
+        this.servicePanier.majQtePanierAlbum(this.username, album.id_album, 1, true).subscribe(
+          (data:any) => {
+            
+            
+            let donnee=   {
+              annee : album.annee, 
+              id_album : album.id_album, 
+              id_panier : data.id_panier,
+              id_utilisateur : data.id_utilisateur,
+              lien_image : album.lien_image, 
+              prix : album.prix,
+              titre_album : album.titre_album,
+              quantite : nbQte+1, 
+              quantite_max : album.quantite_max
+            }
+            if (nbQte == 0 && id==-1) 
+              this.storePanier.dispatch(new AddPanierAction(donnee)); // on ajoute l'album en favoris 
+            else{
+              this.storePanier.dispatch(new AddPanierActionSpecPos( donnee, id)); // on ajoute l'album en favoris 
+              this.storePanier.dispatch(new DeletePanierAction( article)); // on ajoute l'album en favoris 
+            }
+          console.log("data -- ", data)
+          },
+          (error:any)=>{
+            console.log(" erreur add panier : ", error)
+          })
+          this.numberPanier++;
+        }
+        
     }
-    this.numberPanier++;
+   
   }
 
   // pour voir la liste des favoris de l'user 
@@ -316,8 +364,23 @@ export class HomePage implements OnInit {
       if ( this.favSelected==-1){
         this.serviceFavoris.ajouterFavoris(this.username, albu.id_album).subscribe(
           (data:any) => {
-           this.storeFav.dispatch(new AddFavorisAction(data)); // on ajoute l'album en favoris 
-           console.log("data -- ", data)
+            let fav = {
+              id_favoris : data.id_favoris,
+              id_utilisateur:data.id_utilisateur,
+              id_album : data.id_album, 
+              titre_album : albu.titre_album,
+              artiste :albu.artiste,
+              lien_image : albu.lien_image ,
+              annee :albu.annee,
+              prix : albu.prix,
+              genre_musical : albu.genre_musical,
+              quantite_max: albu.quantite_max, 
+              nom : albu.nom,
+
+              
+            }
+           this.storeFav.dispatch(new AddFavorisAction(fav)); // on ajoute l'album en favoris 
+           console.log("data -- ", fav)
           },
           (error:any)=>{
             console.log(" erreur get list album : ", error)

@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>AlbumDetailStock</ion-title>
+    <ion-buttons slot="start" >
+      <ion-button [routerLink]="['/accueil/stock']">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+<ion-grid class="desc">
+  <ion-row>
+    <ion-col align="center">
+        <img class="image" [src]="album.lien_image" />
+    </ion-col>
+    <ion-col style="padding-right:5%;">
+      <ion-item-divider><h2> Artiste </h2></ion-item-divider>
+      <section>
+        <ion-item>
+          <ion-label position="fixed">Artiste</ion-label>
+          <ion-input color="warning" value="{{album.nom}}" placeholder="{{album.nom}}" [readonly]="true"></ion-input>
+        </ion-item>
+      </section>
+      <ion-item-divider><h2> Album </h2></ion-item-divider>
+      <section>
+        <ion-item>
+          <ion-label position="fixed">Titre album</ion-label>
+          <ion-input color="warning" value="{{album.titre_album}}" placeholder="{{album.titre_album}}" [readonly]="true"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Année</ion-label>
+          <ion-input color="warning" value="{{album.annee}}" placeholder="{{album.annee}}" [readonly]="true"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label>Prix</ion-label>
+          <ion-input color="warning" value="{{album.prix}}" placeholder="{{album.prix}}" [readonly]="true"></ion-input>
+        </ion-item>
+      </section>
+      <ion-item-divider><h2> Quantité </h2></ion-item-divider>
+      <section>
+        <ion-item>
+          <ion-label>Quantité maximal</ion-label>
+          <ion-input color="warning" value="{{album.quantite_max}}" placeholder="{{album.quantite_max}}"  type="number" [readonly]="false" (change)="updateQTE($event.target.value)"></ion-input>
+        </ion-item>
+        <div align="right">
+          <ion-button color="success" fill="clear" (click)="enregistrer()">
+            Enregistrer
+          </ion-button>
+        </div>
+       
+      </section>
+
+
+    </ion-col>
+  </ion-row>
+</ion-grid>
+  <!-- 
+<div>
+ 
+  <ion-grid class="desc">
+      <ion-row>
+        <ion-col align="center">
+            <img class="image" [src]="album.lien_image" />
+        </ion-col>
+        <ion-col >
+        
+    
+          <ion-item-divider><h2> Artiste </h2></ion-item-divider>
+          <ion-item>
+            <ion-input placeholder="{{songs.artiste}}" [disabled]="true"></ion-input>
+          </ion-item>
+
+        <ion-item-divider><h2> Album </h2></ion-item-divider>
+          <ion-item>
+            <ion-label>Titre</ion-label>
+            <ion-input placeholder="{{songs.titre_album}}" [disabled]="true"></ion-input>
+          </ion-item>
+      
+          <ion-item>
+            <ion-label>Année</ion-label>
+            <ion-input placeholder="{{songs.annee}}" [disabled]="true"></ion-input>
+          </ion-item>
+      
+          <ion-item>
+            <ion-label>Prix</ion-label>
+            <ion-input placeholder="{{songs.prix}}" [disabled]="true"></ion-input>
+          </ion-item>
+
+          <ion-item-divider><h2> Quantité maximal en stock </h2></ion-item-divider>
+          <ion-item>
+            <ion-label>Quantité</ion-label>
+            <ion-input placeholder="{{songs.quantite}}" ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+</div> -->
+</ion-content>

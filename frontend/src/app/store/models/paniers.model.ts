@@ -5,5 +5,8 @@ export interface Panier {
     id_utilisateur : number,
     lien_image : string, 
     prix : number,
-    titre_album : string
+    titre_album : string,
+    quantite : number,
+    quantite_max : number
+
 }

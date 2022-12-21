@@ -23,21 +23,25 @@ it('should return expected albums ', (done: DoneFn) => {
     [
       {
         id_album : 1,
-        titre_album : 'alb1',
+        titre_album : "",
         artiste :1,
-        lien_image : 'http' ,
+        lien_image : "string" ,
         annee :2021,
-        prix : 23,
-        nom : 'nom',
+        prix : 10,
+        genre_musical : "",
+        quantite_max: 9, 
+        nom : "string",
       },
       {
         id_album : 2,
-        titre_album : 'alb2',
+        titre_album : "string",
         artiste :2,
-        lien_image : 'http' ,
+        lien_image : "string" ,
         annee :2022,
-        prix : 23,
-        nom : 'nom2',
+        prix : 12,
+        genre_musical : "",
+        quantite_max: 10, 
+        nom : "string",
       },
 
     ];

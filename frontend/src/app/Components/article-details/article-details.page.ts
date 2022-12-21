@@ -24,12 +24,14 @@ export class ArticleDetailsPage implements OnInit {
 
   // informations de l'album 
   album: Albums = {
-    id_album : 1,
+    id_album : -1,
     titre_album : "",
-    artiste :1,
+    artiste :-1,
     lien_image : "" ,
-    annee :0,
-    prix : 1,
+    annee :2022,
+    prix : -1,
+    genre_musical : "",
+    quantite_max: -1, 
     nom : "",
   };
   musique=[]

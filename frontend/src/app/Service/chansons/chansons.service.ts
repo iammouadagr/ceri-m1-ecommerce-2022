@@ -15,10 +15,8 @@ export class ChansonsService {
   getListChansonsByAlbum(id_album : number){
    
     var listChanson={}
-    let parametres = new HttpParams();
-    parametres = parametres.append('album', id_album);
     return Observable.create((observer: Subscriber<object>) => { 
-      this._http.get<any>('http://127.0.0.1:8080/api/v1/chansonsAlbum',{ params: parametres})
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/chansonsAlbum',{ album: id_album})
       .subscribe(
         data => {
             console.log(" data -- ", data)

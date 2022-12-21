@@ -12,11 +12,11 @@ export class PanierService {
 
   ajouterAuPanier(id_user:string, id_album : number ){
     var fav = {}; 
-    let parametres = new HttpParams();
-    parametres = parametres.append('nom_utilisateur', id_user);
-    parametres = parametres.append('album', id_album);
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.get<any>('http://127.0.0.1:8080/api/v1/ajouterPanier',{ params: parametres})
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/ajouterPanier',{ 
+        nom_utilisateur: id_user,
+        album: id_album
+      })
       .subscribe(
         data => {
             console.log(" data -- ", data)
@@ -34,10 +34,8 @@ export class PanierService {
 
   getPanierList(id_user:string){
     var fav = {}; 
-    let parametres = new HttpParams();
-    parametres = parametres.append('nom_utilisateur', id_user);
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.get<any>('http://127.0.0.1:8080/api/v1/panierUtilisateur',{ params: parametres})
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/panierUtilisateur',{ nom_utilisateur: id_user})
       .subscribe(
         data => {
             console.log(" data -- opanier", data)
@@ -53,19 +51,44 @@ export class PanierService {
     })
   }
   
-  supprimerDuPanier(id_user:string){
+  // supprimerDuPanier(id_user:string){
+  //   var fav = {}; 
+  //   let parametres = new HttpParams();
+  //   parametres = parametres.append('nom_utilisateur', id_user);
+  //   return Observable.create((observer: Subscriber<Object>) => { 
+  //     this._http.get<any>('http://127.0.0.1:8080/api/v1/supprimerPanier',{ params: parametres})
+  //     .subscribe(
+  //       data => {
+  //           console.log(" data -- ", data)
+  //           fav=data;
+  //       },
+  //       error=>{
+  //         console.log(" erreur recuperation favoris ", error)
+  //       },
+  //       ()=>{
+  //         observer.next(fav);
+  //       }
+  //     );
+  //   })
+  // }
+
+  commandeValidee(nom_utilisateur, date, prix, listAlbums, quantit){
     var fav = {}; 
-    let parametres = new HttpParams();
-    parametres = parametres.append('nom_utilisateur', id_user);
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.get<any>('http://127.0.0.1:8080/api/v1/supprimerPanier',{ params: parametres})
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/ajouterCommandes',{ 
+        nom_utilisateur: nom_utilisateur,
+        date: date,
+        prix: prix,
+        listAlbums: listAlbums,
+        listeAlbumQuantity: quantit
+      })
       .subscribe(
         data => {
             console.log(" data -- ", data)
             fav=data;
         },
         error=>{
-          console.log(" erreur recuperation favoris ", error)
+          console.log(" erreur envoie commande ", error)
         },
         ()=>{
           observer.next(fav);
@@ -74,36 +97,10 @@ export class PanierService {
     })
   }
 
-  commandeValidee(nom_utilisateur, date, prix, listAlbums){
+  getTotalPanier(nom_utilisateur:string){
     var fav = {}; 
-    let parametres = new HttpParams();
-    parametres = parametres.append('nom_utilisateur', nom_utilisateur);
-    parametres = parametres.append('date', date);
-    parametres = parametres.append('prix', prix);
-    parametres = parametres.append('listAlbums', listAlbums);
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.get<any>('http://127.0.0.1:8080/api/v1/addPurchase',{ params: parametres})
-      .subscribe(
-        data => {
-            console.log(" data -- ", data)
-            fav=data;
-        },
-        error=>{
-          console.log(" erreur recuperation favoris ", error)
-        },
-        ()=>{
-          observer.next(fav);
-        }
-      );
-    })
-  }
-
-  getTotalPanier(username:string){
-    var fav = {}; 
-    let parametres = new HttpParams();
-    parametres = parametres.append('nom_utilisateur', username);
-    return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.get<any>('http://127.0.0.1:8080/api/v1/addPurchase',{ params: parametres})
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/totalPanier',{ nom_utilisateur: nom_utilisateur})
       .subscribe(
         data => {
             console.log(" data -- ", data)
@@ -117,6 +114,56 @@ export class PanierService {
         }
       );
     })
+  }
+
+  majQtePanierAlbum(nom_utilisateur : string, id_album : number , quantite : number, action : boolean){
+    console.log(" nom_utilisateur ",nom_utilisateur )
+    console.log(" album ",id_album )
+    console.log(" quantite ",quantite )
+    var fav = {}; 
+    return Observable.create((observer: Subscriber<Object>) => { 
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/ajouterPanier',{ 
+        nom_utilisateur: nom_utilisateur,
+        album: id_album,
+        quantite: quantite,
+        boolVar: action
+      })
+      .subscribe(
+        data => {
+            console.log(" data -- maj panier ", data)
+            fav=data;
+        },
+        error=>{
+          console.log(" erreur recuperation total panier  ", error)
+        },
+        ()=>{
+          observer.next(fav);
+        }
+      );
+    })
+  }
+
+
+  supprimerItemFromPanier(nom_utilisateur:string, id_album : number){
+    var fav = {}; 
+    return Observable.create((observer: Subscriber<Object>) => { 
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/supprimerPanier',{ 
+        nom_utilisateur: nom_utilisateur,
+        album: id_album
+      })
+      .subscribe(
+        data => {
+            fav=data;
+        },
+        error=>{
+          console.log(" erreur suppression items panier  ", error)
+        },
+        ()=>{
+          observer.next(fav);
+        }
+      );
+    })
+
   }
 
 }
