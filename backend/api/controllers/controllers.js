@@ -15,7 +15,7 @@ exports.getAlbums = async  (req,res) => {
 
 
 exports.addAlbum = async  (req,res) => {
-
+    
     var artiste = req.body.artiste;
     var queryVerifArtist = `select * from vinyle.artiste where nom like '`+artiste+`';`
     var lien_image = req.body.lien_image;

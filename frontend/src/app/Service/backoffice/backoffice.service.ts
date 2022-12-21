@@ -164,7 +164,9 @@ export class BackofficeService {
   }
 
  
-  ajouterAlbum(artiste : string, lien_image:string, titre_album:string , annee:number, quantite:number, genre_musical:string, description:string , prix:number){
+  ajouterAlbum(artiste : string, lien_image:string, titre_album:string , annee:number, quantite:number, genre_musical:string, description:string , prix:number , chansons : Array<string>){
+   console.log(" appelleeee r")
+    
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
       this._http.post<any>('http://127.0.0.1:8080/api/v1/ajouterAlbum',{
@@ -176,6 +178,7 @@ export class BackofficeService {
         quantite : quantite, 
         genre_musical : genre_musical, 
         prix : prix, 
+        listeChansons : chansons
       })
       .subscribe(
         data => {
