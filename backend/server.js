@@ -11,7 +11,7 @@ var cors = require('cors')
 const app = express()
 const server = require('http').Server(app);
 const hostname = os.hostname();
-const PORT= 8080;
+const PORT= process.env.PORT;
 
 app.use(bodyParser.urlencoded({extended: true})); 
 
