@@ -15,7 +15,7 @@ VALUES
 
 INSERT INTO 
 	album(titre_album, id_artiste, lien_image, genre_musical, annee, prix, description_album, quantiteMax)
-VALUESa
+VALUES
 	('Will of the People', 1, 'https://i0.wp.com/musefrance.com//wp-content/uploads/sites/6657/2022/03/FNfw7nvVkAcWmmw.jpg?fit=1658%2C1596&ssl=1','Cloud', 2022, 10, 'Will of the People est le neuvième album studio du groupe britannique Muse paru le 26 août 20221. Il est le successeur de Simulation Theory, paru en 2018. L album a été écrit à Los Angeles2 et enregistré en 2021 au studio Abbey Road à Londres, tout juste 20 ans après Origin of Symmetry, dernier album du groupe ayant été enregistré dans ce studio3.', 20),
 	('Mr. Morale & the Big Steppers', 2, 'https://upload.wikimedia.org/wikipedia/en/e/e1/Kendrick_Lamar_-_Mr._Morale_%26_the_Big_Steppers.png', 'Rap', 2022, 12, 'Mr. Morale & the Big Steppers est le cinquième album studio de Kendrick Lamar, sorti en 2022, sur les labels PGLang (en), Top Dawg, Aftermath et Interscope. Ce double album marque le dernier projet de Lamar chez Top Dawg. L artiste californien revient après quatre ans d absence et l album Black Panther: The Album du film éponyme, et cinq d absence en solo avec l album Damn. Comme ses œuvres précédentes, Mr. Morale & the Big Steppers reçoit un accueil critique unanimement favorable.', 15),
     ('Born Pink', 3, 'https://herefan.com/wp-content/uploads/2022/08/blackpink-bornpink-kit-01.jpg', 'K-Pop', 2022, 13, 'Born Pink est le deuxième album complet du girl group sud-coréen Blackpink, officiellement sorti le 16 septembre 2022 à 13 heures (heure coréenne) et produit par YG Entertainment. La sortie de l album était accompagnée par celle du clip vidéo de la chanson principale, Shut Down.', 19),
@@ -173,11 +173,11 @@ VALUES
 
 
 INSERT INTO 
-	panier(id_utilisateur, id_album)
+	panier(id_utilisateur, id_album,quantite)
 VALUES
-	(1, 1),
-	(1, 2),
-	(1, 3);
+	(1, 1, 1),
+	(1, 2, 1),
+	(1, 3, 1);
 
 
 
