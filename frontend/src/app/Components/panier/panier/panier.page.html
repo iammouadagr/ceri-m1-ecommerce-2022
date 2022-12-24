@@ -8,17 +8,24 @@
     </ion-buttons>
 
     <ion-buttons slot="primary" >
+      <ion-button [routerLink]="['/categorie']" >
+      Produits
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="primary" >
       <ion-button>
         <ion-icon slot="end" name="heart" style="color:#FF2E2E"></ion-icon>
       </ion-button>
     </ion-buttons>
 
-   
     <ion-buttons slot="primary" >
-      <ion-button >
-        <ion-icon slot="end" name="help-circle"></ion-icon>
+      <ion-button [routerLink]="['/formulaire-connexion']">
+        <ion-icon slot="end" name="person-circle"></ion-icon>
       </ion-button>
     </ion-buttons>
+
+   
    
     <ion-title class="TitreSite">2MIStore</ion-title>
 

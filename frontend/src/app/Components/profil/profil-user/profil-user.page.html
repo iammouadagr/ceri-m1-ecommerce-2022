@@ -8,6 +8,7 @@
         <ion-icon slot="end" name="home" ></ion-icon>
       </ion-button>
     </ion-buttons>
+    
     <ion-buttons slot="primary" >
       <ion-button [routerLink]="['/categorie']" >
       Produits
@@ -19,6 +20,7 @@
         <ion-icon slot="end" name="heart" style="color:#FF2E2E"></ion-icon> Favoris
       </ion-button>
     </ion-buttons>
+    
     <ion-buttons slot="primary" >
       <ion-button class="panier">
         <ion-badge *ngIf="numberPanier>0" color="accent">{{numberPanier}}</ion-badge>

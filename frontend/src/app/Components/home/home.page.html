@@ -15,6 +15,7 @@
         <ion-icon slot="end" name="heart" style="color:#FF2E2E" ></ion-icon> Favoris
       </ion-button>
     </ion-buttons>
+    
     <ion-buttons slot="primary" >
       <ion-button class="panier"  (click)="goPanier()">
         <ion-badge *ngIf="numberPanier>0" color="accent">{{numberPanier}}</ion-badge>
@@ -154,6 +155,7 @@
                   <p class="ion-align-items-end"> {{songs.titre_album}}<p>
                   </ion-col>
                   <ion-col  size="2">
+                    
                     <ion-icon  name="heart"  size="large" fill="outline" class="fav" (click)="addOrDeletefavoris(songs)"></ion-icon>
                   </ion-col>
 

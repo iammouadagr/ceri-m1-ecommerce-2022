@@ -360,6 +360,7 @@ export class HomePage implements OnInit {
           }
           else this.favSelected = -1;
         }
+        if(data.length==0) this.favSelected = -1; 
       });
       if ( this.favSelected==-1){
         this.serviceFavoris.ajouterFavoris(this.username, albu.id_album).subscribe(
@@ -389,4 +390,17 @@ export class HomePage implements OnInit {
       }
     }
   }
+
+  // isFavoris(art){
+  //   let isFav = false; 
+  //   this.storeFav.select('favoris').subscribe((data: Array<Favoris>) =>  {
+  //     for (let i=0; i<data.length; i++){
+  //       if( data[i].id_album == art.id_album){
+  //         isFav = true; 
+  //       }
+  //       else this.favSelected = -1;
+  //     }
+  //   });
+  //   return isFav; 
+  // }
 }

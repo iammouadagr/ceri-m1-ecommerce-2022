@@ -5,9 +5,12 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CategorieService } from 'src/app/Service/categorie/categorie.service';
 import { FavorisService } from 'src/app/Service/favoris/favoris.service';
+import { PanierService } from 'src/app/Service/Panier/panier.service';
 import { AddFavorisAction } from 'src/app/store/actions/favoris.actions';
+import { AddPanierAction, AddPanierActionSpecPos, DeletePanierAction } from 'src/app/store/actions/paniers.actions';
 import { Albums } from 'src/app/store/models/albums.model';
 import { Favoris } from 'src/app/store/models/favoris.models';
+import { Panier } from 'src/app/store/models/paniers.model';
 import { User } from 'src/app/store/models/utilisateur.model';
 
 @Component({
@@ -20,10 +23,13 @@ export class CategoriePage implements OnInit {
   favorisItems$: Observable<Array<Favoris>>; // pour recuperer la liste des favoris 
   albumItems$: Observable<Array<Albums>>; // pour recuperer la liste des albums 
   userItem$ : Observable<User>;
+  paniersItem$ :  Observable<Array<Panier>>; 
 
   serviceFavoris : FavorisService; 
   albumByGenre = new Array();
   categorieList; 
+  servicePanier : PanierService; 
+
 
 
   favSelected; 
@@ -37,7 +43,8 @@ export class CategoriePage implements OnInit {
   // priceMin=-1;
   // priceMax=-1;
 
-  constructor(_favService :FavorisService, private storeFav: Store<{ favoris: Array<Favoris> }> , private router: Router,_serviceCategorie : CategorieService,  private store: Store<{ album: Array<Albums> }>,   private storeUser: Store<{ user: User }>) { 
+  constructor(_panierService : PanierService, _favService :FavorisService, private storePanier: Store<{ panier: Array<Panier> }> ,  private storeFav: Store<{ favoris: Array<Favoris> }> , private router: Router,_serviceCategorie : CategorieService,  private store: Store<{ album: Array<Albums> }>,   private storeUser: Store<{ user: User }>) { 
+    this.servicePanier = _panierService;   // initialisation du service 
     this.categorieService = _serviceCategorie;
     this.albumItems$ = store.pipe(select('album')); // on recupere le service store 
     this.userItem$ = storeUser.pipe(select('user')); // on recupere le service store 
@@ -73,8 +80,60 @@ export class CategoriePage implements OnInit {
     }
 
   // pour ajouter au panier 
-  ajouterAuPanier(){
-    this.numberPanier++;
+  ajouterAuPanier(album : Albums){
+    console.log(" ----  album ------ ", album)
+    if( this.username == "") this.router.navigate(['/formulaire-connexion']);
+    else{
+      // je recup la quantité max 
+      let nbQte = 0; 
+      let id = -1; 
+      let article; 
+
+      // recup
+      this.storePanier.select('panier').subscribe((data: Array<Panier>) =>{
+            for (let i=0; i<data.length; i++){
+                if (data[i].id_album == album.id_album){
+                  nbQte = data[i].quantite
+                  id = i; 
+                  article = data[i];
+                }
+
+            }
+              });
+              
+      // je verifie que la quantité max n'est pas dépassé 
+      if (nbQte < album.quantite_max){
+            
+        this.servicePanier.majQtePanierAlbum(this.username, album.id_album, 1, true).subscribe(
+          (data:any) => {
+            
+            
+            let donnee=   {
+              annee : album.annee, 
+              id_album : album.id_album, 
+              id_panier : data.id_panier,
+              id_utilisateur : data.id_utilisateur,
+              lien_image : album.lien_image, 
+              prix : album.prix,
+              titre_album : album.titre_album,
+              quantite : nbQte+1, 
+              quantite_max : album.quantite_max
+            }
+            if (nbQte == 0 && id==-1) 
+              this.storePanier.dispatch(new AddPanierAction(donnee)); // on ajoute l'album en favoris 
+            else{
+              this.storePanier.dispatch(new AddPanierActionSpecPos( donnee, id)); // on ajoute l'album en favoris 
+              this.storePanier.dispatch(new DeletePanierAction( article)); // on ajoute l'album en favoris 
+            }
+          console.log("data -- ", data)
+          },
+          (error:any)=>{
+            console.log(" erreur add panier : ", error)
+          })
+          this.numberPanier++;
+        }
+        
+    }
   }
 
 
@@ -136,70 +195,53 @@ export class CategoriePage implements OnInit {
 
   }
 
-  inside(categorie){
-    // console.log("categorie ::: ", categorie)
-    // if(this.categorieSelected.indexOf(categorie)==-1){
-    //   // console.log(' not inside ', this.categorieSelected)
-    //   return false; 
-    // }
-    // else  
-    //   return true; 
-  }
-
-  prixMin(event){
-    // console.log(" event : ", event)
-    // this.priceMin = event
-    // if ( event == "" || event == " ")
-    //   this.priceMin = -1
-  }
-
-  prixMax(event){
-    // this.priceMax = event
-    // if ( event == "" || event == " ")
-    //   this.priceMax = -1
-  }
-
-    // pour ajouter ou enlever un album des favoris
-    addOrDeletefavoris(albu : Albums){
-      if(this.username=="")  this.router.navigate(['/formulaire-connexion']);
-      else{
-        let albumSelected;
-        this.store.select('album').subscribe((data: Array<Albums>) =>  albumSelected = data.indexOf(albu));
-        this.storeFav.select('favoris').subscribe((data: Array<Favoris>) =>  {
-          for (let i=0; i<data.length; i++){
-            if( data[i].id_album == albumSelected.id_album){
-              this.favSelected =  data[i]; 
-            }
-            else this.favSelected = -1;
-          }
-        });
-        if ( this.favSelected==-1){
-          this.serviceFavoris.ajouterFavoris(this.username, albu.id_album).subscribe(
-            (data:any) => {
-              let fav = {
-                id_favoris : data.id_favoris,
-                id_utilisateur:data.id_utilisateur,
-                id_album : data.id_album, 
-                titre_album : albu.titre_album,
-                artiste :albu.artiste,
-                lien_image : albu.lien_image ,
-                annee :albu.annee,
-                prix : albu.prix,
-                genre_musical : albu.genre_musical,
-                quantite_max: albu.quantite_max, 
-                nom : albu.nom,
   
-                
-              }
-              console.log("added")
-             this.storeFav.dispatch(new AddFavorisAction(fav)); // on ajoute l'album en favoris 
-             console.log("data -- ", fav)
-            },
-            (error:any)=>{
-              console.log(" erreur get list album : ", error)
-            })
+    // pour ajouter ou enlever un album des favoris
+  addOrDeletefavoris(albu : Albums){
+    if(this.username=="")  this.router.navigate(['/formulaire-connexion']);
+    else{
+      
+      let albumSelected;
+      this.store.select('album').subscribe((data: Array<Albums>) =>  albumSelected = data.indexOf(albu));
+      this.storeFav.select('favoris').subscribe((data: Array<Favoris>) =>  {
+        console.log(" fav data ", data.length )
+        for (let i=0; i<data.length; i++){
+          if( data[i].id_album == albumSelected.id_album){
           
+            this.favSelected =  data[i]; 
+          }
+          else this.favSelected = -1;
         }
+        if(data.length==0) this.favSelected = -1; 
+      });
+      alert( this.favSelected)
+      if ( this.favSelected== -1){
+        
+        this.serviceFavoris.ajouterFavoris(this.username, albu.id_album).subscribe(
+          (data:any) => {
+            let fav = {
+              id_favoris : data.id_favoris,
+              id_utilisateur:data.id_utilisateur,
+              id_album : data.id_album, 
+              titre_album : albu.titre_album,
+              artiste :albu.artiste,
+              lien_image : albu.lien_image ,
+              annee :albu.annee,
+              prix : albu.prix,
+              genre_musical : albu.genre_musical,
+              quantite_max: albu.quantite_max, 
+              nom : albu.nom,
+
+              
+            }
+           this.storeFav.dispatch(new AddFavorisAction(fav)); // on ajoute l'album en favoris 
+           console.log("data -- ", fav)
+          },
+          (error:any)=>{
+            console.log(" erreur get list album : ", error)
+          })
+        
       }
     }
+  }
 }

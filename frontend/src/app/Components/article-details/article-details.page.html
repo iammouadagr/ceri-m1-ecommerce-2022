@@ -4,23 +4,25 @@
     <ion-searchbar slot="primary" animated="true"   class="Recherche" style="width:40%"></ion-searchbar>
 
     <ion-buttons slot="primary" >
-      <ion-button >
-      Produits
-      </ion-button>
-    </ion-buttons>
-    <ion-buttons slot="primary" >
-      <ion-button >
-      Catégories
+      <ion-button   [routerLink]="['/home']">
+        <ion-icon slot="end" name="home" ></ion-icon>
       </ion-button>
     </ion-buttons>
 
     <ion-buttons slot="primary" >
-      <ion-button>
-        <ion-icon slot="end" name="heart" style="color:#FF2E2E"></ion-icon> Favoris
+      <ion-button [routerLink]="['/categorie']" >
+      Produits
+      </ion-button>
+    </ion-buttons>
+
+
+    <ion-buttons slot="primary" >
+      <ion-button (click)="goFavoris()">
+        <ion-icon slot="end" name="heart" style="color:#FF2E2E" ></ion-icon> Favoris
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="primary" >
-      <ion-button class="panier">
+      <ion-button class="panier" (click)="goPanier()">
         <ion-badge *ngIf="numberPanier>0" color="accent">{{numberPanier}}</ion-badge>
         <ion-icon slot="end" name="basket"></ion-icon>
       </ion-button>
@@ -29,12 +31,6 @@
     <ion-buttons slot="primary" >
       <ion-button [routerLink]="['/formulaire-connexion']">
         <ion-icon slot="end" name="person-circle"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-
-    <ion-buttons slot="primary" >
-      <ion-button >
-        <ion-icon slot="end" name="help-circle"></ion-icon>
       </ion-button>
     </ion-buttons>
 

@@ -121,7 +121,7 @@ export class FormulaireConnexionPage implements OnInit {
       this.favorisService.getListFavoris(this.username)
       .subscribe(
         (data:any) => {
-          console.log(" -. zezljf ljzrfnzlejbfzlejfbzjb")
+          console.log(" -. zezljf ljzrfnzlejbfzlejfbzjb ", data)
           this.storeFav.dispatch(new AddAllFavorisAction(data)); // on ajoute les données 
           console.log("data -- favoris  ", data)
         },
