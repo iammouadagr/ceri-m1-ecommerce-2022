@@ -2,6 +2,7 @@
 .poster{
     height:300px;
     width:300px;
+    padding-right: 2%;
 }
 
 ion-grid {
@@ -20,4 +21,15 @@ ion-grid {
 .content{
     padding:3%;
     align-items: center;
+}
+
+
+.del{
+    color: red;
+    --border-color: red;
+}
+.del:hover{
+    color: white;
+    background-color: red;
+    
 }

@@ -20,6 +20,8 @@ import {FavorisService} from './Service/favoris/favoris.service'
 import { ChansonReducer } from './store/reducers/chansons.reducer';
 import { UserReducer } from './store/reducers/utilisateur.reducer';
 import { FavorisReducer } from './store/reducers/favoris.reducer';
+import { PanierReducer } from './store/reducers/paniers.reducer';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,7 +33,8 @@ import { FavorisReducer } from './store/reducers/favoris.reducer';
       album: AlbumsReducer,
       chanson : ChansonReducer,
       user : UserReducer,
-      favoris : FavorisReducer
+      favoris : FavorisReducer,
+      panier : PanierReducer
     }),],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 
     AlbumsService,

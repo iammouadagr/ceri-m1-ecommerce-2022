@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { FavorisListPagePage } from './favoris-list-page.page';
 
@@ -10,7 +11,8 @@ describe('FavorisListPagePage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ FavorisListPagePage ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot()],
+      providers: [provideMockStore({})],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FavorisListPagePage);
@@ -18,7 +20,5 @@ describe('FavorisListPagePage', () => {
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  
 });

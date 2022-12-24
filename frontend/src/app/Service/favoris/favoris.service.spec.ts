@@ -1,16 +1,16 @@
+import { HttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
 import { FavorisService } from './favoris.service';
 
 describe('FavorisService', () => {
   let service: FavorisService;
+  let httpClientSpy: jasmine.SpyObj<HttpClient>;
+
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(FavorisService);
-  });
-
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+    // TODO: spy on other methods too
+    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+    service = new FavorisService(httpClientSpy);
   });
 });

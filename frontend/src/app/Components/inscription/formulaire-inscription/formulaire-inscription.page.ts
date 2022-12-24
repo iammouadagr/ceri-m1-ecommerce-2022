@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { UtilisateurService } from 'src/app/Service/utilisateur/utilisateur.service';
-import { AddUserAction } from 'src/app/store/actions/utilisateur.actions';
+import { AddUserAction, GetUserAction, UserActionType } from 'src/app/store/actions/utilisateur.actions';
 import { User } from 'src/app/store/models/utilisateur.model';
 
 @Component({
@@ -16,6 +16,7 @@ export class FormulaireInscriptionPage implements OnInit {
   userName$: Observable<User>; // pour voir si on est co, sinon on stockera l'id de l'user 
   utilisateurService : UtilisateurService;  // pour  faire appelle au service, qui communique avec la bdd 
   username=""; // stock l'username
+  dataInfo : User;
 
   form = {
     id:"",
@@ -39,7 +40,12 @@ export class FormulaireInscriptionPage implements OnInit {
   }
 
   ngOnInit() {
-    this.store.select('user').subscribe((data: User) => this.username = data.nom_utilisateur );
+    this.getUserName()
+  }
+
+  getUserName(){
+    return this.store.select('user').subscribe((data: User) => this.username = data.nom_utilisateur );
+
   }
 
   inscription(){

@@ -8,9 +8,8 @@ import { Chansons } from 'src/app/store/models/chansons.model';
   providedIn: 'root'
 })
 export class ChansonsService {
-  chansonsItems$: Observable<Array<Chansons>>;
-  constructor(private _http : HttpClient, private store: Store<{ chanson: Array<Chansons> }>) {
-    this.chansonsItems$ = store.pipe(select('chanson'));
+
+  constructor(private _http : HttpClient) {
   }
 
   getListChansonsByAlbum(id_album : number){
