@@ -39,7 +39,7 @@ resource "google_cloud_run_service" "backend" {
   template {
     spec {
       containers {
-        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:v1.1.0"
+        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:1.2.0"
         env {
           name = "DB_HOST"
           value_from {
