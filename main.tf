@@ -44,7 +44,7 @@ resource "google_cloud_run_service" "backend" {
           name = "DB_HOST"
           value_from {
             secret_key_ref{
-              name = data.google_secret_manager_secret.a.host
+              name = data.google_secret_manager_secret.host.secret_id
               key = "latest"
             }
           }
