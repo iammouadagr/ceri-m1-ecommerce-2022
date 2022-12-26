@@ -8,9 +8,16 @@ terraform {
   }
 }
 
+variable "GOOGLE_APPLICATION_CREDENTIALS" {
+  type = string
+  sensitive = true
+  description = "Google Cloud service account credentials"
+}
+
 provider "google" {
     project = "ceri-m1-ecommerce-2022"
     region  = "europe-west1"
+    credentials = var.GOOGLE_APPLICATION_CREDENTIALS
 
 }
 
@@ -32,7 +39,7 @@ data "google_secret_manager_secret" "database" {
 
 
 resource "google_cloud_run_service" "backend" {
-  name     = "cloud-run-frontend"
+  name     = "cloud-run-backend"
   location = "europe-west1"
 
 
