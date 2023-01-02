@@ -51,7 +51,7 @@ resource "google_cloud_run_service" "backend" {
           name = "DB_HOST"
           value_from {
             secret_key_ref{
-              name = data.google_secret_manager_secret.host.secret_id
+              name = "mysql-address"
               key = "latest"
             }
           }
@@ -60,7 +60,7 @@ resource "google_cloud_run_service" "backend" {
           name = "DB_USER"
           value_from {
             secret_key_ref{
-              name = data.google_secret_manager_secret.user.secret_id
+              name = "mysql-user-blackcat"
               key = "latest"
             }
           }
@@ -69,7 +69,7 @@ resource "google_cloud_run_service" "backend" {
           name = "DB_PASSWORD"
           value_from {
             secret_key_ref{
-              name = data.google_secret_manager_secret.password.secret_id
+              name = "mysql-password-blackcat"
               key = "latest"
             }
           }
@@ -78,7 +78,7 @@ resource "google_cloud_run_service" "backend" {
           name = "DB_NAME"
           value_from {
             secret_key_ref{
-              name = data.google_secret_manager_secret.database.secret_id
+              name = "mysql-database-blackcat"
               key = "latest"
             }
           }
