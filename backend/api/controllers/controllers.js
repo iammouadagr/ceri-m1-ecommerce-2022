@@ -1,5 +1,36 @@
 const connection = require('../../config/db')
 const sha1 = require('sha1');
+const algoliasearch = require('algoliasearch');
+const client = algoliasearch('69GHD0JX5C', '68fbf0a5e20e5fb1467b628382e1a810');
+const index = client.initIndex('indexBDD');
+
+
+connection.query("select * from vinyle.album as A inner join vinyle.artiste as C on A.id_artiste = C.id_artiste;", function (err, result, fields) {
+    if (err){
+        console.log("err");
+        throw err;
+    }
+    else{  
+
+        const res = Object.assign({},result);
+        index.setSettings({
+            attributeForDistinct: 'id_album',
+            distinct: true
+            }).then(() => {
+            // done
+            });
+        index.saveObjects([res], {
+            autoGenerateObjectIDIfNotExist: true
+          })
+          .wait()
+          .then((response) => {
+            console.log("object : ",response);
+        }).catch((err) => {console.log(err)});
+    }
+});
+
+
+
 
 
 exports.getAlbums = async  (req,res) => {
@@ -11,6 +42,46 @@ exports.getAlbums = async  (req,res) => {
             res.status(200).json(result);
         }
     });
+}
+
+exports.searchAlgolia = async  (req,res) => {
+
+    var search = req.body.search;
+
+    var queryAlbumByID = `select * from vinyle.album as A inner join vinyle.artiste as B on A.id_artiste = B.id_artiste where`;
+    index.search(search)
+    .then((objects) => {
+        console.log(" search result ::: ", objects)
+        if(objects.hits.length==0){
+            res.status(200).json(new Array());
+        }
+        else if (objects.hits){
+            for(let i = 0; i<objects.hits.length; i++)
+            {
+                if(i<objects.hits.length - 1)
+                {
+                    queryAlbumByID = queryAlbumByID + ` id_album = `+objects.hits[i].id_album+` or `;
+                }
+                else{
+                    queryAlbumByID = queryAlbumByID + ` id_album = `+objects.hits[i].id_album+`;`;
+                }
+
+            }
+            connection.query(queryAlbumByID, function (err, result, fields) {
+                if (err){
+                    throw err;
+                }
+                else{  
+                    res.status(200).json(result);
+                }
+            });
+            
+        }
+
+    
+    })
+    .catch();
+
 }
 
 
@@ -26,6 +97,8 @@ exports.addAlbum = async  (req,res) => {
     var description = req.body.description;
     var prix = req.body.prix;
     var listeChansons = req.body.listeChansons;
+
+
 
     
     connection.query(queryVerifArtist, function (err, result, fields) {
@@ -104,6 +177,7 @@ exports.addAlbum = async  (req,res) => {
                                                     });
                                                     if(i==(listeChansons.length - 1))
                                                     {
+                                                        
                                                         res.status(200).json(result4);
                                                     }
                                                 }

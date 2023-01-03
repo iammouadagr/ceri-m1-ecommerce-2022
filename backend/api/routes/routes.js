@@ -31,5 +31,5 @@ router.post('/commandesExpediee', controllers.getOrderShipped);
 router.post('/commandesLivree', controllers.getOrderDelivered);
 router.post('/modifierStatut', controllers.modifyStatus);
 router.post('/commandesUtilisateur', controllers.getOrderByUser);
-
+router.post('/search', controllers.searchAlgolia);
 module.exports = router;

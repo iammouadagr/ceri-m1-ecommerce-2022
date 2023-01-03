@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
 
-    <ion-searchbar slot="primary" animated="true"   class="Recherche" style="width:40%"></ion-searchbar>
+    <ion-searchbar show-cancel-button="focus" slot="primary" animated="true"   class="Recherche" style="width:40%" (change)="recuperationSearch($event.target.value)"  (ionCancel)="stopSearch()"></ion-searchbar>
 
     <ion-buttons slot="primary" >
       <ion-button   [routerLink]="['/home']">
@@ -22,7 +22,7 @@
     </ion-buttons>
     
     <ion-buttons slot="primary" >
-      <ion-button class="panier">
+      <ion-button class="panier" (click)="goPanier()">
         <ion-badge *ngIf="numberPanier>0" color="accent">{{numberPanier}}</ion-badge>
         <ion-icon slot="end" name="basket"></ion-icon>
       </ion-button>
@@ -51,182 +51,238 @@
 </ion-header>
 
 <ion-content>
-  
-  <div style="padding-left:10%; padding-top: 5%;">
-    <ion-grid>
-      <ion-row>
-        <ion-col size="4">
-          <ion-card  style="border-radius:  25px;">
-            <div *ngIf='sexe=="M"'>
-              <img alt="avatar homme" src="https://static.vecteezy.com/ti/vecteur-libre/p1/2002332-ablack-man-avatar-character-isolated-icon-gratuit-vectoriel.jpg" />
-            </div>
-            <div *ngIf='sexe=="F"'>
-              <img alt="avatar femme" src="https://static.vecteezy.com/ti/vecteur-libre/p1/2002257-belle-femme-avatar-personnage-icone-gratuit-vectoriel.jpg" />
-            </div>
-            <ion-card-header>
-              <ion-card-title> {{prenom}} {{ nom }}</ion-card-title>
-            </ion-card-header>
-          
-            <ion-card-content>
+  <div *ngIf="searchOn==false">
+      <div style="padding-left:10%; padding-top: 5%;">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="4">
+              <ion-card  style="border-radius:  25px;">
+                <div *ngIf='sexe=="M"'>
+                  <img alt="avatar homme" src="https://static.vecteezy.com/ti/vecteur-libre/p1/2002332-ablack-man-avatar-character-isolated-icon-gratuit-vectoriel.jpg" />
+                </div>
+                <div *ngIf='sexe=="F"'>
+                  <img alt="avatar femme" src="https://static.vecteezy.com/ti/vecteur-libre/p1/2002257-belle-femme-avatar-personnage-icone-gratuit-vectoriel.jpg" />
+                </div>
+                <ion-card-header>
+                  <ion-card-title> {{prenom}} {{ nom }}</ion-card-title>
+                </ion-card-header>
+              
+                <ion-card-content>
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col><ion-label >Date de naissance : </ion-label></ion-col>
+                      <ion-col style="vertical-align: top"><ion-input color="primary" readonly placeholder="{{date_naissance | date:'dd/MM/yyyy'}}" class="input-profil"></ion-input></ion-col>
+                    </ion-row>
+                    <ion-row>
+                      <ion-col><ion-label>Lieu de naissance : </ion-label> </ion-col>
+                      <ion-col><ion-input color="primary" readonly placeholder="{{lieu_naissance}}" class="input-profil"></ion-input> </ion-col>
+                    </ion-row>
+                    <ion-row>
+                      <ion-col> <ion-label>E-mail : </ion-label></ion-col>
+                      <ion-col><ion-input color="primary" readonly placeholder="{{adresse_email}}" class="input-profil"></ion-input></ion-col>
+                    </ion-row>
+                  </ion-grid>
+                  <!-- <ion-label>Date de naissance : </ion-label><ion-input color="primary" readonly placeholder="{{date_naissance | date:'dd/MM/yyyy'}}" class="input-profil"></ion-input> 
+                  <ion-label>Lieu de naissance : </ion-label><ion-input color="primary" readonly placeholder="{{lieu_naissance}}" class="input-profil"></ion-input> 
+                  <ion-label>E-mail : </ion-label><ion-input color="primary" readonly placeholder="{{adresse_email}}" class="input-profil"></ion-input> -->
+                  <ion-chip [outline]="true">{{status}}</ion-chip>
+                </ion-card-content>
+              </ion-card>
+            
+            </ion-col>
+            
+            <ion-col size="7">
               <ion-grid>
                 <ion-row>
-                  <ion-col><ion-label >Date de naissance : </ion-label></ion-col>
-                  <ion-col style="vertical-align: top"><ion-input color="primary" readonly placeholder="{{date_naissance | date:'dd/MM/yyyy'}}" class="input-profil"></ion-input></ion-col>
+                  <ion-col>
+                    <ion-card  style="border-radius:  25px;">
+                      <ion-card-header>
+                        <ion-card-title>Mon panier</ion-card-title>
+                      </ion-card-header>
+                    
+                      <ion-card-content>
+                    
+                        <ion-grid >
+                          <ion-row > 
+                            <ion-col size="2">
+                                Id suivi
+                            </ion-col>
+                            <ion-col size="3">
+                                Id utilisateur
+                            </ion-col>
+                            <ion-col size="2">
+                              Date 
+                            </ion-col>
+                            <ion-col size="2">
+                              Total
+                            </ion-col>
+                            <ion-col size="3">
+                              Status
+                            </ion-col>
+                          </ion-row>
+                          <ion-row *ngFor="let comm of suivi_commande; let i = index ">
+                            <div *ngIf="i<5">
+
+
+                              <ion-col size="2">
+                                  {{ comm.id_suivi}}
+                              </ion-col>
+                              <ion-col size="3">
+                                  {{comm.id_utilisateur}}
+                              </ion-col>
+                              <ion-col size="2">
+                                {{ comm.date_achat | date: 'shortDate'}}
+                              </ion-col>
+                              <ion-col size="2">
+                                {{ comm.prix}}
+                              </ion-col>
+                              <ion-col size="3">
+                                {{ comm.statut}}
+                              </ion-col>
+
+                            </div>
+                          </ion-row>
+                        
+                        </ion-grid>
+                      </ion-card-content>
+                    </ion-card>
+                  </ion-col>
+                  
                 </ion-row>
                 <ion-row>
-                  <ion-col><ion-label>Lieu de naissance : </ion-label> </ion-col>
-                  <ion-col><ion-input color="primary" readonly placeholder="{{lieu_naissance}}" class="input-profil"></ion-input> </ion-col>
-                </ion-row>
-                <ion-row>
-                  <ion-col> <ion-label>E-mail : </ion-label></ion-col>
-                  <ion-col><ion-input color="primary" readonly placeholder="{{adresse_email}}" class="input-profil"></ion-input></ion-col>
+                  <ion-col>
+                    <ion-card  style="border-radius: 25px;">
+                      <ion-card-header>
+                        <ion-card-title>Mes favoris</ion-card-title>
+                      </ion-card-header>
+                      <ion-card-content>
+                  
+                      <ion-grid >
+                        <ion-row >
+                        <ion-col *ngFor="let songs of favorisItems$ | async ;  let i= index;    " size="auto"  >
+                            {{ songs.nom}}
+                            <div *ngIf="i<5">
+                              <div>
+                                <img  [src]="songs.lien_image" class="poster" (click)="seeDetails(songs)"/>
+                              </div>
+                  
+                              <ion-grid >
+                                <ion-row >
+                                  <ion-col  size="10" style="height:5px; font-weight:bold; font-size:110%" >
+                                  <p class="ion-align-items-end"> {{songs.titre_album}}<p>
+                                  </ion-col>
+                                  
+                  
+                                </ion-row>
+                                <ion-row>
+                                  <ion-col size="auto">
+                                    {{songs.nom}}
+                                  </ion-col>
+                                </ion-row>
+                              </ion-grid>
+                            </div>
+                        </ion-col>
+                        </ion-row>
+                      
+                      </ion-grid>
+                      <br/>
+                      <ion-button fill="outline" (click)="goFavoris()">
+                        Voir tout mes favoris 
+                      </ion-button>
+                      </ion-card-content>
+                    </ion-card>
+                  </ion-col>
+                
                 </ion-row>
               </ion-grid>
-              <!-- <ion-label>Date de naissance : </ion-label><ion-input color="primary" readonly placeholder="{{date_naissance | date:'dd/MM/yyyy'}}" class="input-profil"></ion-input> 
-              <ion-label>Lieu de naissance : </ion-label><ion-input color="primary" readonly placeholder="{{lieu_naissance}}" class="input-profil"></ion-input> 
-              <ion-label>E-mail : </ion-label><ion-input color="primary" readonly placeholder="{{adresse_email}}" class="input-profil"></ion-input> -->
-              <ion-chip [outline]="true">{{status}}</ion-chip>
-            </ion-card-content>
-          </ion-card>
-        
-        </ion-col>
-        
-        <ion-col size="7">
-          <ion-grid>
-            <ion-row>
-              <ion-col>
-                <ion-card  style="border-radius:  25px;">
-                  <ion-card-header>
-                    <ion-card-title>Mon panier</ion-card-title>
-                  </ion-card-header>
-                
-                  <ion-card-content>
-                 
-                    <ion-grid >
-                      <ion-row > 
-                        <ion-col size="2">
-                            Id suivi
-                        </ion-col>
-                        <ion-col size="3">
-                            Id utilisateur
-                        </ion-col>
-                        <ion-col size="2">
-                          Date 
-                        </ion-col>
-                        <ion-col size="2">
-                          Total
-                        </ion-col>
-                        <ion-col size="3">
-                          Status
-                        </ion-col>
-                      </ion-row>
-                      <ion-row *ngFor="let comm of suivi_commande; let i = index ">
-                        <div *ngIf="i<5">
-
-
-                          <ion-col size="2">
-                              {{ comm.id_suivi}}
-                          </ion-col>
-                          <ion-col size="3">
-                              {{comm.id_utilisateur}}
-                          </ion-col>
-                          <ion-col size="2">
-                            {{ comm.date_achat | date: 'shortDate'}}
-                          </ion-col>
-                          <ion-col size="2">
-                            {{ comm.prix}}
-                          </ion-col>
-                          <ion-col size="3">
-                            {{ comm.statut}}
-                          </ion-col>
-
-                        </div>
-                      </ion-row>
-                    
-                    </ion-grid>
-                  </ion-card-content>
-                </ion-card>
-              </ion-col>
-              
-            </ion-row>
-            <ion-row>
-              <ion-col>
-                <ion-card  style="border-radius: 25px;">
-                  <ion-card-header>
-                    <ion-card-title>Mes favoris</ion-card-title>
-                  </ion-card-header>
-                  <ion-card-content>
-              
-                  <ion-grid >
-                    <ion-row >
-                    <ion-col *ngFor="let songs of favorisItems$ | async ;  let i= index;    " size="auto"  >
-                        {{ songs.nom}}
-                        <div *ngIf="i<5">
-                           <div>
-                            <img  [src]="songs.lien_image" class="poster" (click)="seeDetails(songs)"/>
-                          </div>
-              
-                          <ion-grid >
-                            <ion-row >
-                              <ion-col  size="10" style="height:5px; font-weight:bold; font-size:110%" >
-                              <p class="ion-align-items-end"> {{songs.titre_album}}<p>
-                              </ion-col>
-                              
-              
-                            </ion-row>
-                            <ion-row>
-                              <ion-col size="auto">
-                                {{songs.nom}}
-                              </ion-col>
-                            </ion-row>
-                          </ion-grid>
-                        </div>
-                    </ion-col>
-                    </ion-row>
-                  
-                  </ion-grid>
-                   <br/>
-                  <ion-button fill="outline" (click)="goFavoris()">
-                    Voir tout mes favoris 
-                  </ion-button>
-                  </ion-card-content>
-                </ion-card>
-              </ion-col>
-             
-            </ion-row>
-          </ion-grid>
-         
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="11">
-          <div align="right">
-            <ion-button color="danger" (click)="deconnecter()"> Deconnexion</ion-button>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
- 
-  <!-- <ion-grid>
-    <ion-row>
-      <ion-col>
-          <img src="https://static.vecteezy.com/ti/vecteur-libre/p1/2002257-belle-femme-avatar-personnage-icone-gratuit-vectoriel.jpg" \>
-      </ion-col>
-      <ion-col>
-         <ion-grid>
-          <ion-row>
-            <ion-col>
-                <h3>Panier</h3>
+            
             </ion-col>
-            <ion-col>
-              <h3>Vos favoris</h3>
+          </ion-row>
+          <ion-row>
+            <ion-col size="11">
+              <div align="right">
+                <ion-button color="danger" (click)="deconnecter()"> Deconnexion</ion-button>
+              </div>
             </ion-col>
           </ion-row>
         </ion-grid>
-       
-      </ion-col>
-    </ion-row>
-  </ion-grid> -->
+      </div>
+  </div>
+  <div *ngIf="searchOn">
+    <div style="padding:5%;">
+      <h5> Résultat correspondant à la recherche {{searchName}}</h5>
+    </div>
+
+    <div  class="recherche" >
+      <ion-grid >
+        <ion-row >
+        <ion-col *ngFor="let songs of tabSearch ;  let i= index;    " [fixed]="true" size="auto"  >
+
+              <div>
+                <img  [src]="songs.lien_image" class="poster" (click)="seeDetails(songs)"/>
+              </div>
+
+              <ion-grid >
+                <ion-row >
+                  <ion-col  size="10" style="height:5px; font-weight:bold; font-size:110%" >
+                  <p class="ion-align-items-end"> {{songs.titre_album}}<p>
+                  </ion-col>
+                  <ion-col  size="2">
+                    
+                    <ion-icon  name="heart"  size="large" fill="outline" class="fav" (click)="addOrDeletefavoris(songs)"></ion-icon>
+                  </ion-col>
+
+                </ion-row>
+                <ion-row>
+                  <ion-col size="auto">
+                    {{songs.nom}}
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="auto" >
+                    {{songs.prix}} &euro;
+                  </ion-col>
+                  <ion-col >
+                    <div align="right">
+                      <ion-button size="small" fill="outline" class="buy" (click)="ajouterAuPanier(songs)">
+                        Acheter
+                      </ion-button>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+        
+
+        </ion-col>
+
+        </ion-row>
+      </ion-grid>
+     
+    </div>
+
+</div>
+
+      
+    
+      <!-- <ion-grid>
+        <ion-row>
+          <ion-col>
+              <img src="https://static.vecteezy.com/ti/vecteur-libre/p1/2002257-belle-femme-avatar-personnage-icone-gratuit-vectoriel.jpg" \>
+          </ion-col>
+          <ion-col>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                    <h3>Panier</h3>
+                </ion-col>
+                <ion-col>
+                  <h3>Vos favoris</h3>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          
+          </ion-col>
+        </ion-row>
+      </ion-grid> -->
 
 </ion-content>
