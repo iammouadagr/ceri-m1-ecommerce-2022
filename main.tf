@@ -29,14 +29,13 @@ data "google_secret_manager_secret" "user" {
   secret_id = "mysql-user-blackcat"
 }
 
-data "google_secret_manager_secret" "password" {
-  secret_id = "mysql-password-blackcat"
-}
-
 data "google_secret_manager_secret" "database" {
   secret_id = "mysql-database-blackcat"
 }
 
+data "google_secret_manager_secret" "password" {
+  secret_id = "mysql-password-blackcat"
+}
 
 resource "google_cloud_run_service" "backend" {
   name     = "cloud-run-backend"
