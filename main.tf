@@ -8,7 +8,7 @@ terraform {
   }
 }
 
-variable "GOOGLE_APPLICATION_CREDENTIALS" {
+variable "TF_VAR_GOOGLE_APPLICATION_CREDENTIALS" {
   type = string
   sensitive = true
   description = "Google Cloud service account credentials"
@@ -17,7 +17,7 @@ variable "GOOGLE_APPLICATION_CREDENTIALS" {
 provider "google" {
     project = "ceri-m1-ecommerce-2022"
     region  = "europe-west1"
-    credentials = var.GOOGLE_APPLICATION_CREDENTIALS
+    credentials = var.TF_VAR_GOOGLE_APPLICATION_CREDENTIALS
 
 }
 
