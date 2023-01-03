@@ -98,7 +98,7 @@ resource "google_cloud_run_service" "backend" {
 
 }
 
-ressource "google_clud_run_service" "frontend"{
+resource "google_clud_run_service" "frontend"{
   name = "blackcat-frontend"
   location = "europe-west1"
 
