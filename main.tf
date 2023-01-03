@@ -98,8 +98,30 @@ resource "google_cloud_run_service" "backend" {
 
 }
 
+ressource "google_clud_run_service" "frontend"{
+  name = "blackcat-frontend"
+  location = "europe-west1"
+
+  template{
+    spec{
+      service_account_name = "terraform-blackcat@ceri-m1-ecommerce-2022.iam.gserviceaccount.com"
+      containers {
+        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/frontend-app:1.2.0"
+        env {
+          name = "API_URL"
+          value = google_cloud_run_service.backend.status[0].url
+        }
+      }
+    }
+  }
+}
+
 
 output "api_url" {
   value = google_cloud_run_service.backend.status[0].url
+}
+
+output "client_url" {
+  value = google_cloud_run_service.frontend.status[0].url
 }
 
