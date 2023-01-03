@@ -37,6 +37,12 @@ data "google_secret_manager_secret" "password" {
   secret_id = "mysql-password-blackcat"
 }
 
+resource "google_cloud_run_service_iam_member" "invokers_backend" {
+  location = google_cloud_run_service.backend.location
+  service  = google_cloud_run_service.backend.name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+}
 
 resource "google_cloud_run_service" "backend" {
   name     = "blackcat-backend"
