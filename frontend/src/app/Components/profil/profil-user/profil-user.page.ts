@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { AlbumsService } from 'src/app/Service/albums/albums.service';
 import { FavorisService } from 'src/app/Service/favoris/favoris.service';
 import { UtilisateurService } from 'src/app/Service/utilisateur/utilisateur.service';
 import { AddUserAction } from 'src/app/store/actions/utilisateur.actions';
@@ -30,14 +31,14 @@ export class ProfilUserPage implements OnInit {
   serviceUser : UtilisateurService; 
   favorisService : FavorisService; 
   favorisItems$: Observable<Array<Favoris>>; // pour recuperer la liste des favoris 
+  serviceAlbum : AlbumsService; 
 
-
-  constructor( private router: Router,_serviceUser : UtilisateurService, private store: Store<{ user: User }>, private storeFav: Store<{ favoris: Array<Favoris> }>, _serviceFavoris :FavorisService) {
+  constructor(_serviceAlbum : AlbumsService,  private router: Router,_serviceUser : UtilisateurService, private store: Store<{ user: User }>, private storeFav: Store<{ favoris: Array<Favoris> }>, _serviceFavoris :FavorisService) {
     this.serviceUser = _serviceUser;
     this.userName$ = store.pipe(select('user')); // on recupere le service store 
     this.favorisService = _serviceFavoris;
     this.favorisItems$ = storeFav.pipe(select('favoris')); // on recupere le service store 
-
+    this.serviceAlbum = _serviceAlbum; 
    
    }
 
@@ -106,5 +107,32 @@ export class ProfilUserPage implements OnInit {
     }
     this.store.dispatch(new AddUserAction(userN)); // on ajoute les données 
     this.router.navigate(['/home']);
+  }
+
+
+  searchOn = false; 
+  searchName="";
+  tabSearch = []
+
+  recuperationSearch(event : any){
+    this.searchOn = true; 
+    this.searchName=event; 
+    if (event !="")
+    {
+        this.serviceAlbum.search(event).subscribe(
+        (data:any) => {
+          this.tabSearch = data; 
+          console.log("data -- ", data)
+        },
+        (error:any)=>{
+          console.log(" erreur add panier : ", error)
+        })
+      }
+    console.log(" search ... ", event)
+  }
+
+  stopSearch(){
+    this.searchOn = false; 
+    console.log(" close research ")
   }
 }
