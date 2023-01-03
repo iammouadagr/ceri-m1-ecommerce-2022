@@ -57,8 +57,8 @@ resource "google_cloud_run_service" "backend" {
           }
         }
         env {
-          DB_USER = "blackcat"
-          
+          name = "DB_USER"
+          value = "blackcat"
         }
         env {
           name = "DB_PASSWORD"
