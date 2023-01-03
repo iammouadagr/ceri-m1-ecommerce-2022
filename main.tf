@@ -8,9 +8,16 @@ terraform {
   }
 }
 
+variable "GOOGLE_APPLICATION_CREDENTIALS" {
+  type = string
+  sensitive = true
+  description = "Google Cloud service account credentials"
+}
+
 provider "google" {
     project = "ceri-m1-ecommerce-2022"
     region  = "europe-west1"
+    credentials = var.GOOGLE_APPLICATION_CREDENTIALS
 
 }
 
@@ -22,29 +29,28 @@ data "google_secret_manager_secret" "user" {
   secret_id = "mysql-user-blackcat"
 }
 
-data "google_secret_manager_secret" "password" {
-  secret_id = "mysql-password-blackcat"
-}
-
 data "google_secret_manager_secret" "database" {
   secret_id = "mysql-database-blackcat"
 }
 
+data "google_secret_manager_secret" "password" {
+  secret_id = "mysql-password-blackcat"
+}
 
 resource "google_cloud_run_service" "backend" {
-  name     = "cloud-run-frontend"
+  name     = "cloud-run-backend"
   location = "europe-west1"
 
 
   template {
     spec {
       containers {
-        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:v1.1.0"
+        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:1.2.0"
         env {
           name = "DB_HOST"
           value_from {
             secret_key_ref{
-              name = data.google_secret_manager_secret.a.host
+              name = data.google_secret_manager_secret.host.secret_id
               key = "latest"
             }
           }
