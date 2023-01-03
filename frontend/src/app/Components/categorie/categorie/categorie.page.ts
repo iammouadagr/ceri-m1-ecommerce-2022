@@ -3,6 +3,7 @@ import { fakeAsync } from '@angular/core/testing';
 import { NavigationExtras, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { AlbumsService } from 'src/app/Service/albums/albums.service';
 import { CategorieService } from 'src/app/Service/categorie/categorie.service';
 import { FavorisService } from 'src/app/Service/favoris/favoris.service';
 import { PanierService } from 'src/app/Service/Panier/panier.service';
@@ -25,10 +26,15 @@ export class CategoriePage implements OnInit {
   userItem$ : Observable<User>;
   paniersItem$ :  Observable<Array<Panier>>; 
 
+
+
   serviceFavoris : FavorisService; 
   albumByGenre = new Array();
   categorieList; 
   servicePanier : PanierService; 
+
+  searchOn = false; /// pour changer l'affichage si la bar de recherche est actif 
+  serviceAlbum : AlbumsService
 
 
 
@@ -43,13 +49,13 @@ export class CategoriePage implements OnInit {
   // priceMin=-1;
   // priceMax=-1;
 
-  constructor(_panierService : PanierService, _favService :FavorisService, private storePanier: Store<{ panier: Array<Panier> }> ,  private storeFav: Store<{ favoris: Array<Favoris> }> , private router: Router,_serviceCategorie : CategorieService,  private store: Store<{ album: Array<Albums> }>,   private storeUser: Store<{ user: User }>) { 
+  constructor(  _serviceAlbum : AlbumsService,    _panierService : PanierService, _favService :FavorisService, private storePanier: Store<{ panier: Array<Panier> }> ,  private storeFav: Store<{ favoris: Array<Favoris> }> , private router: Router,_serviceCategorie : CategorieService,  private store: Store<{ album: Array<Albums> }>,   private storeUser: Store<{ user: User }>) { 
     this.servicePanier = _panierService;   // initialisation du service 
     this.categorieService = _serviceCategorie;
     this.albumItems$ = store.pipe(select('album')); // on recupere le service store 
     this.userItem$ = storeUser.pipe(select('user')); // on recupere le service store 
     this.favorisItems$ = storeFav.pipe(select('favoris')); // on recupere le service store 
-
+    this.serviceAlbum = _serviceAlbum; 
     this.serviceFavoris = _favService; // initialisation du service 
 
   }
@@ -243,5 +249,31 @@ export class CategoriePage implements OnInit {
         
       }
     }
+  }
+
+
+  searchName="";
+  tabSearch = []
+
+  recuperationSearch(event : any){
+    this.searchOn = true; 
+    this.searchName=event; 
+    if (event !="")
+    {
+        this.serviceAlbum.search(event).subscribe(
+        (data:any) => {
+          this.tabSearch = data; 
+          console.log("data -- ", data)
+        },
+        (error:any)=>{
+          console.log(" erreur add panier : ", error)
+        })
+      }
+    console.log(" search ... ", event)
+  }
+
+  stopSearch(){
+    this.searchOn = false; 
+    console.log(" close research ")
   }
 }

@@ -93,8 +93,10 @@ export class ProfilUserPage implements OnInit {
   }
 
   goPanier(){
-   
-    this.router.navigate(['/panier']);
+    // console.log(" okk ")
+      if (this.username=="") this.router.navigate(['/formulaire-connexion']);
+      else this.router.navigate(['/panier']);
+    
   }
 
 

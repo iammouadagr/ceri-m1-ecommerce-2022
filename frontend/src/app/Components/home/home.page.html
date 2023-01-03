@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
 
-    <ion-searchbar slot="primary" animated="true"   class="Recherche" style="width:40%"></ion-searchbar>
+    <ion-searchbar show-cancel-button="focus" slot="primary" animated="true"  cancel-button-icon="trash" class="Recherche" style="width:40%" (change)="recuperationSearch($event.target.value)"  (ionCancel)="stopSearch()"></ion-searchbar>
 
 
     <ion-buttons slot="primary" >
@@ -44,153 +44,208 @@
 
 <ion-content>
 
+  <div *ngIf="searchOn==false"> 
+    <div class="content" style=" padding-top: 2%; ">
+    <!-- <div style="padding: 2%; ">
+      <ion-searchbar animated="true" placeholder="Recherche"  class="Recherche"></ion-searchbar>
+    </div> -->
 
-  <div class="content" style=" padding-top: 2%; ">
-  <!-- <div style="padding: 2%; ">
-    <ion-searchbar animated="true" placeholder="Recherche"  class="Recherche"></ion-searchbar>
-  </div> -->
+
+    <!-- DIVIDER NOUVEAUTÉ  -->
+    <div align="center">
+      <ion-item-divider style=" padding-top: 0%; width: 60%;  ">
+        <div style="width: 100%; text-align: center;"><h1>NOUVEAUTÉS</h1></div>
+      </ion-item-divider>
+    </div>
+
+    <!-- POSTE IMAGE NOUVEAUTÉ -->
+      <div class="top"  style=" padding-top: 5%; ">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <div  class="imgTop">
+                <img  [src]="top[0].image" class="TopPoster"/>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div  class="imgTop2" align="right">
+                <img  [src]="top[0].image" class="TopPoster"/>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <div class="centeredTop1">
+          <ion-grid >
+            <ion-row >
+              <ion-col style="font-weight: bold;"> {{top[0].titre}}
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                {{top[0].artiste}}
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                {{top[0].prix}} &euro;
+              </ion-col>
+              <ion-col>
+                <div align="right">
+                  <ion-button size="small" fill="outline" class="buy">
+                    Acheter
+                  </ion-button>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
 
 
-  <!-- DIVIDER NOUVEAUTÉ  -->
-  <div align="center">
-    <ion-item-divider style=" padding-top: 0%; width: 60%;  ">
-      <div style="width: 100%; text-align: center;"><h1>NOUVEAUTÉS</h1></div>
-    </ion-item-divider>
+        </div>
+        <div class="centeredTop2">
+          <ion-grid >
+            <ion-row >
+              <ion-col style="font-weight: bold;"> {{top[0].titre}}
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                {{top[0].artiste}}
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                {{top[0].prix}} &euro;
+              </ion-col>
+              <ion-col>
+                <div align="right">
+                  <ion-button size="small" fill="outline" class="buy">
+                    Acheter
+                  </ion-button>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+
+        </div>
+      </div>
+
+      <!-- DIVIDER BEST SELLER  -->
+      <ion-item-divider style=" padding-top: 5%; ">
+        <div style="width: 100%; text-align: center;"><h1>BEST SELLER</h1></div>
+      </ion-item-divider>
+
+
+
+      <!-- LISTE DES 10 MEILLEURS ALBUMS VENDUS -->
+      <div style=" padding-top: 5%; " class="bestSeller" >
+        <ion-grid >
+          <ion-row >
+          <ion-col *ngFor="let songs of albumItems$ | async ;  let i= index;    " [fixed]="true" size="auto"  >
+
+              <div *ngIf="i < valeurBestSeller"  style="padding:3%" >
+                <div>
+                  <img  [src]="songs.lien_image" class="poster" (click)="seeDetails(songs)"/>
+                </div>
+
+                <ion-grid >
+                  <ion-row >
+                    <ion-col  size="10" style="height:5px; font-weight:bold; font-size:110%" >
+                    <p class="ion-align-items-end"> {{songs.titre_album}}<p>
+                    </ion-col>
+                    <ion-col  size="2">
+                      
+                      <ion-icon  name="heart"  size="large" fill="outline" class="fav" (click)="addOrDeletefavoris(songs)"></ion-icon>
+                    </ion-col>
+
+                  </ion-row>
+                  <ion-row>
+                    <ion-col size="auto">
+                      {{songs.nom}}
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col size="auto" >
+                      {{songs.prix}} &euro;
+                    </ion-col>
+                    <ion-col >
+                      <div align="right">
+                        <ion-button size="small" fill="outline" class="buy" (click)="ajouterAuPanier(songs)">
+                          Acheter
+                        </ion-button>
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </div>
+
+          </ion-col>
+
+          </ion-row>
+        </ion-grid>
+        <div align="center">
+          <ion-button  fill="outline" class="seemore" [routerLink]="['/categorie']" >
+            Voir tout
+          </ion-button>
+        </div>
+      </div>
+
+    </div>
   </div>
 
-  <!-- POSTE IMAGE NOUVEAUTÉ -->
-    <div class="top"  style=" padding-top: 5%; ">
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <div  class="imgTop">
-              <img  [src]="top[0].image" class="TopPoster"/>
-            </div>
-          </ion-col>
-          <ion-col>
-            <div  class="imgTop2" align="right">
-              <img  [src]="top[0].image" class="TopPoster"/>
-            </div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+  <div *ngIf="searchOn">
+        <div style="padding:5%;">
+          <h5> Résultat correspondant à la recherche {{searchName}}</h5>
+        </div>
 
-      <div class="centeredTop1">
-        <ion-grid >
-          <ion-row >
-            <ion-col style="font-weight: bold;"> {{top[0].titre}}
+        <div  class="recherche" >
+          <ion-grid >
+            <ion-row >
+            <ion-col *ngFor="let songs of tabSearch ;  let i= index;    " [fixed]="true" size="auto"  >
+  
+                  <div>
+                    <img  [src]="songs.lien_image" class="poster" (click)="seeDetails(songs)"/>
+                  </div>
+  
+                  <ion-grid >
+                    <ion-row >
+                      <ion-col  size="10" style="height:5px; font-weight:bold; font-size:110%" >
+                      <p class="ion-align-items-end"> {{songs.titre_album}}<p>
+                      </ion-col>
+                      <ion-col  size="2">
+                        
+                        <ion-icon  name="heart"  size="large" fill="outline" class="fav" (click)="addOrDeletefavoris(songs)"></ion-icon>
+                      </ion-col>
+  
+                    </ion-row>
+                    <ion-row>
+                      <ion-col size="auto">
+                        {{songs.nom}}
+                      </ion-col>
+                    </ion-row>
+                    <ion-row>
+                      <ion-col size="auto" >
+                        {{songs.prix}} &euro;
+                      </ion-col>
+                      <ion-col >
+                        <div align="right">
+                          <ion-button size="small" fill="outline" class="buy" (click)="ajouterAuPanier(songs)">
+                            Acheter
+                          </ion-button>
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+            
+  
             </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              {{top[0].artiste}}
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              {{top[0].prix}} &euro;
-            </ion-col>
-            <ion-col>
-              <div align="right">
-                <ion-button size="small" fill="outline" class="buy">
-                  Acheter
-                </ion-button>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-
-
-      </div>
-      <div class="centeredTop2">
-        <ion-grid >
-          <ion-row >
-            <ion-col style="font-weight: bold;"> {{top[0].titre}}
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              {{top[0].artiste}}
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              {{top[0].prix}} &euro;
-            </ion-col>
-            <ion-col>
-              <div align="right">
-                <ion-button size="small" fill="outline" class="buy">
-                  Acheter
-                </ion-button>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-
-
-      </div>
-    </div>
-
-    <!-- DIVIDER BEST SELLER  -->
-    <ion-item-divider style=" padding-top: 5%; ">
-      <div style="width: 100%; text-align: center;"><h1>BEST SELLER</h1></div>
-    </ion-item-divider>
-
-
-
-    <!-- LISTE DES 10 MEILLEURS ALBUMS VENDUS -->
-    <div style=" padding-top: 5%; " class="bestSeller" >
-      <ion-grid >
-        <ion-row >
-        <ion-col *ngFor="let songs of albumItems$ | async ;  let i= index;    " [fixed]="true" size="auto"  >
-
-            <div *ngIf="i < valeurBestSeller"  style="padding:3%" >
-              <div>
-                <img  [src]="songs.lien_image" class="poster" (click)="seeDetails(songs)"/>
-              </div>
-
-              <ion-grid >
-                <ion-row >
-                  <ion-col  size="10" style="height:5px; font-weight:bold; font-size:110%" >
-                  <p class="ion-align-items-end"> {{songs.titre_album}}<p>
-                  </ion-col>
-                  <ion-col  size="2">
-                    
-                    <ion-icon  name="heart"  size="large" fill="outline" class="fav" (click)="addOrDeletefavoris(songs)"></ion-icon>
-                  </ion-col>
-
-                </ion-row>
-                <ion-row>
-                  <ion-col size="auto">
-                    {{songs.nom}}
-                  </ion-col>
-                </ion-row>
-                <ion-row>
-                  <ion-col size="auto" >
-                    {{songs.prix}} &euro;
-                  </ion-col>
-                  <ion-col >
-                    <div align="right">
-                      <ion-button size="small" fill="outline" class="buy" (click)="ajouterAuPanier(songs)">
-                        Acheter
-                      </ion-button>
-                    </div>
-                  </ion-col>
-                </ion-row>
-              </ion-grid>
-            </div>
-
-        </ion-col>
-
-        </ion-row>
-      </ion-grid>
-      <div align="center">
-        <ion-button  fill="outline" class="seemore" [routerLink]="['/categorie']" >
-          Voir tout
-        </ion-button>
-      </div>
-    </div>
-
+  
+            </ion-row>
+          </ion-grid>
+         
+        </div>
+  
   </div>
 </ion-content>
 

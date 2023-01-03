@@ -22,7 +22,7 @@
     </ion-buttons>
     
     <ion-buttons slot="primary" >
-      <ion-button class="panier">
+      <ion-button class="panier" (click)="goPanier()">
         <ion-badge *ngIf="numberPanier>0" color="accent">{{numberPanier}}</ion-badge>
         <ion-icon slot="end" name="basket"></ion-icon>
       </ion-button>

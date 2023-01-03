@@ -46,12 +46,12 @@ exports.getAlbums = async  (req,res) => {
 
 exports.searchAlgolia = async  (req,res) => {
 
-    var search = req.params.search;
+    var search = req.body.search;
 
     var queryAlbumByID = `select * from vinyle.album as A inner join vinyle.artiste as B on A.id_artiste = B.id_artiste where`;
     index.search(search)
     .then((objects) => {
-
+        console.log(" search result ::: ", objects)
         if(objects.hits.length==0){
             res.status(200).json(new Array());
         }

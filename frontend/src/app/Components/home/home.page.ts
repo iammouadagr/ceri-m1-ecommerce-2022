@@ -40,6 +40,8 @@ export class HomePage implements OnInit {
   indexItemMouseOnOff=-1;  // pour eviter que le mouse on agisse sur toutes les cases 
 
 
+  searchOn = false; /// pour changer l'affichage si la bar de recherche est actif 
+
 
   top = [
     {
@@ -389,6 +391,32 @@ export class HomePage implements OnInit {
         
       }
     }
+  }
+
+  searchName="";
+
+  tabSearch = []
+  recuperationSearch(event : any){
+    this.searchOn = true; 
+    this.searchName=event; 
+
+    if (event !="")
+    {
+        this.serviceAlbum.search(event).subscribe(
+        (data:any) => {
+          this.tabSearch = data; 
+          console.log("data -- ", data)
+        },
+        (error:any)=>{
+          console.log(" erreur add panier : ", error)
+        })
+      }
+    console.log(" search ... ", event)
+  }
+
+  stopSearch(){
+    this.searchOn = false; 
+    console.log(" close research ")
   }
 
   // isFavoris(art){

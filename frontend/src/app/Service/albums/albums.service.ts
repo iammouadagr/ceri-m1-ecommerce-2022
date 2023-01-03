@@ -34,4 +34,26 @@ export class AlbumsService {
     })
   }
 
+
+  search(nom:any){
+    var listAlbum={}
+    return Observable.create((observer: Subscriber<object>) => { 
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/search',{
+        search : nom
+      })
+      .subscribe(
+        data => {
+            //console.log(" data -- ", data)
+            listAlbum=data;
+        },
+        error=>{
+          console.log(" erreur recuperation search albums  ", error)
+        },
+        ()=>{
+          observer.next(listAlbum);
+        }
+      );
+    })
+  }
+
 }
