@@ -39,12 +39,13 @@ data "google_secret_manager_secret" "password" {
 
 
 resource "google_cloud_run_service" "backend" {
-  name     = "cloud-run-backend"
+  name     = "blackcat-backend"
   location = "europe-west1"
 
 
   template {
     spec {
+      service_account_name = "terraform-blackcat@ceri-m1-ecommerce-2022.iam.gserviceaccount.com"
       containers {
         image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:1.2.0"
         env {
