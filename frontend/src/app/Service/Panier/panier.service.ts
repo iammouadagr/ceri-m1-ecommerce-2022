@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,12 @@ export class PanierService {
   ajouterAuPanier(id_user:string, id_album : number ){
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>('http://127.0.0.1:8080/api/v1/ajouterPanier',{ 
+      this._http.post<any>(`${environment.API_URL}/ajouterPanier`,{ 
         nom_utilisateur: id_user,
         album: id_album
       })
       .subscribe(
         data => {
-            console.log(" data -- ", data)
             fav=data;
         },
         error=>{
@@ -35,7 +35,7 @@ export class PanierService {
   getPanierList(id_user:string){
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>('http://127.0.0.1:8080/api/v1/panierUtilisateur',{ nom_utilisateur: id_user})
+      this._http.post<any>(`${environment.API_URL}/panierUtilisateur`,{ nom_utilisateur: id_user})
       .subscribe(
         data => {
             console.log(" data -- opanier", data)
@@ -51,31 +51,11 @@ export class PanierService {
     })
   }
   
-  // supprimerDuPanier(id_user:string){
-  //   var fav = {}; 
-  //   let parametres = new HttpParams();
-  //   parametres = parametres.append('nom_utilisateur', id_user);
-  //   return Observable.create((observer: Subscriber<Object>) => { 
-  //     this._http.get<any>('http://127.0.0.1:8080/api/v1/supprimerPanier',{ params: parametres})
-  //     .subscribe(
-  //       data => {
-  //           console.log(" data -- ", data)
-  //           fav=data;
-  //       },
-  //       error=>{
-  //         console.log(" erreur recuperation favoris ", error)
-  //       },
-  //       ()=>{
-  //         observer.next(fav);
-  //       }
-  //     );
-  //   })
-  // }
 
   commandeValidee(nom_utilisateur, date, prix, listAlbums, quantit){
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>('http://127.0.0.1:8080/api/v1/ajouterCommandes',{ 
+      this._http.post<any>(`${environment.API_URL}/ajouterCommandes`,{ 
         nom_utilisateur: nom_utilisateur,
         date: date,
         prix: prix,
@@ -100,7 +80,7 @@ export class PanierService {
   getTotalPanier(nom_utilisateur:string){
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>('http://127.0.0.1:8080/api/v1/totalPanier',{ nom_utilisateur: nom_utilisateur})
+      this._http.post<any>(`${environment.API_URL}/totalPanier`,{ nom_utilisateur: nom_utilisateur})
       .subscribe(
         data => {
             console.log(" data -- ", data)
@@ -122,7 +102,7 @@ export class PanierService {
     console.log(" quantite ",quantite )
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>('http://127.0.0.1:8080/api/v1/ajouterPanier',{ 
+      this._http.post<any>(`${environment.API_URL}/ajouterPanier`,{ 
         nom_utilisateur: nom_utilisateur,
         album: id_album,
         quantite: quantite,
@@ -147,7 +127,7 @@ export class PanierService {
   supprimerItemFromPanier(nom_utilisateur:string, id_album : number){
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>('http://127.0.0.1:8080/api/v1/supprimerPanier',{ 
+      this._http.post<any>(`${environment.API_URL}/supprimerPanier`,{ 
         nom_utilisateur: nom_utilisateur,
         album: id_album
       })
