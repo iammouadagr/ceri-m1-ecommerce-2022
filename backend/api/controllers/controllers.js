@@ -1,6 +1,7 @@
 const connection = require('../../config/db')
 const sha1 = require('sha1');
 
+
 exports.getAlbums = async  (req,res) => {
     connection.query(" SELECT * FROM vinyle.album as A inner join vinyle.artiste as B on A.id_artiste = B.id_artiste;", function (err, result, fields) {
         if (err){
@@ -12,9 +13,116 @@ exports.getAlbums = async  (req,res) => {
     });
 }
 
+
+exports.addAlbum = async  (req,res) => {
+    
+    var artiste = req.body.artiste;
+    var queryVerifArtist = `select * from vinyle.artiste where nom like '`+artiste+`';`
+    var lien_image = req.body.lien_image;
+    var titre_album = req.body.titre_album;
+    var annee = req.body.annee;
+    var quantite = req.body.quantite;
+    var genre_musical = req.body.genre_musical;
+    var description = req.body.description;
+    var prix = req.body.prix;
+    var listeChansons = req.body.listeChansons;
+
+    
+    connection.query(queryVerifArtist, function (err, result, fields) {
+        if (err){
+            throw err;
+        }
+        else{
+            if(result[0]!=null)
+            {
+                var queryAddAlbum = `INSERT INTO vinyle.album(titre_album, id_artiste, lien_image, genre_musical, annee, prix, description_album, quantiteMax) VALUES`+
+                `('`+titre_album+`','`+result[0].id_artiste+`','`+lien_image+`', '`+genre_musical+`', '`+annee+`', '`+prix+`', "`+description+`", '`+quantite+`');`;   
+                connection.query(queryAddAlbum, function (err, result5, fields) {
+                    if (err){
+                        throw err;
+                    }
+                    else{
+                        var queryGetAlbumByName = `select * from vinyle.album where titre_album like '`+titre_album+`' and id_artiste = `+result[0].id_artiste+`;`
+                        connection.query(queryGetAlbumByName, function (err, result6, fields) {
+                            if (err){
+                                throw err;
+                            }
+                            else{
+
+                                for(let i=0; i<listeChansons.length; i++)
+                                {
+                                    var queryAddSongs = `INSERT INTO vinyle.chanson (titre_chanson, id_album, id_artiste, genre_musical) values ('`+listeChansons[i]+`', `+result6[0].id_album+`, `+result[0].id_artiste+`, '`+genre_musical+`')`;
+                                    connection.query(queryAddSongs, function (err, result8, fields) {
+                                        if (err){
+                                            throw err;
+                                        }
+                                    });
+                                    if(i==(listeChansons.length - 1))
+                                    {
+                                        res.status(200).json(result6);
+                                    }
+                                }
+           
+                            }
+                        });
+                    }
+                });         
+            }
+            else{
+                var queryCreateArtist = `insert into vinyle.artiste(nom) values ('`+artiste+`');`;
+                connection.query(queryCreateArtist, function (err, result1, fields) {
+                    if (err){
+                        throw err;
+                    }
+                    else{
+                        var queryGetIdArtiste = `select * from vinyle.artiste where nom like '`+artiste+`';`;
+                        connection.query(queryGetIdArtiste, function (err, result2, fields) {
+                            if (err){
+                                throw err;
+                            }
+                            else{
+                                var queryAddAlbum = `INSERT INTO vinyle.album(titre_album, id_artiste, lien_image, genre_musical, annee, prix, description_album, quantiteMax) VALUES`+
+                                `('`+titre_album+`','`+result2[0].id_artiste+`','`+lien_image+`', '`+genre_musical+`', '`+annee+`', '`+prix+`', "`+description+`", '`+quantite+`');`;            
+                                connection.query(queryAddAlbum, function (err, result3, fields) {
+                                    if (err){
+                                        throw err;
+                                    }
+                                    else{
+                                        var queryGetAlbumByName = `select * from vinyle.album where titre_album like '`+titre_album+`' and id_artiste = `+result2[0].id_artiste+`;`
+                                        connection.query(queryGetAlbumByName, function (err, result4, fields) {
+                                            if (err){
+                                                throw err;
+                                            }
+                                            else{
+                                                for(let i=0; i<listeChansons.length; i++)
+                                                {
+                                                    var queryAddSongs = `INSERT INTO vinyle.chanson (titre_chanson, id_album, id_artiste, genre_musical) values ('`+listeChansons[i]+`', `+result4[0].id_album+`, `+result2[0].id_artiste+`, '`+genre_musical+`')`;
+                                                    connection.query(queryAddSongs, function (err, result8, fields) {
+                                                        if (err){
+                                                            throw err;
+                                                        }
+                                                    });
+                                                    if(i==(listeChansons.length - 1))
+                                                    {
+                                                        res.status(200).json(result4);
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    });
+}
+
 exports.getUserInformation = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
+    var nom_utilisateur = req.body.nom_utilisateur;
     var query = `select * from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
     connection.query(query, function (err, result, fields) {
         if (err){
@@ -26,9 +134,133 @@ exports.getUserInformation = async  (req,res) => {
     });
 }
 
+exports.removeAlbum = async  (req,res) => {
+
+    var album = req.body.id_album;
+    var queryRemoveAlbumById = `delete from vinyle.album where id_album = `+album+`;`;
+    var queryRemoveSongByAlbum = `delete from vinyle.chanson where id_album = `+album+`;`;
+
+
+    connection.query(queryRemoveSongByAlbum, function (err, result, fields) {
+        if (err){
+            throw err;
+            res.status(400).json(false);
+        }
+        else{  
+            connection.query(queryRemoveAlbumById, function (err, result, fields) {
+                if (err){
+                    throw err;
+                    res.status(400).json(false);
+                }
+                else{  
+                    res.status(200).json(true);
+                }
+            });
+        }
+    });
+}
+
+exports.getOrderPending = async  (req,res) => {
+
+    var queryGetOrderPending = `select * from vinyle.suivi_commandes where statut like 'attente de traitement';`;
+
+    connection.query(queryGetOrderPending, function (err, result, fields) {
+        if (err){
+            throw err;
+            res.status(400).json(false);
+        }
+        else{  
+            res.status(200).json(result);
+        }
+    });
+}
+
+exports.getOrderValidated = async  (req,res) => {
+
+    var queryGetOrderValidated = `select * from vinyle.suivi_commandes where statut like 'validée';`;
+
+    connection.query(queryGetOrderValidated, function (err, result, fields) {
+        if (err){
+            throw err;
+            res.status(400).json(false);
+        }
+        else{  
+            res.status(200).json(result);
+        }
+    });
+}
+
+exports.getOrderShipped = async  (req,res) => {
+
+    var queryGetOrderShipped = `select * from vinyle.suivi_commandes where statut like 'expédiée';`;
+
+    connection.query(queryGetOrderShipped, function (err, result, fields) {
+        if (err){
+            throw err;
+            res.status(400).json(false);
+        }
+        else{  
+            res.status(200).json(result);
+        }
+    });
+}
+
+exports.getOrderDelivered = async  (req,res) => {
+
+    var queryGetOrderDelivered = `select * from vinyle.suivi_commandes where statut like 'livrée';`;
+
+    connection.query(queryGetOrderDelivered, function (err, result, fields) {
+        if (err){
+            throw err;
+            res.status(400).json(false);
+        }
+        else{  
+            res.status(200).json(result);
+        }
+    });
+}
+
+
+
+exports.getOrderByUser = async  (req,res) => {
+
+    var id_utilisateur = req.body.id_utilisateur;
+    var queryGetOrderByUser = `select * from vinyle.suivi_commandes where id_utilisateur = `+id_utilisateur+`;`;
+
+    connection.query(queryGetOrderByUser, function (err, result, fields) {
+        if (err){
+            throw err;
+            res.status(400).json(false);
+        }
+        else{  
+            res.status(200).json(result);
+        }
+    });
+}
+
+exports.modifyStatus = async  (req,res) => {
+
+
+    var id_suivi = req.body.id_suivi;
+    var statut = req.body.statut;
+
+
+    var queryModifyStatus = `update suivi_commandes set statut = '`+statut+`' where id_suivi = `+id_suivi+`;`;
+
+    connection.query(queryModifyStatus, function (err, result, fields) {
+        if (err){
+            throw err;
+            res.status(400).json(false);
+        }
+        else{  
+            res.status(200).json(true);
+        }
+    });
+}
+
 exports.getMusicByAlbum = async  (req,res) => {
 
-    var id_album = req.query.album;
+    var id_album = req.body.album;
     var queryMusicByIdAlbum = `select * from vinyle.chanson where id_album = `+id_album+`;`;
     connection.query(queryMusicByIdAlbum, function (err, result_1, fields) {
         if (err){
@@ -42,22 +274,17 @@ exports.getMusicByAlbum = async  (req,res) => {
 }
 
 
-
-
-
-
-
 exports.registerUser = async  (req,res) => {
 
-    prenom = req.query.prenom;
-    nom = req.query.nom;
-    adresse_mail = req.query.adresse_mail;
-    nom_utilisateur = req.query.nom_utilisateur;
-    lieu_naissance = req.query.lieu_naissance;
-    date_naissance = req.query.date_naissance;
-    mot_de_passe = sha1(req.query.mot_de_passe);
-    sexe = req.query.sexe;
-    statut = req.query.statut;
+    prenom = req.body.prenom;
+    nom = req.body.nom;
+    adresse_mail = req.body.adresse_mail;
+    nom_utilisateur = req.body.nom_utilisateur;
+    lieu_naissance = req.body.lieu_naissance;
+    date_naissance = req.body.date_naissance;
+    mot_de_passe = sha1(req.body.mot_de_passe);
+    sexe = req.body.sexe;
+    statut = req.body.statut;
 
 
     var queryRegister = `INSERT INTO utilisateur(nom_utilisateur, adresse_mail, prenom, nom, lieu_naissance, date_naissance, mot_de_passe, sexe, statut) VALUES`+
@@ -90,8 +317,8 @@ exports.registerUser = async  (req,res) => {
 
 exports.userAuthentication = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
-    var mot_de_passe = sha1(req.query.mot_de_passe);
+    var nom_utilisateur = req.body.nom_utilisateur;
+    var mot_de_passe = sha1(req.body.mot_de_passe);
 
     var queryAuthentication = `select * from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`' and mot_de_passe like "`+mot_de_passe+`";`;
 
@@ -133,8 +360,8 @@ exports.getMusicalGenre = async  (req,res) => {
 
 exports.getAlbumsByGenre = async  (req,res) => {
 
-    var genre = req.query.genre;
-    var queryAlbumByGenre = `select * from vinyle.album where genre_musical in (`+genre+`);`;
+    var genre = req.body.genre;
+    var queryAlbumByGenre = `select * from vinyle.album where genre_musical like '`+genre+`';`;
 
     connection.query(queryAlbumByGenre, function (err, result, fields) {
         if (err){
@@ -148,8 +375,8 @@ exports.getAlbumsByGenre = async  (req,res) => {
 
 exports.addFavorite = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
-    var id_album = req.query.album;
+    var nom_utilisateur = req.body.nom_utilisateur;
+    var id_album = req.body.album;
 
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
 
@@ -175,14 +402,14 @@ exports.addFavorite = async  (req,res) => {
                                 res.json(false);
                             }
                             else{ 
-                                var queryGetFavoriteId = `Select id_favoris from vinyle.favoris where id_utilisateur = `+result_2[0].id_utilisateur+` and id_album = `+id_album+`;`;
+                                var queryGetFavoriteId = `Select * from vinyle.favoris where id_utilisateur = `+result_2[0].id_utilisateur+` and id_album = `+id_album+`;`;
                                 connection.query(queryGetFavoriteId, function (err, result_5, fields) {
                                     if (err){
                                         throw err;
                                         res.json(false);
                                     }
                                     else{ 
-                                        res.status(200).json(result_5[0].id_favoris,result_2[0].id_utilisateur );
+                                        res.status(200).json(result_5[0]);
                                     }
                                 });
                             }
@@ -201,8 +428,12 @@ exports.addFavorite = async  (req,res) => {
 
 exports.addCart = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
-    var id_album = req.query.album;
+
+    var nom_utilisateur = req.body.nom_utilisateur;
+    var id_album = req.body.album;
+    var quantite = req.body.quantite;
+    var quantiteBool = req.body.boolVar;
+
 
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
 
@@ -223,8 +454,8 @@ exports.addCart = async  (req,res) => {
                     console.log(result_3);
                     if(result_3[0]==null)
                     {
-                        var queryInsterFavorite = `INSERT INTO panier(id_utilisateur, id_album) VALUES (`+result_2[0].id_utilisateur+`, `+id_album+`)`;
-                        connection.query(queryInsterFavorite, function (err, result_4, fields) {
+                        var queryInsertCart = `INSERT INTO panier(id_utilisateur, id_album, quantite) VALUES (`+result_2[0].id_utilisateur+`, `+id_album+`, 1)`;
+                        connection.query(queryInsertCart, function (err, result_4, fields) {
                             if (err){
                                 throw err;
                                 res.json(false);
@@ -244,11 +475,34 @@ exports.addCart = async  (req,res) => {
                         });
                     }
                     else{
-                        res.json(false);
+                        if(quantiteBool == true)
+                        {
+                            var queryAddOneQuantity = `update panier set quantite = quantite + 1 where id_utilisateur = `+result_2[0].id_utilisateur+` and id_album = `+id_album+`;`;
+                            connection.query(queryAddOneQuantity, function (err, result_6, fields) {
+                                if (err){
+                                    throw err;
+                                    res.json(false);
+                                }
+                                else{ 
+                                    res.status(200).json(true);
+                                }
+                            });  
+                        }
+                        else{
+                            var queryAddOneQuantity = `update panier set quantite = `+quantite+` where id_utilisateur = `+result_2[0].id_utilisateur+` and id_album = `+id_album+`;`;
+                            connection.query(queryAddOneQuantity, function (err, result_6, fields) {
+                                if (err){
+                                    throw err;
+                                    res.json(false);
+                                }
+                                else{ 
+                                    res.status(200).json(true);
+                                }
+                            });  
+                        }
                     }
                 }
             });
-
         }
     });
 
@@ -267,37 +521,67 @@ exports.getArtistes = async  (req,res) => {
 
 exports.addPurchase = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
-    var date_achat = req.query.date;
-    var prix = req.query.prix;
-    var albums = req.query.listAlbums;
+    var nom_utilisateur = req.body.nom_utilisateur;
+    var date_achat = req.body.date;
+    var prix = req.body.prix;
+    var albums = req.body.listAlbums;
+    var listeAlbumQuantity = req.body.listeAlbumQuantity;
 
-    var queryGetIdByUsername = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
+
+
+    var queryGetIdByUsername = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`;
+
+
     connection.query(queryGetIdByUsername, function (err, result, fields) {
         if (err){
             throw err;
         }
         else{  
-            var queryAddPurchase = `insert into historique (date_achat, id_utilisateur, prix) values (str_to_date('`+date_achat+`', '%d-%m-%Y') , '`+result[0].id_utilisateur+`', '`+prix+`');`;
+            var queryAddPurchase = `insert into suivi_commandes (date_achat, id_utilisateur, prix, statut) values (str_to_date('`+date_achat+`', '%d/%m/%Y') , '`+result[0].id_utilisateur+`', '`+prix+`', 'attente de traitement');`;
             connection.query(queryAddPurchase, function (err, result1, fields) {
                 if (err){
                     throw err;
                 }
                 else{  
-                    var queryLastPurchase = `SELECT id_historique FROM vinyle.historique ORDER BY id_historique DESC LIMIT 1;`;
+                    var queryLastPurchase = `SELECT id_suivi FROM vinyle.suivi_commandes ORDER BY id_suivi DESC LIMIT 1;`;
                     connection.query(queryLastPurchase, function (err, result2, fields) {
                         if (err){
                             throw err;
                         }else{
                             for(let i = 0; i<albums.length; i++){
-                                var queryAddPurchaseAlbum = `insert into achat_album (id_historique, id_album) values (`+result2[0].id_historique+`, `+albums[i]+`);`;
+                                console.log(" albums ", albums[i])
+
+                                var queryAddPurchaseAlbum = `insert into suivi_commandes_album (id_suivi, id_album, quantite) values (`+result2[0].id_suivi+`, `+albums[i]+`, `+listeAlbumQuantity[i]+`);`;
                                 connection.query(queryAddPurchaseAlbum, function (err, result3, fields) {
                                     if (err){
                                         throw err;
                                     }
+                                    else{
+                                        var queryRemoveQuantity= `update album set quantiteMax = quantiteMax - `+listeAlbumQuantity[i]+` where id_album = `+albums[i]+`;`;
+                                        connection.query(queryRemoveQuantity, function (err, result4, fields) {
+                                            if (err){
+                                                throw err;
+                                            }
+                                            else{
+
+                                            }
+                                        });
+                                    }
                                 });
+                                if(i==(albums.length-1))
+                                {
+                                    var queryRemoveCart= `delete from vinyle.panier where id_utilisateur = `+result[0].id_utilisateur+`;`;
+                                        connection.query(queryRemoveCart, function (err, result7, fields) {
+                                            if (err){
+                                                throw err;
+                                            }
+                                            else{
+
+                                            }
+                                        });
+                                }
                             }
-                            res.json(result2[0].id_historique);
+                            res.json(result2[0].id_suivi);
                         }
                     });
                 }
@@ -308,8 +592,8 @@ exports.addPurchase = async  (req,res) => {
 
 exports.getAlbumsByPurchase = async  (req,res) => {
 
-    var id_historique = req.query.id_historique;
-    var queryGetAlbumsByPurchase = `select id_album from vinyle.achat_album where id_historique = `+id_historique+`;`;
+    var id_suivi = req.body.id_suivi;
+    var queryGetAlbumsByPurchase = `select id_album from vinyle.suivi_commandes_album where id_suivi = `+id_suivi+`;`;
     var listAlbums = new Array();
     var cpt = 0;
     connection.query(queryGetAlbumsByPurchase, function (err, result, fields) {
@@ -329,8 +613,6 @@ exports.getAlbumsByPurchase = async  (req,res) => {
                         cpt = cpt + 1;
                         if(cpt == result.length)
                         {
-                            console.log("salut");
-                            console.log("Album" + listAlbums);
                             res.json(listAlbums);
                         }
                     }
@@ -343,7 +625,7 @@ exports.getAlbumsByPurchase = async  (req,res) => {
 
 exports.getFavoritesByUser = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
+    var nom_utilisateur = "mohakh";
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
 
     
@@ -368,7 +650,7 @@ exports.getFavoritesByUser = async  (req,res) => {
 
 exports.getCartByUser = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
+    var nom_utilisateur = req.body.nom_utilisateur;
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
 
     
@@ -393,8 +675,8 @@ exports.getCartByUser = async  (req,res) => {
 
 exports.deleteFavorite = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
-    var album = req.query.album;
+    var nom_utilisateur = req.body.nom_utilisateur;
+    var album = req.body.album;
 
     var queryGetIdAlbum = `select id_album from vinyle.album where titre_album like '`+album+`';`
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
@@ -429,7 +711,9 @@ exports.deleteFavorite = async  (req,res) => {
 
 exports.getCartPrice = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
+    // var nom_utilisateur = req.body.nom_utilisateur;
+
+    var nom_utilisateur = "mohakh";
     var queryGetIdByUser = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`' ; `;
 
     connection.query(queryGetIdByUser, function (err, result, fields) {
@@ -437,7 +721,7 @@ exports.getCartPrice = async  (req,res) => {
             throw err;
         }
         else{  
-            var queryGetCartPrice = `select sum(prix) as total from vinyle.panier as A inner join vinyle.album as B on A.id_album = B.id_album where id_utilisateur = `+result[0].id_utilisateur+`;`;
+            var queryGetCartPrice = `select sum(prix * A.quantite) as total from vinyle.panier as A inner join vinyle.album as B on A.id_album = B.id_album where id_utilisateur = `+result[0].id_utilisateur+`;`;
             connection.query(queryGetCartPrice, function (err, result_1, fields) {
                 if (err){
                     throw err;
@@ -457,8 +741,8 @@ exports.getCartPrice = async  (req,res) => {
 
 exports.deleteAlbumFromCart = async  (req,res) => {
 
-    var nom_utilisateur = req.query.nom_utilisateur;
-    var album = req.query.album;
+    var nom_utilisateur = req.body.nom_utilisateur;
+    var album = req.body.album;
 
     var queryGetIdAlbum = `select id_album from vinyle.album where titre_album like '`+album+`';`
     var queryGetUserId = `select id_utilisateur from vinyle.utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
@@ -493,7 +777,7 @@ exports.deleteAlbumFromCart = async  (req,res) => {
 
 exports.getAlbumBySearch = async  (req,res) => {
 
-    var search = req.query.search;
+    var search = req.body.search;
     var queryAlbumBySearch = `select * from vinyle.album as A inner join vinyle.artiste as B on A.id_artiste = B.id_artiste where titre_album like '%`+search+`%' or nom like '%`+search+`%' or annee like '`+search+`';`;
 
     connection.query(queryAlbumBySearch, function (err, result, fields) {
@@ -506,10 +790,27 @@ exports.getAlbumBySearch = async  (req,res) => {
     });
 }
 
+exports.modifyQuantityAlbum = async  (req,res) => {
+
+    var album = req.body.id_album;
+    var new_quantity = req.body.quantite;
+    var queryModifyQuantity = `update album set quantiteMax = `+new_quantity+` where id_album = `+album+`;`;
+
+    connection.query(queryModifyQuantity, function (err, result, fields) {
+        if (err){
+            throw err;
+            res.status(400).json(false);
+        }
+        else{
+            res.status(200).json(true);
+        }
+    });
+}
+
 exports.getAlbumByPrice = async  (req,res) => {
 
-    var prix_min = req.query.min;
-    var prix_max = req.query.max;
+    var prix_min = req.body.min;
+    var prix_max = req.body.max;
 
     var queryAlbumByPrice = `select * from vinyle.album as A inner join vinyle.artiste as B on A.id_artiste = B.id_artiste where prix between `+prix_min+` and `+prix_max+`;`;
 

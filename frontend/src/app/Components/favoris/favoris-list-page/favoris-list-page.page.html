@@ -8,17 +8,24 @@
     </ion-buttons>
 
     <ion-buttons slot="primary" >
-      <ion-button>
-        <ion-icon slot="end" name="heart" style="color:#FF2E2E"></ion-icon>
+      <ion-button [routerLink]="['/categorie']" >
+      Produits
       </ion-button>
     </ion-buttons>
 
-   
+    <ion-buttons slot="primary" >
+      <ion-button [routerLink]="['/formulaire-connexion']">
+        <ion-icon slot="end" name="person-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+
+<!--    
     <ion-buttons slot="primary" >
       <ion-button >
         <ion-icon slot="end" name="help-circle"></ion-icon>
       </ion-button>
-    </ion-buttons>
+    </ion-buttons> -->
    
     <ion-title class="TitreSite">2MIStore</ion-title>
 
@@ -32,9 +39,8 @@
     <ion-grid >
       <ion-row >
       <ion-col *ngFor="let songs of favorisItems$ | async ;  let i= index;    " [fixed]="true" size="auto"  >
-
-          
-            <div>
+         
+             <div>
               <img  [src]="songs.lien_image" class="poster" (click)="seeDetails(songs)"/>
             </div>
 
@@ -45,13 +51,13 @@
                 </ion-col>
                 <ion-col  size="2">
                 </ion-col>
-
               </ion-row>
-              <ion-row>
+              <!-- <ion-row>
                 <ion-col size="auto">
                   {{songs.nom}}
+                  <br/>
                 </ion-col>
-              </ion-row>
+              </ion-row> -->
               <ion-row>
                 <ion-col size="auto" >
                   {{songs.prix}} &euro;
@@ -65,6 +71,8 @@
                 </ion-col>
               </ion-row>
             </ion-grid>
+
+          
        
 
       </ion-col>

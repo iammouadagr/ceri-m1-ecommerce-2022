@@ -49,3 +49,28 @@
         left: 50%;
     }
 }
+
+
+@media (prefers-color-scheme: dark) {
+
+    .TitreSite{
+        color:yellow;
+    }
+    .Recherche{
+        color:yellow;
+    }
+    .price{
+        text-color:yellow;
+    }
+    .centeredTop1{
+        color: black;
+       
+    }
+    .centeredTop2{
+        color: black;
+       
+    }
+
+   
+    
+}

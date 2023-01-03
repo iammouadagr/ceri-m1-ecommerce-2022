@@ -15,6 +15,7 @@
         <ion-icon slot="end" name="heart" style="color:#FF2E2E" ></ion-icon> Favoris
       </ion-button>
     </ion-buttons>
+    
     <ion-buttons slot="primary" >
       <ion-button class="panier"  (click)="goPanier()">
         <ion-badge *ngIf="numberPanier>0" color="accent">{{numberPanier}}</ion-badge>
@@ -28,12 +29,13 @@
       </ion-button>
     </ion-buttons>
 
-    <ion-buttons slot="primary" >
+    <!-- <ion-buttons slot="primary" >
       <ion-button >
         <ion-icon slot="end" name="help-circle"></ion-icon>
       </ion-button>
-    </ion-buttons>
+    </ion-buttons> -->
 
+    
 
     <ion-title class="TitreSite" (click)="goAccueil()">2MIStore</ion-title>
 
@@ -153,6 +155,7 @@
                   <p class="ion-align-items-end"> {{songs.titre_album}}<p>
                   </ion-col>
                   <ion-col  size="2">
+                    
                     <ion-icon  name="heart"  size="large" fill="outline" class="fav" (click)="addOrDeletefavoris(songs)"></ion-icon>
                   </ion-col>
 
@@ -182,7 +185,7 @@
         </ion-row>
       </ion-grid>
       <div align="center">
-        <ion-button  fill="outline" class="seemore">
+        <ion-button  fill="outline" class="seemore" [routerLink]="['/categorie']" >
           Voir tout
         </ion-button>
       </div>

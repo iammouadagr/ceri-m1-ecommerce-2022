@@ -13,6 +13,11 @@ const server = require('http').Server(app);
 const hostname = os.hostname();
 const PORT= process.env.PORT;
 
+app.use(bodyParser.urlencoded({extended: true})); 
+
+app.use(bodyParser.json({limit: '10mb'}));
+
+
 app.use(cors({
     origin: '*'
 }));

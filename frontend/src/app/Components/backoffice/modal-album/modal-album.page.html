@@ -1,0 +1,104 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="danger" (click)="cancel()">Quitter</ion-button>
+    </ion-buttons>
+    <ion-title align="center">Ajout album </ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="success" (click)="confirm()">Ajouter</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+<div >
+
+
+  <ion-grid >
+    <ion-row>
+      <ion-col>
+        <img [src]="album.lien_image" height="200px" width="200px"/>
+        <ion-item>
+          <ion-label position="fixed">Album image</ion-label>
+          <ion-input type="text" (change)="changeImage($event)"></ion-input>
+        </ion-item>
+      
+        <ion-item-divider><h2> Artiste </h2></ion-item-divider>
+        <section>
+
+          <ion-item>
+            <ion-label position="fixed">Artiste</ion-label>
+            <ion-input color="warning"  (change)="changeNomArtiste($event)"></ion-input>
+          </ion-item>
+
+        </section>
+        <ion-item-divider><h2> Album </h2></ion-item-divider>
+        <section>
+
+          <ion-item>
+            <ion-label position="fixed">Titre album</ion-label>
+            <ion-input color="warning"  (change)="changeTitreAlbum($event)"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="fixed">Genre</ion-label>
+            <ion-input color="warning"  (change)="changeGenre($event)"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Année</ion-label>
+            <ion-input color="warning" (change)="changeAnnee($event)"></ion-input>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label>Prix</ion-label>
+            <ion-input color="warning"  (change)="changePrix($event)"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Description</ion-label>
+              <ion-textarea placeholder="Descripton" (change)="changeDescription($event)"></ion-textarea>
+          </ion-item>
+
+        </section>
+
+        <ion-item-divider><h2> Quantité </h2></ion-item-divider>
+
+        <section>
+
+          <ion-item>
+            <ion-label>Quantité maximal</ion-label>
+            <ion-input color="warning"    type="number"  (change)="changeQuantiteMax($event)"></ion-input>
+          </ion-item>
+         
+        </section>
+
+
+        <ion-item-divider><h2> Musiques  </h2></ion-item-divider>
+
+        <section>
+
+          <ion-item>
+            <ion-label>Musiques</ion-label>
+            <ion-input color="warning"    type="text"  (change)="changeAlbumMusique($event)"></ion-input>
+            <div>
+              <ion-button fill="outline" style="display: flex; justify-content: flex-end" (click)="ajouterChanson()">
+                  ajouter
+              </ion-button>
+            </div>
+
+          </ion-item>
+          <ion-item *ngFor="let mu of musique; let i = index; ">
+                {{ mu }}
+            
+          </ion-item>
+         
+        </section>
+  
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
+   
+</ion-content>

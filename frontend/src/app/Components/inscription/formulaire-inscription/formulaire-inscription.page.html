@@ -8,17 +8,11 @@
     </ion-buttons>
 
     <ion-buttons slot="primary" >
-      <ion-button>
-        <ion-icon slot="end" name="heart" style="color:#FF2E2E"></ion-icon>
+      <ion-button [routerLink]="['/categorie']" >
+      Produits
       </ion-button>
     </ion-buttons>
-
-   
-    <ion-buttons slot="primary" >
-      <ion-button >
-        <ion-icon slot="end" name="help-circle"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+ 
    
     <ion-title class="TitreSite">2MIStore</ion-title>
 
@@ -26,11 +20,95 @@
 </ion-header>
 
 <ion-content>
-  <h2 style="padding-bottom: 5%;"> Inscrivez-vous  </h2>
-  <div class="elementForm" >
-   <table >
+  <h2 align="center"> Inscrivez-vous  </h2>
+  <div style="padding-left: 5%; padding-right:5%;">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-item-divider><h2> Informations Personnelles  </h2></ion-item-divider>
+          <ion-item>
+            <ion-label position="floating" style="color:grey;">Identifiant </ion-label>
+            <ion-input type="text"  [(ngModel)]="form.id"  name="identifiant" placeholder="Identifiant ou email " (keyup.enter)="inscription()"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating" style="color:grey;">Nom </ion-label>
+            <ion-input type="text" name="nom" [(ngModel)]="form.nom" placeholder="Nom" (keyup.enter)="inscription()"> </ion-input> 
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating" style="color:grey;">Prénom </ion-label>
+            <ion-input type="text"  name="prenom" [(ngModel)]="form.prenom" placeholder="Prénom" (keyup.enter)="inscription()"></ion-input> 
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating" style="color:grey;">E-mail </ion-label>
+            <ion-input type="email"  name="email" [(ngModel)]="form.email" placeholder="E-mail" (keyup.enter)="inscription()"></ion-input> 
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating" style="color:grey;">Lieu de naissance </ion-label>
+            <ion-input type="text" name="lieunaissance" [(ngModel)]="form.lieunaissance" placeholder="Lieu de naissance " (keyup.enter)="inscription()"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating" style="color:grey;">Date de naiassance </ion-label>
+            <ion-datetime name="datenaissance"  displayFormat="YYYY-MMMM-D" [(ngModel)]="form.datenaissance" pickerFormat="DD MM YYYY" (keyup.enter)="inscription()"></ion-datetime>
+          </ion-item>
 
-    
+          
+        
+
+        </ion-col>
+
+        <ion-col size="6">
+
+          <ion-item-divider><h2> Sexe  </h2></ion-item-divider>
+
+          <ion-radio-group value="form.sexe" [(ngModel)]="form.sexe">
+          <ion-item>
+            <ion-label>Femme</ion-label>
+            <ion-radio slot="end" value="F"></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>Homme</ion-label>
+            <ion-radio slot="end" value="H"></ion-radio>
+          </ion-item>
+          </ion-radio-group>
+
+          <ion-item-divider><h2> Mot de passe  </h2></ion-item-divider>
+
+          <ion-item>
+            <ion-label position="floating" style="color:grey;" >Mot de passe </ion-label>
+            <ion-input type="password"   name="mdp" [(ngModel)]="form.mdp"  placeholder="Mot de passe " (keyup.enter)="inscription()"></ion-input> 
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating" style="color:grey;" > Reinscrire le mot de passe </ion-label>
+            <ion-input type="password"   name="mdp2" [(ngModel)]="form.mdp2" placeholder="Mot de passe " (keyup.enter)="inscription()"></ion-input> 
+          </ion-item>
+          <br/>
+          <div *ngIf="!mdpSame" style="color:red"> Les mots de passe ne sont pas identiques.</div>
+        
+
+          <div *ngIf="!auth"  style="color:red"> 
+            Cette identifiant existe déjà.
+          </div>
+
+          <div *ngIf="valManquante" style="color:red">
+            Certaines valeures sont manquantes, veuillez remplir tout les champs.
+          </div>
+
+        
+            <div style="display: flex; justify-content: flex-end">
+              <ion-button type="submit" color="success" (click)="inscription()"  > 
+                S'inscrire
+              </ion-button>
+            </div>
+          
+          
+            
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </div>
+  <!-- <div class="elementForm" >
+   <table >
      <tr>
        <td> <ion-item><ion-label position="floating" style="color:grey;">Identifiant </ion-label><ion-input type="text"  [(ngModel)]="form.id"  name="identifiant" placeholder="Identifiant ou email " (keyup.enter)="inscription()"></ion-input> </ion-item></td>
      </tr>
@@ -90,6 +168,6 @@
 
    </table>
   
-  </div>
+  </div> -->
 
 </ion-content>

@@ -4,6 +4,8 @@ GRANT ALL PRIVILEGES ON *.* to 'admin'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 CREATE DATABASE IF NOT EXISTS vinyle;
 USE vinyle;
+
+
 CREATE TABLE IF NOT EXISTS artiste (
     id_artiste int not null AUTO_INCREMENT,
     PRIMARY KEY (id_artiste),
@@ -18,6 +20,7 @@ CREATE TABLE IF NOT EXISTS album (
     annee int not null,
     prix DOUBLE not null,
     description_album varchar(900),
+    quantiteMax int not null,
     PRIMARY KEY (id_album),
     FOREIGN KEY (id_artiste) REFERENCES artiste(id_artiste)
 );
@@ -45,20 +48,41 @@ CREATE TABLE IF NOT EXISTS utilisateur (
     statut varchar(10)
 );
 CREATE TABLE IF NOT EXISTS favoris ( 
-    id_favoris int not null AUTO_INCREMENT,
+   id_favoris int not null AUTO_INCREMENT,
     PRIMARY KEY(id_favoris),
     id_utilisateur int not null,
     id_album int not null,
     FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur), 
-    FOREIGN KEY (id_album) REFERENCES album(id_album) 
+    FOREIGN KEY (id_album) REFERENCES album(id_album)
 );
 CREATE TABLE IF NOT EXISTS panier ( 
     id_panier int not null AUTO_INCREMENT,
     PRIMARY KEY(id_panier),
     id_utilisateur int not null,
     id_album int not null,
+    quantite int not null,
     FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur), 
     FOREIGN KEY (id_album) REFERENCES album(id_album) 
+);
+
+CREATE TABLE IF NOT EXISTS suivi_commandes (
+    id_suivi int not null AUTO_INCREMENT,
+    PRIMARY KEY(id_suivi),
+    date_achat DATE NOT NULL,
+    id_utilisateur int not null,
+    prix DOUBLE not null,
+    statut varchar(200) not null,
+    FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur)
+);
+
+CREATE TABLE IF NOT EXISTS suivi_commandes_album (
+    id_sca int not null AUTO_INCREMENT,
+    PRIMARY KEY(id_sca),
+    id_suivi int not null,
+    id_album int not null,
+    quantite int not null,
+    FOREIGN KEY (id_suivi) REFERENCES suivi_commandes(id_suivi),
+    FOREIGN KEY (id_album) REFERENCES album(id_album)
 );
 
 INSERT INTO 

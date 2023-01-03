@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Albums</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div>
+    <ion-list lines="full">
+      <ion-item>
+        <ion-grid style="padding-left:15%">
+          <ion-row>
+            <ion-col size="4">
+                Album
+            </ion-col>
+            <ion-col size="4">
+                Prix
+            </ion-col>
+            <ion-col size="3">
+                Quantité
+            </ion-col>
+            <ion-col size="1">
+
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item *ngFor="let songs of albumItems$ | async ;  let i= index;    " [fixed]="true" size="auto"  >
+        <ion-grid style="padding-left:15%">
+          <ion-row>
+            <ion-col size="4">
+                {{songs.titre_album}}
+            </ion-col>
+            <ion-col size="4">
+              {{songs.prix}}
+            </ion-col>
+            <ion-col size="3" style="padding-left: 2%;">
+              {{songs.quantite_max}}
+            </ion-col>
+            <ion-col size="1">
+              <ion-button class="modify" fill="clear" (click)="delete(songs, i)">
+                <ion-icon name="trash-outline" style="color:red"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div style="display: flex; justify-content: flex-end">
+    <ion-fab>
+      <ion-fab-button size="small">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-list side="start">
+        <ion-fab-button  (click)="openModal()">
+          <ion-icon name="musical-note-outline" ></ion-icon>
+        </ion-fab-button>
+      </ion-fab-list>
+    </ion-fab>
+  </div>
+
+</ion-content>
