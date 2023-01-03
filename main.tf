@@ -8,7 +8,7 @@ terraform {
   }
 }
 
-variable "TF_VAR_GOOGLE_APPLICATION_CREDENTIALS" {
+variable "GOOGLE_APPLICATION_CREDENTIALS" {
   type = string
   sensitive = true
   description = "Google Cloud service account credentials"
@@ -17,7 +17,7 @@ variable "TF_VAR_GOOGLE_APPLICATION_CREDENTIALS" {
 provider "google" {
     project = "ceri-m1-ecommerce-2022"
     region  = "europe-west1"
-    credentials = var.TF_VAR_GOOGLE_APPLICATION_CREDENTIALS
+    credentials = var.GOOGLE_APPLICATION_CREDENTIALS
 
 }
 
@@ -51,7 +51,7 @@ resource "google_cloud_run_service" "backend" {
           name = "DB_HOST"
           value_from {
             secret_key_ref{
-              name = "mysql-address"
+              name = data.google_secret_manager_secret.host.secret_id
               key = "latest"
             }
           }
@@ -60,7 +60,7 @@ resource "google_cloud_run_service" "backend" {
           name = "DB_USER"
           value_from {
             secret_key_ref{
-              name = "mysql-user-blackcat"
+              name = data.google_secret_manager_secret.user.secret_id
               key = "latest"
             }
           }
@@ -69,7 +69,7 @@ resource "google_cloud_run_service" "backend" {
           name = "DB_PASSWORD"
           value_from {
             secret_key_ref{
-              name = "mysql-password-blackcat"
+              name = data.google_secret_manager_secret.password.secret_id
               key = "latest"
             }
           }
@@ -78,7 +78,7 @@ resource "google_cloud_run_service" "backend" {
           name = "DB_NAME"
           value_from {
             secret_key_ref{
-              name = "mysql-database-blackcat"
+              name = data.google_secret_manager_secret.database.secret_id
               key = "latest"
             }
           }
