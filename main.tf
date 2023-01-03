@@ -37,6 +37,7 @@ data "google_secret_manager_secret" "password" {
   secret_id = "mysql-password-blackcat"
 }
 
+
 resource "google_cloud_run_service" "backend" {
   name     = "cloud-run-backend"
   location = "europe-west1"
@@ -57,12 +58,7 @@ resource "google_cloud_run_service" "backend" {
         }
         env {
           name = "DB_USER"
-          value_from {
-            secret_key_ref{
-              name = data.google_secret_manager_secret.user.secret_id
-              key = "latest"
-            }
-          }
+          value = "blackcat"
         }
         env {
           name = "DB_PASSWORD"
@@ -93,5 +89,10 @@ resource "google_cloud_run_service" "backend" {
   }
 
 
+}
+
+
+output "api_url" {
+  value = google_cloud_run_service.backend.status[0].url
 }
 
