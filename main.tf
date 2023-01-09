@@ -37,12 +37,6 @@ data "google_secret_manager_secret" "password" {
   secret_id = "mysql-password-blackcat"
 }
 
-resource "google_cloud_run_service_iam_member" "invokers_backend" {
-  location = google_cloud_run_service.backend.location
-  service  = google_cloud_run_service.backend.name
-  role     = "roles/run.invoker"
-  member   = "allUsers"
-}
 
 resource "google_cloud_run_service" "backend" {
   name     = "blackcat-backend"
@@ -119,6 +113,19 @@ resource "google_cloud_run_service" "frontend"{
   }
 }
 
+resource "google_cloud_run_service_iam_member" "invokers_backend" {
+  location = google_cloud_run_service.backend.location
+  service  = google_cloud_run_service.backend.name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+}
+
+resource "google_cloud_run_service_iam_member" "invokers_frontend" {
+  location = google_cloud_run_service.frontend.location
+  service  = google_cloud_run_service.frontend.name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+}
 
 output "api_url" {
   value = google_cloud_run_service.backend.status[0].url
