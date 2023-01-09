@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
+import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,7 @@ export class BackofficeService {
   //  console.log(" -- -- -  ", quantite)
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>('http://127.0.0.1:8080/api/v1/modifierQuantiteAlbum',{
+      this._http.post<any>(`${environment.API_URL}/modifierQuantiteAlbum`,{
           id_album : id_album,
           quantite : quantite
       })
@@ -37,7 +39,7 @@ export class BackofficeService {
   getCommandesEnAttentes(){
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>('http://127.0.0.1:8080/api/v1/commandesEnAttente',{
+      this._http.post<any>(`${environment.API_URL}/commandesEnAttente`,{
         
       })
       .subscribe(
@@ -58,7 +60,7 @@ export class BackofficeService {
   getCommandesValider(){
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>('http://127.0.0.1:8080/api/v1/commandesValidee',{
+      this._http.post<any>(`${environment.API_URL}/commandesValidee`,{
         
       })
       .subscribe(
@@ -79,7 +81,7 @@ export class BackofficeService {
   getCommandesExpédier(){
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>('http://127.0.0.1:8080/api/v1/commandesExpediee',{
+      this._http.post<any>(`${environment.API_URL}/commandesExpediee`,{
         
       })
       .subscribe(
@@ -100,7 +102,7 @@ export class BackofficeService {
   getCommandesLivrer(){
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>('http://127.0.0.1:8080/api/v1/commandesLivree',{
+      this._http.post<any>(`${environment.API_URL}/commandesLivree`,{
         
       })
       .subscribe(
@@ -122,7 +124,7 @@ export class BackofficeService {
   modifierStatus(id_suivi : number, statut : string){
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>('http://127.0.0.1:8080/api/v1/modifierStatut',{
+      this._http.post<any>(`${environment.API_URL}/modifierStatut`,{
         id_suivi : id_suivi, 
         statut : statut
       })
@@ -145,7 +147,7 @@ export class BackofficeService {
   removeAlbum(id_album : number){
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>('http://127.0.0.1:8080/api/v1/supprimerAlbum',{
+      this._http.post<any>(`${environment.API_URL}/supprimerAlbum`,{
         id_album : id_album, 
       })
       .subscribe(
@@ -169,7 +171,7 @@ export class BackofficeService {
     
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>('http://127.0.0.1:8080/api/v1/ajouterAlbum',{
+      this._http.post<any>(`${environment.API_URL}/ajouterAlbum`,{
         artiste : artiste, 
         description : description, 
         lien_image : lien_image, 
