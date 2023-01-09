@@ -40,12 +40,12 @@
         </ion-item>
         <div slot="content" class="ion-padding" >
           <ion-item counter="true">
-            <ion-label position="floating">Nom</ion-label>
-            <ion-input maxlength="20"></ion-input>
+            <ion-label position="floating" >Nom</ion-label>
+            <ion-input maxlength="20" (ionChange)="nomChange($event.target.value)"></ion-input>
           </ion-item>   
           <ion-item counter="true">
-            <ion-label position="floating">Prénom</ion-label>
-            <ion-input maxlength="20"></ion-input>
+            <ion-label position="floating" >Prénom</ion-label>
+            <ion-input maxlength="20" (ionChange)="prenomChange($event.target.value)"></ion-input>
           </ion-item>          
         </div>
       </ion-accordion>
@@ -56,20 +56,20 @@
         <div slot="content" class="ion-padding" >
        
           <ion-item counter="true">
-            <ion-label position="floating">Numéro de rue </ion-label>
-            <ion-input maxlength="10" minlength="1"></ion-input>
+            <ion-label position="floating" >Numéro de rue </ion-label>
+            <ion-input maxlength="10" minlength="1" (ionChange)="numRChange($event.target.value)"></ion-input>
           </ion-item>   
           <ion-item counter="true">
             <ion-label position="floating">Nom de la rue </ion-label>
-            <ion-input maxlength="40" minlength="1"></ion-input>
+            <ion-input maxlength="40" minlength="1" (ionChange)="nomRChange($event.target.value)"></ion-input>
           </ion-item>   
           <ion-item counter="true">
             <ion-label position="floating">Code postal </ion-label>
-            <ion-input maxlength="5" type="number" minlength="1"></ion-input>
+            <ion-input maxlength="5" type="number" minlength="1" (ionChange)="cpChange($event.target.value)"></ion-input>
           </ion-item>   
           <ion-item counter="true">
             <ion-label position="floating">Ville </ion-label>
-            <ion-input maxlength="20" minlength="1"></ion-input>
+            <ion-input maxlength="20" minlength="1" (ionChange)="villeChange($event.target.value)"></ion-input>
           </ion-item>   
         </div>
       </ion-accordion>
@@ -84,7 +84,7 @@
               <ion-col>
                 <ion-item counter="true">
                   <ion-label position="floating">Nom </ion-label>
-                  <ion-input maxlength="20" minlength="1"></ion-input>
+                  <ion-input maxlength="20" minlength="1" (ionChange)="nomCChange($event.target.value)"></ion-input>
                 </ion-item>   
               </ion-col>
             </ion-row>
@@ -92,7 +92,7 @@
               <ion-col>
                 <ion-item counter="true">
                   <ion-label position="floating">Numéro de carte  </ion-label>
-                  <ion-input maxlength="20" type="number" minlength="1"></ion-input>
+                  <ion-input maxlength="20" type="number" minlength="1" (ionChange)="numCBChange($event.target.value)"></ion-input>
                 </ion-item>   
               </ion-col>
             </ion-row>
@@ -100,13 +100,13 @@
               <ion-col>
                 <ion-item counter="true">
                   <ion-label position="floating">Mois </ion-label>
-                  <ion-input maxlength="2099" type="number" minlength="2022"></ion-input>
+                  <ion-input maxlength="2099" type="number" minlength="2022" (ionChange)="moisChange($event.target.value)"></ion-input>
                 </ion-item>   
               </ion-col>
               <ion-col>
                 <ion-item counter="true">
                   <ion-label position="floating">Année </ion-label>
-                  <ion-input maxlength="2022" type="number" minlength="2022"></ion-input>
+                  <ion-input maxlength="2022" type="number" minlength="2022" (ionChange)="anneeChange($event.target.value)"></ion-input>
                 </ion-item>   
               </ion-col>
               
@@ -114,8 +114,8 @@
             <ion-row>
               <ion-col>
                 <ion-item counter="true">
-                  <ion-label position="floating">CVV </ion-label>
-                  <ion-input maxlength="3" minlength="3"></ion-input>
+                  <ion-label position="floating" >CVV </ion-label>
+                  <ion-input maxlength="3" minlength="3" (ionChange)="cvvChange($event.target.value)"></ion-input>
                 </ion-item>   
               </ion-col>
             </ion-row>
@@ -171,7 +171,18 @@
         </div>
       </ion-accordion>
     </ion-accordion-group>
+
+    <div *ngIf="!all">
+      <p style="color:red;">Toutes les informations doivent être renseignées pour valider votre commande. </p>
+    </div>
     <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <div style="text-align:end" >
+          Livraison :  GRATUITE
+          </div>
+        </ion-col>
+      </ion-row>  
       <ion-row>
         <ion-col size="12">
           <div style="text-align:end" >

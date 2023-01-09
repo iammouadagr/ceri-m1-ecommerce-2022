@@ -107,24 +107,48 @@
                             <ion-col size="2">
                                 Id suivi
                             </ion-col>
-                            <ion-col size="3">
+                            <!-- <ion-col size="3">
                                 Id utilisateur
-                            </ion-col>
+                            </ion-col> -->
                             <ion-col size="2">
                               Date 
                             </ion-col>
+                            <ion-col size="1"></ion-col>
                             <ion-col size="2">
                               Total
                             </ion-col>
+                            <ion-col size="1"></ion-col>
                             <ion-col size="3">
                               Status
                             </ion-col>
                           </ion-row>
+                        </ion-grid>
+                        <ion-grid>
                           <ion-row *ngFor="let comm of suivi_commande; let i = index ">
-                            <div *ngIf="i<5">
+                           
+                            
+                            <div *ngIf="i>=(suivi_commande.length-6)">
 
-
-                              <ion-col size="2">
+                              <ion-grid [fixed]="true">
+                                <ion-row>
+                                  <ion-col size="1"  >
+                                  <p > {{ comm.id_suivi}}</p> 
+                                </ion-col>
+                                  <!-- <ion-col size="1">
+                                      {{comm.id_utilisateur}}
+                                  </ion-col> -->
+                                <ion-col size="2" >
+                                  <p style="padding-right:2%;"> {{ comm.date_achat | date: 'shortDate'}} </p>
+                                </ion-col>
+                                <ion-col size="1" >
+                                  <p>  {{ comm.prix}}</p>
+                                </ion-col>
+                                <ion-col size="4" >
+                                  <p align="left">  {{ comm.statut}} </p>
+                                </ion-col>
+                                </ion-row>
+                              </ion-grid>
+                              <!-- <ion-col size="2">
                                   {{ comm.id_suivi}}
                               </ion-col>
                               <ion-col size="3">
@@ -138,7 +162,7 @@
                               </ion-col>
                               <ion-col size="3">
                                 {{ comm.statut}}
-                              </ion-col>
+                              </ion-col> -->
 
                             </div>
                           </ion-row>

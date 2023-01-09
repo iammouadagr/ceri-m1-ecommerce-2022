@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
-import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,16 +12,18 @@ export class UtilisateurService {
   connexion(id : string, mdp : string){
    
     var correct = false; 
-    
+    // let parametres = new HttpParams();
+    // parametres = parametres.append('nom_utilisateur', id);
+    // parametres = parametres.append('mot_de_passe', mdp);
     return Observable.create((observer: Subscriber<Boolean>) => { 
-      this._http.post<any>(`${environment.API_URL}/connexionUtilisateur`,
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/connexionUtilisateur',
       { 
         nom_utilisateur: id,
         mot_de_passe :  mdp
       })
       .subscribe(
         data => {
-           
+            // console.log(" data -- ", data)
             correct=data;
         },
         error=>{
@@ -39,10 +40,10 @@ export class UtilisateurService {
    
     var infos ={}; 
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>(`${environment.API_URL}/informationUtilisateur`,{ nom_utilisateur: id})
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/informationUtilisateur',{ nom_utilisateur: id})
       .subscribe(
         data => {
-           
+            // console.log(" data -- ", data)
             infos=data;
         },
         error=>{
@@ -71,7 +72,7 @@ export class UtilisateurService {
     parametres = parametres.append('sexe', sexe);
     parametres = parametres.append('statut', status);
     return Observable.create((observer: Subscriber<Boolean>) => { 
-      this._http.post<any>(`${environment.API_URL}/inscrireUtilisateur`,{ 
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/inscrireUtilisateur',{ 
         prenom: prenom,
         nom: nom,
         nom_utilisateur: id,
@@ -84,7 +85,7 @@ export class UtilisateurService {
       })
       .subscribe(
         data => {
-           
+            // console.log(" data -- ", data)
             correct=data;
         },
         error=>{
@@ -101,10 +102,10 @@ export class UtilisateurService {
   getCommandeEffectue(id_utilisateur : string){
     var infos ={}; 
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>(`${environment.API_URL}/commandesUtilisateur`,{ id_utilisateur: id_utilisateur})
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/commandesUtilisateur',{ id_utilisateur: id_utilisateur})
       .subscribe(
         data => {
-    
+            // console.log(" data -- ", data)
             infos=data;
         },
         error=>{

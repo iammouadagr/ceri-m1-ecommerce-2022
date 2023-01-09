@@ -57,8 +57,42 @@
         <div style="width: 100%; text-align: center;"><h1>NOUVEAUTÉS</h1></div>
       </ion-item-divider>
     </div>
+    <div>
 
-    <!-- POSTE IMAGE NOUVEAUTÉ -->
+      <ion-slides [options]="option" class="ion-margin-top">
+    
+        <ion-slide>
+          <ion-card class="cardCss">
+            <img  [src]="top[0].image"  class="image">
+            <ion-button size="large" fill="outline" class="buttonBuy" (click)="seeDetailsNouv(0)">
+              Acheter
+            </ion-button>
+          </ion-card>
+          
+        </ion-slide>
+    
+         <ion-slide>
+          <ion-card class="cardCss">
+            <img  [src]="top[1].image"   class="image" >
+            <ion-button size="large" fill="outline" class="buttonBuy" (click)="seeDetailsNouv(1)">
+              Acheter
+            </ion-button>
+          </ion-card>
+        </ion-slide>
+    
+        <ion-slide>
+          <ion-card class="cardCss">
+            <img  [src]="top[2].image"   class="image" >
+            <ion-button size="large" fill="outline" class="buttonBuy" (click)="seeDetailsNouv(2)">
+              Acheter
+            </ion-button>
+          </ion-card>
+        </ion-slide> 
+    
+    
+      </ion-slides>
+<!-- 
+    POSTE IMAGE NOUVEAUTÉ
       <div class="top"  style=" padding-top: 5%; ">
         <ion-grid>
           <ion-row>
@@ -98,10 +132,10 @@
                 </div>
               </ion-col>
             </ion-row>
-          </ion-grid>
+          </ion-grid> -->
 
 
-        </div>
+        <!-- </div>
         <div class="centeredTop2">
           <ion-grid >
             <ion-row >
@@ -128,7 +162,7 @@
           </ion-grid>
 
 
-        </div>
+        </div> -->
       </div>
 
       <!-- DIVIDER BEST SELLER  -->

@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
-import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +13,7 @@ export class CategorieService {
    
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>(`${environment.API_URL}/genreMusical`,{})
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/genreMusical',{})
       .subscribe(
         data => {
             console.log(" data -- ", data)
@@ -35,7 +34,7 @@ export class CategorieService {
     var fav = {}; 
     
     return Observable.create((observer: Subscriber<Object>) => { 
-      this._http.post<any>(`${environment.API_URL}/albumGenre`,{ genre: genre})
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/albumGenre',{ genre: genre})
       .subscribe(
         data => {
             console.log(" data -- ", data)

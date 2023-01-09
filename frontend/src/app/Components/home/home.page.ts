@@ -45,11 +45,27 @@ export class HomePage implements OnInit {
 
   top = [
     {
-      titre: ' Mr. Morale & the Big Steppers ',
-      artiste : 'Kendrick Lamar',
+      titre: "Coeur blanc ",
+      artiste : "JUL",
       musique:['Die Hard', 'Silent Hill', 'Crown', 'N95'],
       // eslint-disable-next-line max-len
-      image:'https://media.pitchfork.com/photos/627c1023d3c744a67a846260/16:9/w_1280,c_limit/Kendrick-Lamar-Mr-Morale-And-The-Big-Steppers.jpg',
+      image:'https://statics-infoconcert.digitick.com/media/a_effacer/julconcert.jpg',
+      prix: 36
+    },
+    {
+      titre:"Night in malibu",
+      artiste : "OneRepublic ",
+      musique:['Run', 'Santa Baby'],
+      // eslint-disable-next-line max-len
+      image:'https://i.ytimg.com/vi/8MZ6_3mBoTQ/maxresdefault.jpg',
+      prix: 36
+    },
+    {
+      titre: "Gloria",
+      artiste : "Sam Smith",
+      musique:['Die Hard', 'Silent Hill', 'Crown', 'N95'],
+      // eslint-disable-next-line max-len
+      image:'https://www.utilitaarenasheffield.co.uk/Media/Arena/Images/MicrosoftTeams-image%20(19).png',
       prix: 36
     }
   ];
@@ -213,6 +229,17 @@ export class HomePage implements OnInit {
     this.loadData();
   }
 
+  option = {
+    slidesPerView: 1.5,
+    centeredSlides: true,
+    loop: true,
+    spaceBetween: 10,
+    // autoplay:true,
+  }
+
+  tabData = [] 
+
+
   loadData(){
     this.serviceAlbum.getListAlbum().subscribe(
       (data:any) => {
@@ -232,7 +259,7 @@ export class HomePage implements OnInit {
             }
             alldata.push(donnee)
         }
-       
+        this.tabData = alldata;
         this.store.dispatch(new AddAlbumsAction(alldata)); // on ajoute les données 
        // console.log("data -- ", data)
       },
@@ -417,6 +444,25 @@ export class HomePage implements OnInit {
   stopSearch(){
     this.searchOn = false; 
     console.log(" close research ")
+  }
+
+  seeDetailsNouv(id){
+    let album; 
+    this.store.select('album').subscribe((data: Array<Albums>) => {
+      
+      for(let i=0; i<data.length; i++){
+        // console.log(" -- '",  data[i].titre_album, "' -> '", this.top[id].titre, "'")
+        // console.log(" -- '",  data[i].nom, "' -> '", this.top[id].artiste, "'")
+        if((data[i].titre_album == this.top[id].titre) &&  (data[i].nom == this.top[id].artiste )){
+          album = data[i]; 
+          // console.log(" -- ", album)
+          break;
+        }
+      }
+    });
+    console.log(" album --- ", album)
+    if(album.id_album!=undefined)
+      this.seeDetails(album);
   }
 
   // isFavoris(art){
