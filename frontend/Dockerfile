@@ -10,3 +10,4 @@ RUN npm run build
 FROM nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /app/www/ /usr/share/nginx/html
+EXPOSE 8081
