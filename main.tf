@@ -81,7 +81,10 @@ resource "google_cloud_run_service" "backend" {
         }
         env {
           name = "INSTANCE_UNIX_SOCKET"
-          value = "ceri-m1-ecommerce-2022:europe-west1:mysql-primary"
+          value = "/cloudsql/ceri-m1-ecommerce-2022:europe-west1:mysql-primary"
+        }
+        ports {
+          container_port = 8080
         }
       }
     }
@@ -89,6 +92,7 @@ resource "google_cloud_run_service" "backend" {
 
   metadata {
    annotations = {
+      "autoscaling.knative.dev/maxScale"      = "1"
       "run.googleapis.com/cloudsql-instances" = "ceri-m1-ecommerce-2022:europe-west1:mysql-primary"      
    }
 }
