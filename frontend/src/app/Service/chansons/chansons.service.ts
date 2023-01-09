@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscriber } from 'rxjs';
 import { Chansons } from 'src/app/store/models/chansons.model';
-import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +16,7 @@ export class ChansonsService {
    
     var listChanson={}
     return Observable.create((observer: Subscriber<object>) => { 
-      this._http.post<any>(`${environment.API_URL}/chansonsAlbum`,{ album: id_album})
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/chansonsAlbum',{ album: id_album})
       .subscribe(
         data => {
             console.log(" data -- ", data)

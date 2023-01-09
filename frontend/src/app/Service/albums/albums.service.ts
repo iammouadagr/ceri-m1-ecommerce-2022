@@ -3,8 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Albums } from '../../store/models/albums.model';
 import { Observable, throwError, Subscriber } from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import { environment } from '../../../environments/environment';
-
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +18,7 @@ export class AlbumsService {
    
     var listAlbum={}
     return Observable.create((observer: Subscriber<object>) => { 
-      this._http.post<any>( `${environment.API_URL}/albums`,{})
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/albums',{})
       .subscribe(
         data => {
             //console.log(" data -- ", data)
@@ -40,7 +38,7 @@ export class AlbumsService {
   search(nom:any){
     var listAlbum={}
     return Observable.create((observer: Subscriber<object>) => { 
-      this._http.post<any>(`${environment.API_URL}/search`,{
+      this._http.post<any>('http://127.0.0.1:8080/api/v1/search',{
         search : nom
       })
       .subscribe(

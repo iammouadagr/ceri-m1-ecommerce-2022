@@ -24,6 +24,18 @@ export class AchatPage implements OnInit {
 
   quantity = new Array()
   id_albums = new Array()
+
+  nom=""
+  prenom=""
+  num=""
+  rue=""
+  ville=""
+  codeP=""
+  numC=""
+  nomC=""
+  moisC=""
+  anneeC=""
+  cvvC=""
   
   constructor( private storePanier: Store<{ panier: Array<Panier> }>, private store: Store<{ user: User }>, private route: ActivatedRoute, private router: Router, _panierService:PanierService) { 
     this.panierItems$ = storePanier.pipe(select('panier')); // on recupere le service store 
@@ -44,11 +56,65 @@ export class AchatPage implements OnInit {
   }
   payer = false;
 
+
+  nomChange(event){
+    this.nom = event; 
+    // console.log(" ecebt ", event)
+  }
+
+  prenomChange(event){
+    this.prenom = event; 
+  }
+
+  numRChange(event){
+    this.num = event; 
+  }
+
+  nomRChange(event){
+    this.rue = event; 
+  }
+
+  cpChange(event){
+    this.codeP = event; 
+  }
+
+  villeChange(event){
+    this.ville = event; 
+  }
+
+  nomCChange(event){
+    this.nomC = event; 
+  }
+
+  numCBChange(event){
+    this.numC = event; 
+  }
+
+  moisChange(event){
+    this.moisC = event; 
+  }
+
+  anneeChange(event){
+    this.anneeC = event; 
+  }
+
+  cvvChange(event){
+    this.cvvC = event; 
+  }
+
+  all=true;
+
+
   acheter(){
 
     console.log(" quantitu - ",this.quantity)
     console.log(" id_albums - ",this.id_albums)
-    this.panierService.commandeValidee(this.username, new Date().toLocaleDateString(), this.totalPanier, this.id_albums, this.quantity)
+
+    if (this.nom=="" || this.prenom=="" || this.num=="" ||  this.rue=="" || this.codeP=="" || this.ville=="" || this.nomC=="" ||  this.numC=="" ||  this.moisC=="" ||  this.anneeC=="" || this.cvvC=="" ){
+      this.all=false; 
+    }
+    else{
+      this.panierService.commandeValidee(this.username, new Date().toLocaleDateString(), this.totalPanier, this.id_albums, this.quantity)
       .subscribe(
         (data:any) => {
         
@@ -60,6 +126,8 @@ export class AchatPage implements OnInit {
           console.log(" erreur get add  valider  : ", error)
         })
 
+    }
+  
 
   }
 }
