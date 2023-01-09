@@ -60,10 +60,10 @@ jobs:
         run: docker build -t backend-app .
       -
         name: Tag docker image
-        run: docker tag backend-app europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:latest
+        run: docker tag backend-app europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:1.6.0
       -
         name: Push docker image
-        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:latest
+        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:1.6.0
 
 
       
