@@ -79,10 +79,19 @@ resource "google_cloud_run_service" "backend" {
             }
           }
         }
+        env {
+          name = "INSTANCE_UNIX_SOCKET"
+          value = "ceri-m1-ecommerce-2022:europe-west1:mysql-primary"
+        }
       }
     }
   }
 
+  metadata {
+   annotations = {
+      "run.googleapis.com/cloudsql-instances" = "ceri-m1-ecommerce-2022:europe-west1:mysql-primary"      
+   }
+}
 
   traffic {
     percent         = 100
