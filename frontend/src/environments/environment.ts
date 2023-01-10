@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  API_URL:"http://127.0.0.1:8080/api/v1"
+  API_URL:"https://blackcat-backend-mwjszocsqa-ew.a.run.app/api/v1"
 };
 
 /*
