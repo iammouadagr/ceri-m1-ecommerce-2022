@@ -47,7 +47,7 @@ resource "google_cloud_run_service" "backend" {
     spec {
       service_account_name = "terraform-blackcat@ceri-m1-ecommerce-2022.iam.gserviceaccount.com"
       containers {
-        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:1.2.0"
+        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:1.6.2"
         env {
           name = "DB_HOST"
           value_from {
@@ -88,20 +88,18 @@ resource "google_cloud_run_service" "backend" {
         }
       }
     }
+    metadata {
+      annotations = {
+          "autoscaling.knative.dev/maxScale"      = "1"
+          "run.googleapis.com/cloudsql-instances" = "ceri-m1-ecommerce-2022:europe-west1:mysql-primary"      
+      }
+    }
   }
-
-  metadata {
-   annotations = {
-      "autoscaling.knative.dev/maxScale"      = "1"
-      "run.googleapis.com/cloudsql-instances" = "ceri-m1-ecommerce-2022:europe-west1:mysql-primary"      
-   }
-}
 
   traffic {
     percent         = 100
     latest_revision = true
   }
-
 
 }
 
@@ -113,7 +111,7 @@ resource "google_cloud_run_service" "frontend"{
     spec{
       service_account_name = "terraform-blackcat@ceri-m1-ecommerce-2022.iam.gserviceaccount.com"
       containers {
-        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/frontend-app:1.2.0"
+        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/frontend-app:1.6.2"
         env {
           name = "API_URL"
           value = google_cloud_run_service.backend.status[0].url
@@ -123,6 +121,16 @@ resource "google_cloud_run_service" "frontend"{
         }
       }
     }
+    metadata {
+      annotations = {
+        "autoscaling.knative.dev/maxScale" = "1"
+      }
+    }
+  }
+
+  traffic {
+    percent = 100
+    latest_revision = true
   }
 }
 

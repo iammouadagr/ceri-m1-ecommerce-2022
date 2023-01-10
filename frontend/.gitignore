@@ -11,4 +11,7 @@ testem.log
 /typings
 
 #Build 
-www
+/www
+
+# ENV
+/environments
