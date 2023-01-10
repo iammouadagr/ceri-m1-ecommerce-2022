@@ -88,20 +88,18 @@ resource "google_cloud_run_service" "backend" {
         }
       }
     }
+    metadata {
+      annotations = {
+          "autoscaling.knative.dev/maxScale"      = "1"
+          "run.googleapis.com/cloudsql-instances" = "ceri-m1-ecommerce-2022:europe-west1:mysql-primary"      
+      }
+    }
   }
-
-  metadata {
-   annotations = {
-      "autoscaling.knative.dev/maxScale"      = "1"
-      "run.googleapis.com/cloudsql-instances" = "ceri-m1-ecommerce-2022:europe-west1:mysql-primary"      
-   }
-}
 
   traffic {
     percent         = 100
     latest_revision = true
   }
-
 
 }
 
@@ -123,6 +121,16 @@ resource "google_cloud_run_service" "frontend"{
         }
       }
     }
+    metadata {
+      annotations = {
+        "autoscaling.knative.dev/maxScale" = "1"
+      }
+    }
+  }
+
+  traffic {
+    percent = 100
+    latest_revision = true
   }
 }
 
