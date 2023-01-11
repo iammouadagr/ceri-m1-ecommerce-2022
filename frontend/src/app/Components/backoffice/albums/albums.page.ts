@@ -45,13 +45,13 @@ export class AlbumsPage implements OnInit {
           let alb = {
             id_album : dataa[0].id_album,
             titre_album : dataa[0].titre_album,
-            artiste :dataa[0].nom,
+            artiste :data.new.artiste,
             lien_image : dataa[0].lien_image ,
             annee :dataa[0].annee,
             prix : dataa[0].prix,
             genre_musical : dataa[0].genre_musical,
             quantite_max: dataa[0].quantiteMax, 
-            nom : dataa[0].nom,
+            nom : data.new.artiste,
           }
           console.log(" albu to add ", alb)
           this.store.dispatch(new AddAlbumAction(alb))

@@ -5,8 +5,11 @@ import { Observable } from 'rxjs';
 import { AlbumsService } from 'src/app/Service/albums/albums.service';
 import { FavorisService } from 'src/app/Service/favoris/favoris.service';
 import { UtilisateurService } from 'src/app/Service/utilisateur/utilisateur.service';
+import { DeleteALLFavorisAction } from 'src/app/store/actions/favoris.actions';
+import { DeleteAllPanierAction } from 'src/app/store/actions/paniers.actions';
 import { AddUserAction } from 'src/app/store/actions/utilisateur.actions';
 import { Favoris } from 'src/app/store/models/favoris.models';
+import { Panier } from 'src/app/store/models/paniers.model';
 import { User } from 'src/app/store/models/utilisateur.model';
 
 @Component({
@@ -16,6 +19,7 @@ import { User } from 'src/app/store/models/utilisateur.model';
 })
 export class ProfilUserPage implements OnInit {
 
+  panierItems$: Observable<Array<Panier>>; // pour voir si on est co, sinon on stockera l'id de l'user 
   userName$: Observable<User>; // pour voir si on est co, sinon on stockera l'id de l'user 
   username; // stocke l'username 
   adresse_email;
@@ -33,13 +37,14 @@ export class ProfilUserPage implements OnInit {
   favorisItems$: Observable<Array<Favoris>>; // pour recuperer la liste des favoris 
   serviceAlbum : AlbumsService; 
 
-  constructor(_serviceAlbum : AlbumsService,  private router: Router,_serviceUser : UtilisateurService, private store: Store<{ user: User }>, private storeFav: Store<{ favoris: Array<Favoris> }>, _serviceFavoris :FavorisService) {
+  constructor(private storePanier: Store<{ panier: Array<Panier> }>,_serviceAlbum : AlbumsService,  private router: Router,_serviceUser : UtilisateurService, private store: Store<{ user: User }>, private storeFav: Store<{ favoris: Array<Favoris> }>, _serviceFavoris :FavorisService) {
     this.serviceUser = _serviceUser;
     this.userName$ = store.pipe(select('user')); // on recupere le service store 
     this.favorisService = _serviceFavoris;
     this.favorisItems$ = storeFav.pipe(select('favoris')); // on recupere le service store 
     this.serviceAlbum = _serviceAlbum; 
-   
+    this.panierItems$ = storePanier.pipe(select('panier')); // on recupere le service store 
+
    }
 
   ngOnInit() {
@@ -105,6 +110,8 @@ export class ProfilUserPage implements OnInit {
     let userN ={
       nom_utilisateur : ""
     }
+    this.storePanier.dispatch(new DeleteAllPanierAction())
+    this.storeFav.dispatch(new DeleteALLFavorisAction()); // on ajoute les données 
     this.store.dispatch(new AddUserAction(userN)); // on ajoute les données 
     this.router.navigate(['/home']);
   }

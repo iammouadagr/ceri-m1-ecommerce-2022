@@ -27,6 +27,8 @@ export function FavorisReducer(
       return action.payload;
     case  FavorisActionType.ADD_FAVORIS:
       return  [...state, action.payload];
+    case  FavorisActionType.DELETE_ALL_FAVORIS:
+      return  [];
     case  FavorisActionType.DELETE_FAVORIS:
       let newState = [...state]; 
       console.log(" position :: ",state.indexOf(action.payload) )
