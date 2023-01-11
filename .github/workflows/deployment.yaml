@@ -57,10 +57,10 @@ jobs:
         run: docker build -t backend-app .
       -
         name: Tag docker image
-        run: docker tag backend-app europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:1.6.2
+        run: docker tag backend-app europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:1.7.1
       -
         name: Push docker image
-        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:1.6.2
+        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:1.7.1
 
       
 
@@ -103,10 +103,10 @@ jobs:
         run: docker build -t frontend-app .
       - 
         name: Tag docker image
-        run: docker tag frontend-app europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/frontend-app:1.6.2
+        run: docker tag frontend-app europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/frontend-app:1.7.1
       -
         name: Push docker image
-        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/frontend-app:1.6.2
+        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/frontend-app:1.7.1
 
       
   delivery:
