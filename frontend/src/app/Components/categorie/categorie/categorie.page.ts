@@ -45,9 +45,6 @@ export class CategoriePage implements OnInit {
   
   numberPanier = 0;
 
-  // categorieSelected = new Array();
-  // priceMin=-1;
-  // priceMax=-1;
 
   constructor(  _serviceAlbum : AlbumsService,    _panierService : PanierService, _favService :FavorisService, private storePanier: Store<{ panier: Array<Panier> }> ,  private storeFav: Store<{ favoris: Array<Favoris> }> , private router: Router,_serviceCategorie : CategorieService,  private store: Store<{ album: Array<Albums> }>,   private storeUser: Store<{ user: User }>) { 
     this.servicePanier = _panierService;   // initialisation du service 
@@ -189,16 +186,7 @@ export class CategoriePage implements OnInit {
     
 
     
-    // if ( this.categorieSelected.indexOf(categorie)==-1)
-    //   this.categorieSelected.push(categorie)
-    // else {
-    //   let indi = this.categorieSelected.indexOf(categorie)
-    //   this.categorieSelected.splice(indi, 1)
-    // }
-
-    // console.log(" list cvat selec", this.categorieSelected)
-
-
+  
   }
 
   
@@ -220,7 +208,6 @@ export class CategoriePage implements OnInit {
         }
         if(data.length==0) this.favSelected = -1; 
       });
-      alert( this.favSelected)
       if ( this.favSelected== -1){
         
         this.serviceFavoris.ajouterFavoris(this.username, albu.id_album).subscribe(

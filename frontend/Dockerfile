@@ -1,10 +1,11 @@
 ### STAGE 1: Build ###
-FROM node:16 as build
+FROM node:18.12.0 as build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
-RUN npm run build
+RUN npm run build --configuration=production
+#RUN npm run build 
 
 # STAGE 2 : use the compiled app, ready for production with Nginx
 FROM nginx
