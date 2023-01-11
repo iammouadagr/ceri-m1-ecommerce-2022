@@ -699,7 +699,7 @@ exports.getAlbumsByPurchase = async  (req,res) => {
 
 exports.getFavoritesByUser = async  (req,res) => {
 
-    var nom_utilisateur = "mohakh";
+    var nom_utilisateur =  req.body.nom_utilisateur;
     var queryGetUserId = `select id_utilisateur from utilisateur where nom_utilisateur like '`+nom_utilisateur+`';`
 
     
