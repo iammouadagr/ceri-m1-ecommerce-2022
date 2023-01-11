@@ -62,6 +62,7 @@ jobs:
         name: Push docker image
         run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/backend-app:1.7.1
 
+
       
 
   webapp-build:
@@ -107,6 +108,7 @@ jobs:
       -
         name: Push docker image
         run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/blackcat/frontend-app:1.7.1
+
 
       
   delivery:
