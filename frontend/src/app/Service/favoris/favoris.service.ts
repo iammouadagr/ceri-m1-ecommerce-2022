@@ -13,7 +13,7 @@ export class FavorisService {
   constructor(private _http : HttpClient) { }
 
   getListFavoris(id : string){
-   console.log(" id favoris")
+   console.log(" id favoris", id)
     var fav = {}; 
     return Observable.create((observer: Subscriber<Object>) => { 
       this._http.post<any>(`${environment.API_URL}/favorisUtilisateur`,{ nom_utilisateur: id})
@@ -33,6 +33,7 @@ export class FavorisService {
   }
 
   ajouterFavoris(id: string , id_album : number){
+    
     var fav : number; 
     return Observable.create((observer: Subscriber<any>) => { 
       this._http.post<any>(`${environment.API_URL}/ajouterFavoris`,{ 

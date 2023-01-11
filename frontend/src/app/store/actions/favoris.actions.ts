@@ -4,6 +4,7 @@ import { Favoris } from '../models/favoris.models';
 export enum FavorisActionType {
     ADD_FAVORIS = '[FAVORIS] Add favoris ',
     ADD_ALL_FAVORIS = '[FAVORIS] Add all favoris ',
+    DELETE_ALL_FAVORIS = '[FAVORIS] Delete ALL favoris ',
     DELETE_FAVORIS = '[FAVORIS] Delete favoris ',
 }
 
@@ -22,5 +23,11 @@ export class DeleteFavorisAction implements Action {
     //add an optional payload
     constructor(public payload: Favoris) {}
 }
-export type FavorisAction = AddFavorisAction | AddAllFavorisAction | DeleteFavorisAction;
+
+export class DeleteALLFavorisAction implements Action {
+    readonly type = FavorisActionType.DELETE_ALL_FAVORIS;
+    //add an optional payload
+    constructor() {}
+}
+export type FavorisAction = AddFavorisAction | AddAllFavorisAction | DeleteFavorisAction | DeleteALLFavorisAction;
   
