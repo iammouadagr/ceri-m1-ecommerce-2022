@@ -2,6 +2,7 @@ const express = require('express');
 const controllers = require('../controllers/controllers');
 const  router = express.Router();
 
+// Naaaahhh
 router.post('/albums',controllers.getAlbums);
 router.post('/artistes', controllers.getArtistes);
 router.post('/chansons', controllers.getChansons);
